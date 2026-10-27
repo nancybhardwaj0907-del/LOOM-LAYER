@@ -245,138 +245,118 @@ export function ReThreadPage() {
       </div>
 
       {/* ========================================================
-          2. RETHREAD HERO HEADER
+          2. RETHREAD COMPACT HEADER
           ======================================================== */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pb-2">
-        {/* Left Title and Subtitle */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-2.5">
-            <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#4A252B] tracking-tight leading-none">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#EAE2DE]">
+        {/* Left Title */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center shadow-2xs shrink-0 border border-[#C08274]/30">
+            <Scissors className="w-5 h-5" />
+          </div>
+          <div>
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A252B] tracking-tight leading-none">
               ReThread
             </h1>
+            <p className="text-xs text-[#81777B] font-sans mt-0.5">
+              Transform leftover fabric scraps into useful, beautiful products.
+            </p>
           </div>
-          <div className="w-8 h-1 bg-[#783751] rounded-full my-1.5" />
-          <p className="text-xs sm:text-sm text-[#81777B] font-sans">
-            Transform leftover fabric into useful, beautiful products.
-          </p>
         </div>
 
-        {/* Right Editorial Linen Image with "Same Fabric. New Stories." Note */}
-        <div className="relative flex items-center gap-4 self-end lg:self-auto">
-          {/* Cursive Handwriting Note */}
-          <div className="hidden sm:block text-right pr-2 text-[#4A252B] select-none">
-            <p className="font-serif italic text-sm sm:text-base font-bold leading-tight text-[#4A252B]">
-              Same <br />
-              Fabric. <br />
-              <span className="font-normal text-[#81777B]">New Stories.</span>
-            </p>
-            <div className="flex justify-end pt-1">
-              <Leaf className="w-3.5 h-3.5 text-[#783751]" />
-            </div>
-          </div>
-
-          {/* Linen Photo */}
-          <div className="w-60 sm:w-72 h-24 sm:h-28 rounded-2xl overflow-hidden border border-[#EAE2DE] shadow-2xs bg-stone-100">
-            <img
-              src="/rethread/rethread_hero_linen.jpg"
-              alt="Folded natural linen with fresh eucalyptus"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "/atelier/dashboard_hero_linen.jpg";
-              }}
-            />
-          </div>
+        {/* Right: Compact motto pill */}
+        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#F3E6E4] to-[#FBF7F5] border border-[#EAE2DE] shadow-2xs">
+          <Leaf className="w-3.5 h-3.5 text-[#783751]" />
+          <span className="font-serif italic text-xs text-[#4A252B]">Less waste. More possibilities.</span>
         </div>
       </div>
 
       {/* ========================================================
-          3. MAIN TWO-COLUMN SECTION
-             Left: 1. Enter Scrap Details
-             Right: 2. Product Recommendations
+          3. COMPACT SCRAP INPUT STRIP
           ======================================================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+      <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 sm:p-5 shadow-2xs">
         
-        {/* Left Column: 1. Enter Scrap Details (5 cols on lg) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-[#EAE2DE] p-5 sm:p-6 shadow-2xs space-y-5">
-          
-          {/* Section Header */}
-          <div className="flex items-start gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+        {/* Section Header Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
               1
             </div>
             <div>
-              <h2 className="font-serif text-base font-bold text-[#4A252B] leading-tight">
+              <h2 className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
                 Enter Scrap Details
               </h2>
-              <p className="text-xs text-[#81777B] font-sans mt-0.5">
-                Add the measurements from your cutting table to get product recommendations.
+              <p className="text-[11px] text-[#81777B] font-sans">
+                Add measurements to get product recommendations.
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Measurements Row: 3 Inputs */}
-          <div className="grid grid-cols-3 gap-2.5">
-            {/* Width */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 mb-1 font-sans">
-                Width (cm)
-              </label>
-              <div className="bg-white border border-[#EAE2DE] rounded-xl px-2.5 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-                <Maximize2 className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-                <input
-                  type="number"
-                  min="1"
-                  step="0.5"
-                  value={scrapInput.width || ''}
-                  onChange={(e) => setScrapInput({ ...scrapInput, width: Math.max(0, Number(e.target.value) || 0) })}
-                  className="w-full text-xs font-mono font-bold text-stone-900 bg-transparent outline-none"
-                />
-              </div>
-            </div>
-
-            {/* Length */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 mb-1 font-sans">
-                Length (cm)
-              </label>
-              <div className="bg-white border border-[#EAE2DE] rounded-xl px-2.5 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-                <MoveHorizontal className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-                <input
-                  type="number"
-                  min="1"
-                  step="0.5"
-                  value={scrapInput.length || ''}
-                  onChange={(e) => setScrapInput({ ...scrapInput, length: Math.max(0, Number(e.target.value) || 0) })}
-                  className="w-full text-xs font-mono font-bold text-stone-900 bg-transparent outline-none"
-                />
-              </div>
-            </div>
-
-            {/* Quantity */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 mb-1 font-sans">
-                Quantity
-              </label>
-              <div className="bg-white border border-[#EAE2DE] rounded-xl px-2.5 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-                <Layers className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-                <input
-                  type="number"
-                  min="1"
-                  step="1"
-                  value={scrapInput.quantity || ''}
-                  onChange={(e) => setScrapInput({ ...scrapInput, quantity: Math.max(0, parseInt(e.target.value, 10) || 0) })}
-                  className="w-full text-xs font-mono font-bold text-stone-900 bg-transparent outline-none"
-                />
-              </div>
+        {/* Inline Input Row: Width, Length, Quantity, Fabric Type, Button — all in one row on large screens */}
+        <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+          {/* Width */}
+          <div className="flex-1 min-w-[100px]">
+            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+              Width (cm)
+            </label>
+            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
+              <Maximize2 className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+              <input
+                type="number"
+                min="1"
+                step="0.5"
+                value={scrapInput.width || ''}
+                onChange={(e) => setScrapInput({ ...scrapInput, width: Math.max(0, Number(e.target.value) || 0) })}
+                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+              />
             </div>
           </div>
 
-          {/* Fabric Type (Optional) */}
-          <div className="space-y-2 pt-2 border-t border-[#EAE2DE]">
-            <label className="block text-xs font-semibold text-stone-800 font-sans">
-              Fabric Type (Optional)
+          {/* Length */}
+          <div className="flex-1 min-w-[100px]">
+            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+              Length (cm)
             </label>
-            <div className="flex flex-wrap gap-2">
+            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
+              <MoveHorizontal className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+              <input
+                type="number"
+                min="1"
+                step="0.5"
+                value={scrapInput.length || ''}
+                onChange={(e) => setScrapInput({ ...scrapInput, length: Math.max(0, Number(e.target.value) || 0) })}
+                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Quantity */}
+          <div className="flex-1 min-w-[100px]">
+            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+              Quantity
+            </label>
+            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
+              <Layers className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+              <input
+                type="number"
+                min="1"
+                step="1"
+                value={scrapInput.quantity || ''}
+                onChange={(e) => setScrapInput({ ...scrapInput, quantity: Math.max(0, parseInt(e.target.value, 10) || 0) })}
+                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Divider on large screens */}
+          <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
+
+          {/* Fabric Type Inline Pills */}
+          <div className="flex-shrink-0">
+            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+              Fabric Type
+            </label>
+            <div className="flex flex-wrap gap-1.5">
               {['Cotton', 'Denim', 'Linen', 'Jersey', 'Mixed'].map((fabric) => {
                 const isSelected = scrapInput.fabricType === fabric;
                 return (
@@ -384,105 +364,119 @@ export function ReThreadPage() {
                     key={fabric}
                     type="button"
                     onClick={() => setScrapInput({ ...scrapInput, fabricType: fabric })}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
+                    className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
                       isSelected
                         ? 'bg-[#783751] text-white border-[#783751] shadow-2xs font-semibold'
-                        : 'bg-white hover:bg-[#FBF7F5] border-[#EAE2DE] text-stone-700'
+                        : 'bg-white hover:bg-[#F3E6E4]/40 border-[#EAE2DE] text-[#39343A]'
                     }`}
                   >
-                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
-                    <span>{fabric}</span>
+                    {isSelected && <Check className="w-3 h-3 text-white inline mr-1" />}
+                    {fabric}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Action Button: Find Matching Products */}
+          {/* Divider on large screens */}
+          <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
+
+          {/* Find Button */}
           <button
             type="button"
             onClick={() => {
               const el = document.getElementById('recommendations-section');
               el?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="w-full py-3 px-4 rounded-2xl bg-[#783751] hover:bg-[#642C43] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+            className="py-2.5 px-5 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Sparkles className="w-4 h-4 text-[#F3E6E4]" />
-            <span>Find Matching Products →</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#F3E6E4]" />
+            <span>Find Products</span>
           </button>
-
         </div>
+      </div>
 
-        {/* Right Column: 2. Product Recommendations (7 cols on lg) */}
-        <div id="recommendations-section" className="lg:col-span-7 bg-white rounded-3xl border border-[#EAE2DE] p-5 sm:p-6 shadow-2xs space-y-4">
-          
-          {/* Section Header */}
-          <div className="flex items-start justify-between gap-3 pb-2 border-b border-[#EAE2DE]">
-            <div className="flex items-start gap-2.5">
-              <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                2
-              </div>
-              <div>
-                <h2 className="font-serif text-base font-bold text-[#4A252B] leading-tight">
-                  Product Recommendations
-                </h2>
-                <p className="text-xs text-[#81777B] font-sans mt-0.5">
-                  Products you can make from this fabric scrap.
-                </p>
-              </div>
+      {/* ========================================================
+          4. PRODUCT RECOMMENDATIONS — FULL WIDTH GRID
+          ======================================================== */}
+      <div id="recommendations-section" className="space-y-4">
+        
+        {/* Section Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
+              2
             </div>
-
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="text-xs font-semibold text-[#783751] hover:underline flex items-center gap-1 cursor-pointer transition-colors shrink-0"
-            >
-              <span>View All</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
+            <div>
+              <h2 className="font-serif text-base font-bold text-[#4A252B] leading-tight">
+                Product Recommendations
+              </h2>
+              <p className="text-[11px] text-[#81777B] font-sans">
+                Products you can make from your {scrapInput.width}×{scrapInput.length} cm {scrapInput.fabricType} scraps.
+              </p>
+            </div>
           </div>
 
-          {/* 3-Column Grid of 6 Product Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 pt-1">
-            {primaryDisplayProducts.map((prod) => (
-              <div
-                key={prod.id}
-                onClick={() => setSelectedProductModal(prod)}
-                className="bg-white rounded-2xl border border-[#EAE2DE] p-3 flex flex-col justify-between shadow-2xs hover:border-[#C08274] hover:shadow-xs transition-all cursor-pointer group"
-              >
-                {/* Product Photo */}
-                <div className="w-full aspect-4/3 rounded-xl overflow-hidden bg-stone-100 mb-2.5 relative border border-stone-200/60">
-                  <img
-                    src={prod.image}
-                    alt={prod.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.src = "/atelier/swatches.jpg";
-                    }}
-                  />
-                </div>
+          <button
+            type="button"
+            onClick={() => setSearchQuery('')}
+            className="text-xs font-semibold text-[#783751] hover:underline flex items-center gap-1 cursor-pointer transition-colors shrink-0"
+          >
+            <span>View All</span>
+            <ArrowRight className="w-3 h-3" />
+          </button>
+        </div>
 
-                {/* Title & Category Badge */}
-                <div className="space-y-1">
-                  <h3 className="text-xs font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors truncate">
-                    {prod.name}
-                  </h3>
-                  <span className="bg-[#FBF7F5] text-[#81777B] border border-[#EAE2DE] px-2 py-0.5 rounded-md text-[10px] font-medium inline-block">
+        {/* Product Cards Grid — 3 columns on md+, 2 on sm */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {primaryDisplayProducts.map((prod) => (
+            <div
+              key={prod.id}
+              onClick={() => setSelectedProductModal(prod)}
+              className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group"
+            >
+              {/* Product Photo */}
+              <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
+                <img
+                  src={prod.image}
+                  alt={prod.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = "/atelier/swatches.jpg";
+                  }}
+                />
+                {/* Yield badge overlay */}
+                <div className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-sm text-[#783751] px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
+                  ~{prod.estimatedUnits} units
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-3.5 space-y-2">
+                <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight">
+                  {prod.name}
+                </h3>
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#FBF7F5] text-[#81777B] border border-[#EAE2DE] px-2 py-0.5 rounded-md text-[10px] font-medium">
                     {prod.category}
                   </span>
+                  <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
+                    {prod.difficulty}
+                  </span>
                 </div>
+                <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
+                  {prod.description}
+                </p>
 
-                {/* Bottom View Details Link */}
-                <div className="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] font-semibold text-[#783751] group-hover:underline transition-colors">
-                  <span>View Details</span>
+                {/* Footer */}
+                <div className="pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751]">
+                  <span className="group-hover:underline">View Details</span>
                   <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </div>
-            ))}
-          </div>
-
+            </div>
+          ))}
         </div>
-
       </div>
 
       {/* ========================================================
