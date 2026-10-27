@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   ArrowRight, 
   Leaf, 
@@ -9,29 +9,125 @@ import {
   Layers,
   Compass,
   FileCheck2,
-  Gauge
+  Gauge,
+  Sparkles,
+  LogIn
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
 import { FabricCanvas } from '../components/fabric/FabricCanvas';
 import { useProjects } from '../context/useProjects';
+import { useAuth } from '../context/AuthContext';
+import { AuthModal } from '../components/common/AuthModal';
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { projects } = useProjects();
+  const { isAuthenticated, signOut } = useAuth();
+
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('signin');
+
+  useEffect(() => {
+    if (searchParams.get('login') === 'true') {
+      setIsAuthModalOpen(true);
+      setAuthModalMode('signin');
+    }
+  }, [searchParams]);
+
   const demoProject = projects[0];
 
+  const handleHeroAction = (targetPath) => {
+    if (isAuthenticated) {
+      navigate(targetPath);
+    } else {
+      setAuthModalMode('signin');
+      setIsAuthModalOpen(true);
+    }
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-cream-50">
+    <div className="flex flex-col min-h-screen bg-[#FBF7F5]">
+      
+      {/* ========================================================
+          1. TOP ATELIER NAVBAR (Brand & Corner Login Button)
+          ======================================================== */}
+      <header className="sticky top-0 z-40 bg-[#FBF7F5]/95 backdrop-blur-md border-b border-[#EAE2DE] px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-2xs">
+        {/* Left: Brand Logo & Title */}
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-[#783751] text-white flex items-center justify-center shadow-xs">
+            <Leaf className="w-4 h-4 text-[#F3E6E4]" />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-serif text-lg font-bold text-[#4A252B] tracking-tight">
+              Loom & Layer
+            </span>
+            <span className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F3E6E4] text-[#783751] font-semibold border border-[#EAE2DE]">
+              Circular Atelier
+            </span>
+          </div>
+        </div>
+
+        {/* Center: Anchor Links */}
+        <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-[#5B5257]">
+          <a href="#nesting" className="hover:text-[#783751] transition-colors">Nesting Engine</a>
+          <a href="#features" className="hover:text-[#783751] transition-colors">Optimization</a>
+          <a href="#benchmarks" className="hover:text-[#783751] transition-colors">Benchmarks</a>
+        </nav>
+
+        {/* Right Corner: Login / Dashboard Action */}
+        <div className="flex items-center gap-2.5">
+          {isAuthenticated ? (
+            <>
+              <button
+                type="button"
+                onClick={() => navigate('/dashboard')}
+                className="px-4 py-2 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+              >
+                <span>Enter Dashboard</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={signOut}
+                className="px-3 py-2 rounded-xl border border-[#EAE2DE] bg-white hover:bg-stone-50 text-xs font-semibold text-[#81777B] transition-colors cursor-pointer"
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => { setAuthModalMode('signin'); setIsAuthModalOpen(true); }}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-[#4A252B] hover:text-[#783751] hover:bg-[#F3E6E4]/40 border border-[#EAE2DE] bg-white transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+              >
+                <LogIn className="w-3.5 h-3.5 text-[#783751]" />
+                <span>Log In</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => { setAuthModalMode('signup'); setIsAuthModalOpen(true); }}
+                className="px-4 py-2 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </>
+          )}
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24 border-b border-cream-300 bg-cream-100/60 fabric-weave-pattern">
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24 border-b border-[#EAE2DE] bg-[#FAF5F2]/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Left Column: Value Proposition & CTAs */}
             <div className="lg:col-span-6 space-y-6 text-left">
               {/* Authoritative atelier headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-editorial font-bold text-atelier-950 tracking-tight leading-[1.14]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#4A252B] tracking-tight leading-[1.14]">
                 Automated Fabric Nesting & Marker Planning
               </h1>
 
@@ -46,7 +142,7 @@ export function LandingPage() {
                   size="lg"
                   icon={ArrowRight}
                   iconPosition="right"
-                  onClick={() => navigate('/project/new')}
+                  onClick={() => handleHeroAction('/project/new')}
                   className="shadow-sm font-semibold"
                 >
                   Create Cutting Project
@@ -55,7 +151,7 @@ export function LandingPage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => navigate('/dashboard')}
+                  onClick={() => handleHeroAction('/dashboard')}
                 >
                   Open Dashboard
                 </Button>
@@ -290,14 +386,14 @@ export function LandingPage() {
               size="lg"
               icon={ArrowRight}
               iconPosition="right"
-              onClick={() => navigate('/project/new')}
+              onClick={() => handleHeroAction('/project/new')}
             >
               Start New Project
             </Button>
             <Button
               variant="outline"
               size="lg"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => handleHeroAction('/dashboard')}
               className="bg-transparent text-cream-100 border-atelier-700 hover:bg-atelier-900 hover:text-white"
             >
               Go to Dashboard
@@ -305,6 +401,13 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Atelier Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authModalMode}
+      />
     </div>
   );
 }

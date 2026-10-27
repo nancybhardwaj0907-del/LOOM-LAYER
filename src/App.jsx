@@ -27,8 +27,13 @@ export default function App() {
           <ProjectProvider>
             <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RootLayout />}>
-              <Route index element={<LandingPage />} />
+            {/* Public Standalone Landing Page (NO Sidebar) */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+
+            {/* Authenticated Atelier Workspace (WITH Sidebar) */}
+            <Route element={<RootLayout />}>
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="rethread" element={<ReThreadPage />} />
               <Route path="profile" element={<ProfilePage />} />
@@ -43,8 +48,6 @@ export default function App() {
               <Route path="new-project" element={<Navigate to="/project/new" replace />} />
               <Route path="optimizer" element={<Navigate to="/project/demo-proj-1/optimize" replace />} />
               <Route path="simulation" element={<Navigate to="/project/demo-proj-1/result" replace />} />
-              <Route path="privacy" element={<PrivacyPolicyPage />} />
-              <Route path="terms" element={<TermsPage />} />
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Route>

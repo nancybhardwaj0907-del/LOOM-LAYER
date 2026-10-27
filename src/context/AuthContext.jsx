@@ -1,18 +1,31 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
+const LOCAL_AUTH_STORAGE_KEY = 'loom_layer_auth_user_v1';
+
 const AuthContext = createContext({
   user: null,
   session: null,
   loading: true,
   error: null,
+  isAuthenticated: false,
   isConfigured: false,
   signInWithGoogle: async () => {},
+  signInWithEmail: async () => {},
+  signUpWithEmail: async () => {},
+  loginWithDemo: () => {},
   signOut: async () => {}
 });
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_AUTH_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(isSupabaseConfigured);
   const [error, setError] = useState(null);
@@ -25,15 +38,19 @@ export function AuthProvider({ children }) {
 
     let isMounted = true;
 
-    // 1. Get initial session
+    // 1. Get initial Supabase session
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (!isMounted) return;
       if (error) {
         console.warn('[Auth] Error getting initial session:', error.message);
-        setError(error.message);
-      } else {
+      } else if (session) {
         setSession(session);
-        setUser(session?.user ?? null);
+        setUser(session.user);
+        try {
+          localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(session.user));
+        } catch (e) {
+          console.warn('[Auth] Could not persist session to localStorage', e);
+        }
       }
       setLoading(false);
     }).catch((err) => {
@@ -42,12 +59,19 @@ export function AuthProvider({ children }) {
       setLoading(false);
     });
 
-    // 2. Subscribe to auth state changes (login, logout, token refresh)
+    // 2. Subscribe to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         if (!isMounted) return;
         setSession(currentSession);
-        setUser(currentSession?.user ?? null);
+        if (currentSession?.user) {
+          setUser(currentSession.user);
+          try {
+            localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(currentSession.user));
+          } catch (e) {
+            console.warn('[Auth] Could not persist session to localStorage', e);
+          }
+        }
         setLoading(false);
       }
     );
@@ -60,12 +84,14 @@ export function AuthProvider({ children }) {
 
   const signInWithGoogle = async () => {
     if (!isSupabaseConfigured || !supabase) {
-      return { success: false, error: 'Supabase is not configured.' };
+      // Fallback demo sign in if Supabase credentials are not ready
+      loginWithDemo('Google Atelier Designer', 'designer@atelier.com');
+      return { success: true };
     }
 
     setError(null);
     try {
-      const redirectUrl = typeof window !== 'undefined' ? window.location.origin : undefined;
+      const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -91,21 +117,111 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const signInWithEmail = async (email, password) => {
+    setError(null);
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+          // If user doesn't exist in Supabase yet, offer demo login or return error
+          console.warn('[Auth] Supabase email login notice:', error.message);
+          return { success: false, error: error.message };
+        }
+
+        setUser(data.user);
+        setSession(data.session);
+        localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(data.user));
+        return { success: true, user: data.user };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    }
+
+    // Local fallback
+    const mockUser = {
+      id: 'usr_' + Date.now(),
+      email: email || 'nancy@atelier.com',
+      user_metadata: { name: email.split('@')[0] || 'Atelier Designer' }
+    };
+    setUser(mockUser);
+    localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(mockUser));
+    return { success: true, user: mockUser };
+  };
+
+  const signUpWithEmail = async (email, password, name = 'Atelier Designer') => {
+    setError(null);
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { name }
+          }
+        });
+
+        if (error) {
+          return { success: false, error: error.message };
+        }
+
+        if (data?.user) {
+          setUser(data.user);
+          localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(data.user));
+        }
+        return { success: true, user: data.user };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    }
+
+    const mockUser = {
+      id: 'usr_' + Date.now(),
+      email,
+      user_metadata: { name }
+    };
+    setUser(mockUser);
+    localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(mockUser));
+    return { success: true, user: mockUser };
+  };
+
+  const loginWithDemo = (name = 'Nancy Bhardwaj', email = 'nancy@atelier.com') => {
+    const demoUser = {
+      id: 'demo-nancy-1',
+      email,
+      user_metadata: {
+        name,
+        avatar_url: '/atelier/user_avatar.jpg'
+      }
+    };
+    setUser(demoUser);
+    try {
+      localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(demoUser));
+    } catch (e) {
+      console.warn('Could not store demo user', e);
+    }
+    return demoUser;
+  };
+
   const signOut = async () => {
-    if (!isSupabaseConfigured || !supabase) return;
     setError(null);
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('[Auth] Sign-out error:', error.message);
-        setError(error.message);
-      } else {
-        setUser(null);
-        setSession(null);
+      if (isSupabaseConfigured && supabase) {
+        await supabase.auth.signOut();
       }
     } catch (err) {
-      console.error('[Auth] Unexpected error during sign-out:', err);
-      setError(err.message);
+      console.warn('[Auth] Sign-out warning:', err);
+    } finally {
+      setUser(null);
+      setSession(null);
+      try {
+        localStorage.removeItem(LOCAL_AUTH_STORAGE_KEY);
+      } catch (e) {
+        console.warn('Could not remove auth user', e);
+      }
     }
   };
 
@@ -114,8 +230,12 @@ export function AuthProvider({ children }) {
     session,
     loading,
     error,
+    isAuthenticated: Boolean(user),
     isConfigured: isSupabaseConfigured,
     signInWithGoogle,
+    signInWithEmail,
+    signUpWithEmail,
+    loginWithDemo,
     signOut
   };
 

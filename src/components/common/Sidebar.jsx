@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Leaf, 
   LayoutDashboard, 
@@ -12,12 +12,18 @@ import {
   Menu, 
   X,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  LogOut
 } from 'lucide-react';
 import { useProjects } from '../../context/useProjects';
+import { useAuth } from '../../context/AuthContext';
+import { useUserProfile } from '../../context/useUserProfile';
 
 export function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { profile } = useUserProfile();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { projects } = useProjects() || { projects: [] };
   
@@ -164,6 +170,42 @@ export function Sidebar() {
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
+      </div>
+
+      {/* User Session & Logout Footer */}
+      <div className="pt-3 mt-2 border-t border-[#EAE2DE] flex items-center justify-between gap-2 px-1">
+        <Link 
+          to="/profile" 
+          onClick={() => setMobileOpen(false)}
+          className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity"
+          title="Account Profile"
+        >
+          <div className="w-7 h-7 rounded-full bg-[#F3E6E4] border border-[#EAE2DE] overflow-hidden shrink-0">
+            <img
+              src={profile?.avatar || "/atelier/user_avatar.jpg"}
+              alt={user?.user_metadata?.name || profile?.name || "Designer"}
+              className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.src = "/atelier/user_avatar.jpg"; }}
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-[#4A252B] truncate leading-tight">
+              {user?.user_metadata?.name || profile?.name || "Nancy"}
+            </p>
+            <p className="text-[10px] text-[#81777B] truncate">Atelier Member</p>
+          </div>
+        </Link>
+        <button
+          type="button"
+          onClick={async () => {
+            await signOut();
+            navigate('/');
+          }}
+          className="p-1.5 rounded-lg text-[#81777B] hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+          title="Log Out of Workspace"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );
