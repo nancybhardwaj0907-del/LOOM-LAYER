@@ -1,5 +1,12 @@
 // Vercel Serverless Function: /api/send-report-email
-// Automatically deployed by Vercel for live production handling
+// Handles secure report storage upload using service_role and sends email via Resend
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://afvnkmsyijynajexjoqa.supabase.co';
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmdm5rbXN5aWp5bmFqZXhqb3FhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MjY2MDE1OSwiZXhwIjoyMTA4MjM2MTU5fQ.38oE7AUBtwYDFWUC1N9QQ3IZJMB-ijOeg2D7S4JjQ4Q';
+
+const supabaseAdmin = createClient(supabaseUrl, serviceKey);
 
 export default async function handler(req, res) {
   // CORS setup
@@ -28,12 +35,39 @@ export default async function handler(req, res) {
       });
     }
 
-    // Body parsing (Vercel automatically parses JSON bodies, with fallback)
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const { to, projectName, reportType, downloadUrl, metrics, recipientName } = body;
+    const { to, projectName, reportType, reportContent, metrics, recipientName } = body;
+    let downloadUrl = body.downloadUrl;
 
-    if (!to || !downloadUrl) {
-      return res.status(400).json({ error: 'Missing required parameters: to and downloadUrl are required.' });
+    if (!to) {
+      return res.status(400).json({ error: 'Missing required parameter: to' });
+    }
+
+    // Securely upload report to Supabase storage with service_role to bypass RLS
+    if (!downloadUrl && reportContent) {
+      try {
+        const timestamp = Date.now();
+        const sanitized = (projectName || 'report').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filePath = `${sanitized}_${timestamp}.html`;
+
+        const { error: uploadError } = await supabaseAdmin.storage
+          .from('reports')
+          .upload(filePath, reportContent, {
+            contentType: 'text/html;charset=utf-8',
+            upsert: true
+          });
+
+        if (!uploadError) {
+          const { data: urlData } = supabaseAdmin.storage
+            .from('reports')
+            .getPublicUrl(filePath);
+          downloadUrl = urlData.publicUrl;
+        } else {
+          console.warn('[Serverless] Storage upload warning:', uploadError.message);
+        }
+      } catch (uploadErr) {
+        console.warn('[Serverless] Could not upload to storage:', uploadErr);
+      }
     }
 
     const title = reportType || 'Fabric Cutting & ESG Report';
@@ -87,15 +121,16 @@ export default async function handler(req, res) {
 
             ${metricsHtml}
 
-            <div style="text-align: center; margin: 32px 0 24px 0;">
-              <a href="${downloadUrl}" class="btn-download" target="_blank" rel="noopener noreferrer">
-                📥 Download Report File
-              </a>
-            </div>
-
-            <p style="font-size: 12px; color: #81777B; line-height: 1.5; text-align: center;">
-              This download link is securely stored on your atelier cloud storage.
-            </p>
+            ${downloadUrl ? `
+              <div style="text-align: center; margin: 32px 0 24px 0;">
+                <a href="${downloadUrl}" class="btn-download" target="_blank" rel="noopener noreferrer">
+                  📥 Download Report File
+                </a>
+              </div>
+              <p style="font-size: 12px; color: #81777B; line-height: 1.5; text-align: center;">
+                This download link is securely stored on your atelier cloud storage.
+              </p>
+            ` : ''}
           </div>
           <div class="footer">
             © ${new Date().getFullYear()} Loom & Layer Atelier. Zero-waste circular pattern engineering.

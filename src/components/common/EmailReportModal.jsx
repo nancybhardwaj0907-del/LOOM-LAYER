@@ -41,39 +41,26 @@ export function EmailReportModal({
     }
 
     setErrorMessage('');
-    setStatus('uploading');
+    setStatus('sending');
 
     try {
-      // 1. Upload report to Supabase Storage ('reports' bucket)
-      const uploadRes = await uploadReportToStorage({
-        content: reportContent,
-        fileName: `${projectName}_${reportType}`,
-        mimeType: 'text/html'
-      });
-
-      if (!uploadRes.success || !uploadRes.publicUrl) {
-        throw new Error(uploadRes.error || 'Failed to upload report to cloud storage');
-      }
-
-      setDownloadUrl(uploadRes.publicUrl);
-      setStatus('sending');
-
-      // 2. Invoke Supabase Edge Function with Resend
+      // Dispatch email and upload report securely through backend service_role (bypasses RLS)
       const emailRes = await sendReportEmail({
         to: email,
         projectName,
         reportType,
-        downloadUrl: uploadRes.publicUrl,
+        reportContent,
         metrics,
         recipientName
       });
 
+      if (emailRes.downloadUrl) {
+        setDownloadUrl(emailRes.downloadUrl);
+      }
+
       if (!emailRes.success) {
-        // If Edge function fails or isn't deployed yet, inform user but keep downloadUrl accessible!
         setErrorMessage(
-          emailRes.error?.includes('FunctionsFetchError') || emailRes.error?.includes('Failed to send')
-            ? 'Report uploaded to cloud, but Supabase Edge Function is not yet deployed or RESEND_API_KEY is missing. You can still download the report directly using the link below!'
-            : emailRes.error || 'Failed to dispatch email'
+          emailRes.error || 'Failed to dispatch email. Please ensure your email is authorized in Resend.'
         );
         setStatus('error');
       } else {

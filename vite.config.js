@@ -1,10 +1,14 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
+import { createClient } from '@supabase/supabase-js'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const resendApiKey = env.RESEND_API_KEY || env.VITE_RESEND_API_KEY || process.env.RESEND_API_KEY || ''
+  const supabaseUrl = env.VITE_SUPABASE_URL || 'https://afvnkmsyijynajexjoqa.supabase.co'
+  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY || ''
+  const supabaseAdmin = serviceKey ? createClient(supabaseUrl, serviceKey) : null
 
   return {
     plugins: [
@@ -26,13 +30,41 @@ export default defineConfig(({ mode }) => {
             })
             req.on('end', async () => {
               try {
-                const { to, projectName, reportType, downloadUrl, metrics, recipientName } = JSON.parse(body || '{}')
+                const { to, projectName, reportType, reportContent, metrics, recipientName } = JSON.parse(body || '{}')
+                let downloadUrl = JSON.parse(body || '{}').downloadUrl
 
-                if (!to || !downloadUrl) {
+                if (!to) {
                   res.statusCode = 400
                   res.setHeader('Content-Type', 'application/json')
-                  res.end(JSON.stringify({ error: 'Missing required fields: to, downloadUrl' }))
+                  res.end(JSON.stringify({ error: 'Missing required field: to' }))
                   return
+                }
+
+                // If no downloadUrl passed, upload reportContent using service_role key to bypass RLS
+                if (!downloadUrl && reportContent && supabaseAdmin) {
+                  try {
+                    const timestamp = Date.now()
+                    const sanitized = (projectName || 'report').replace(/[^a-zA-Z0-9_-]/g, '_')
+                    const filePath = `${sanitized}_${timestamp}.html`
+
+                    const { error: uploadError } = await supabaseAdmin.storage
+                      .from('reports')
+                      .upload(filePath, reportContent, {
+                        contentType: 'text/html;charset=utf-8',
+                        upsert: true,
+                      })
+
+                    if (!uploadError) {
+                      const { data: urlData } = supabaseAdmin.storage
+                        .from('reports')
+                        .getPublicUrl(filePath)
+                      downloadUrl = urlData.publicUrl
+                    } else {
+                      console.warn('[Vite Middleware] Storage upload warning:', uploadError.message)
+                    }
+                  } catch (e) {
+                    console.warn('[Vite Middleware] Storage upload error:', e)
+                  }
                 }
 
                 const title = reportType || 'Fabric Cutting & ESG Report'
@@ -85,15 +117,16 @@ export default defineConfig(({ mode }) => {
 
                         ${metricsHtml}
 
-                        <div style="text-align: center; margin: 32px 0 24px 0;">
-                          <a href="${downloadUrl}" class="btn-download" target="_blank" rel="noopener noreferrer">
-                            📥 Download Report File
-                          </a>
-                        </div>
-
-                        <p style="font-size: 12px; color: #81777B; line-height: 1.5; text-align: center;">
-                          This download link is securely stored on your atelier cloud storage.
-                        </p>
+                        ${downloadUrl ? `
+                          <div style="text-align: center; margin: 32px 0 24px 0;">
+                            <a href="${downloadUrl}" class="btn-download" target="_blank" rel="noopener noreferrer">
+                              📥 Download Report File
+                            </a>
+                          </div>
+                          <p style="font-size: 12px; color: #81777B; line-height: 1.5; text-align: center;">
+                            This download link is securely stored on your atelier cloud storage.
+                          </p>
+                        ` : ''}
                       </div>
                       <div class="footer">
                         © ${new Date().getFullYear()} Loom & Layer Atelier. Zero-waste circular pattern engineering.
@@ -120,7 +153,7 @@ export default defineConfig(({ mode }) => {
                 const resendData = await resendResponse.json()
                 res.statusCode = resendResponse.status
                 res.setHeader('Content-Type', 'application/json')
-                res.end(JSON.stringify(resendData))
+                res.end(JSON.stringify({ ...resendData, downloadUrl }))
               } catch (err) {
                 res.statusCode = 500
                 res.setHeader('Content-Type', 'application/json')

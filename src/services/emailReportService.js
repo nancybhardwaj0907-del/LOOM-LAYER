@@ -70,6 +70,7 @@ export async function sendReportEmail({
   projectName,
   reportType,
   downloadUrl,
+  reportContent,
   metrics,
   recipientName
 }) {
@@ -78,11 +79,12 @@ export async function sendReportEmail({
     projectName,
     reportType,
     downloadUrl,
+    reportContent,
     metrics,
     recipientName
   };
 
-  // 1. Try local dev server API route first
+  // 1. Try server API route (/api/send-report-email)
   try {
     const apiRes = await fetch('/api/send-report-email', {
       method: 'POST',
@@ -90,15 +92,25 @@ export async function sendReportEmail({
       body: JSON.stringify(payload)
     });
 
-    if (apiRes.ok) {
-      const data = await apiRes.json();
-      return { success: true, emailId: data.id, downloadUrl };
+    const data = await apiRes.json();
+    if (apiRes.ok && (data.success || data.id)) {
+      return { 
+        success: true, 
+        emailId: data.id, 
+        downloadUrl: data.downloadUrl || downloadUrl 
+      };
+    } else if (data?.error) {
+      return {
+        success: false,
+        error: data.error,
+        downloadUrl: data.downloadUrl || downloadUrl
+      };
     }
   } catch (err) {
-    console.log('[emailReportService] Local endpoint not active, trying Supabase Edge Function...', err);
+    console.warn('[emailReportService] /api/send-report-email fetch error:', err);
   }
 
-  // 2. Try Supabase Edge Function
+  // 2. Try Supabase Edge Function fallback
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase.functions.invoke('send-report-email', {
@@ -106,7 +118,7 @@ export async function sendReportEmail({
       });
 
       if (!error && data?.success) {
-        return { success: true, emailId: data.emailId, downloadUrl };
+        return { success: true, emailId: data.emailId, downloadUrl: data.downloadUrl || downloadUrl };
       }
     } catch (err) {
       console.warn('[emailReportService] Supabase Edge Function error:', err);
@@ -115,7 +127,7 @@ export async function sendReportEmail({
 
   return {
     success: false,
-    error: 'Email service could not reach recipient. Please ensure your email is authorized in Resend or check your connection.',
+    error: 'Failed to dispatch email. Please check your network connection or email authorization in Resend.',
     downloadUrl
   };
 }
