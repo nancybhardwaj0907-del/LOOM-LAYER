@@ -53,13 +53,13 @@ export function AddPatternsPage() {
 
   if (!project) {
     return (
-      <div className="max-w-xl mx-auto px-4 py-16 text-center bg-white rounded-2xl border border-[#E8E2D6] my-8 shadow-xs">
-        <h2 className="text-xl font-serif font-bold text-[#143823]">Project Not Found</h2>
+      <div className="max-w-xl mx-auto px-4 py-16 text-center bg-white rounded-2xl border border-[#EDE3DF] my-8 shadow-xs">
+        <h2 className="text-xl font-serif font-bold text-[#5C2434]">Project Not Found</h2>
         <p className="text-xs text-[#7C857E] mt-2">The requested cutting project does not exist.</p>
         <button
           type="button"
           onClick={() => navigate('/dashboard')}
-          className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors cursor-pointer"
+          className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors cursor-pointer"
         >
           Go to Dashboard
         </button>
@@ -177,7 +177,7 @@ export function AddPatternsPage() {
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#E5EFE6] shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#FCEEED] shrink-0">
             <img
               src={profile?.avatar || "/atelier/user_avatar.jpg"}
               alt={profile?.name || "Designer"}
@@ -188,18 +188,18 @@ export function AddPatternsPage() {
             />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#143823] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#5C2434] tracking-tight">
               Fabric Optimizer
             </h1>
-            <p className="text-xs text-[#5C665F]">
+            <p className="text-xs text-[#7A626C]">
               Get the most efficient nesting layout for your patterns.
             </p>
           </div>
         </div>
 
         {/* Botanical Sprig Top Right */}
-        <div className="hidden sm:flex items-center gap-2 text-[#143823]">
-          <Leaf className="w-5 h-5 text-[#143823] opacity-80" />
+        <div className="hidden sm:flex items-center gap-2 text-[#5C2434]">
+          <Leaf className="w-5 h-5 text-[#5C2434] opacity-80" />
         </div>
       </div>
 
@@ -209,8 +209,8 @@ export function AddPatternsPage() {
       <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 overflow-x-auto pb-1 text-xs font-medium">
         
         {/* Step 1: Active */}
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#143823] text-white shadow-xs shrink-0">
-          <span className="w-4 h-4 rounded-full bg-white text-[#143823] flex items-center justify-center font-bold text-[10px]">
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5C2434] text-white shadow-xs shrink-0">
+          <span className="w-4 h-4 rounded-full bg-white text-[#5C2434] flex items-center justify-center font-bold text-[10px]">
             1
           </span>
           <span className="font-semibold">Upload Patterns</span>
@@ -218,7 +218,7 @@ export function AddPatternsPage() {
 
         {/* Step 2 */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] hover:text-stone-900 shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">
             2
           </span>
           <span>Fabric Settings</span>
@@ -226,7 +226,7 @@ export function AddPatternsPage() {
 
         {/* Step 3 */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] hover:text-stone-900 shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">
             3
           </span>
           <span>Optimize</span>
@@ -234,7 +234,7 @@ export function AddPatternsPage() {
 
         {/* Step 4 */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] hover:text-stone-900 shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">
             4
           </span>
           <span>Results</span>
@@ -248,15 +248,15 @@ export function AddPatternsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Column: Upload Pattern Files (6 cols) */}
-        <div className="lg:col-span-6 bg-white rounded-2xl border border-[#E8E2D6] p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="lg:col-span-6 bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#143823]">
+            <h2 className="text-sm font-semibold text-[#5C2434]">
               Upload Pattern Files
             </h2>
             <button
               type="button"
               onClick={() => setIsCopModalOpen(true)}
-              className="text-[11px] font-mono text-[#143823] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-[11px] font-mono text-[#5C2434] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <Sparkles className="w-3 h-3 text-amber-600" />
               <span>COP Bundling</span>
@@ -274,9 +274,9 @@ export function AddPatternsPage() {
           {/* Large Drag & Drop Box */}
           <div 
             onClick={() => patternFileInputRef.current?.click()}
-            className="border-2 border-dashed border-[#DDD5C7] hover:border-[#143823] rounded-2xl p-8 text-center bg-[#FAF8F5] transition-colors cursor-pointer group space-y-3"
+            className="border-2 border-dashed border-[#DDD5C7] hover:border-[#5C2434] rounded-2xl p-8 text-center bg-[#FAF8F5] transition-colors cursor-pointer group space-y-3"
           >
-            <div className="w-12 h-12 rounded-full bg-white text-[#143823] border border-[#DDD5C7] flex items-center justify-center mx-auto shadow-2xs group-hover:scale-105 transition-transform">
+            <div className="w-12 h-12 rounded-full bg-white text-[#5C2434] border border-[#DDD5C7] flex items-center justify-center mx-auto shadow-2xs group-hover:scale-105 transition-transform">
               <UploadCloud className="w-6 h-6" />
             </div>
             <div>
@@ -293,7 +293,7 @@ export function AddPatternsPage() {
                 e.stopPropagation();
                 patternFileInputRef.current?.click();
               }}
-              className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors cursor-pointer inline-block"
+              className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors cursor-pointer inline-block"
             >
               Choose Files
             </button>
@@ -320,16 +320,16 @@ export function AddPatternsPage() {
         </div>
 
         {/* Right Column: Pattern List (6 cols) */}
-        <div className="lg:col-span-6 bg-white rounded-2xl border border-[#E8E2D6] p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="lg:col-span-6 bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#143823]">
+            <h2 className="text-sm font-semibold text-[#5C2434]">
               Pattern List
             </h2>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => handleReloadTemplates(productType)}
-                className="text-xs text-[#7C857E] hover:text-[#143823] cursor-pointer flex items-center gap-1"
+                className="text-xs text-[#7C857E] hover:text-[#5C2434] cursor-pointer flex items-center gap-1"
                 title="Reset to default templates"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -338,7 +338,7 @@ export function AddPatternsPage() {
               <button
                 type="button"
                 onClick={handleOpenAddModal}
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#E5EFE6] text-[#143823] hover:bg-[#D5E5D7] cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#FCEEED] text-[#5C2434] hover:bg-[#D5E5D7] cursor-pointer flex items-center gap-1"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Piece</span>
@@ -355,7 +355,7 @@ export function AddPatternsPage() {
                 <button
                   type="button"
                   onClick={() => handleReloadTemplates(productType)}
-                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#143823] text-white cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#5C2434] text-white cursor-pointer"
                 >
                   Load {productType} Templates
                 </button>
@@ -364,17 +364,17 @@ export function AddPatternsPage() {
               patterns.map((piece) => (
                 <div
                   key={piece.id}
-                  className="bg-[#FAF8F5] rounded-xl border border-[#DDD5C7] p-3 flex items-center justify-between gap-3 hover:border-[#143823] transition-colors"
+                  className="bg-[#FAF8F5] rounded-xl border border-[#DDD5C7] p-3 flex items-center justify-between gap-3 hover:border-[#5C2434] transition-colors"
                 >
                   {/* Left: Thumbnail & Details */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-white border border-[#E8E2D6] p-1 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-white border border-[#EDE3DF] p-1 flex items-center justify-center shrink-0">
                       {renderSilhouette(piece.name)}
                     </div>
                     <div>
                       <h4 
                         onClick={() => handleOpenEditModal(piece)}
-                        className="text-xs font-semibold text-stone-900 hover:text-[#143823] cursor-pointer"
+                        className="text-xs font-semibold text-stone-900 hover:text-[#5C2434] cursor-pointer"
                       >
                         {piece.name}
                       </h4>
@@ -425,7 +425,7 @@ export function AddPatternsPage() {
             <button
               type="button"
               onClick={handleContinue}
-              className="px-6 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+              className="px-6 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <span>Next</span>
               <ChevronRight className="w-3.5 h-3.5" />

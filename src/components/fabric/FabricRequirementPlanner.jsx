@@ -43,8 +43,8 @@ export function FabricRequirementPlanner({
         {/* Stock Sufficiency Status Badge */}
         <div className="flex items-center gap-2 shrink-0">
           {plan.isSufficient ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-900 border border-emerald-300 shadow-2xs font-sans">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB] shadow-2xs font-sans">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#5C2434]" />
               Sufficient Roll Stock (+{plan.surplusM}m surplus)
             </span>
           ) : (
@@ -94,7 +94,7 @@ export function FabricRequirementPlanner({
             {plan.estimatedRequiredLengthM} m
             <span className="text-xs font-normal text-stone-500 ml-1">({plan.estimatedRequiredLengthCm} cm)</span>
           </div>
-          <div className={`text-[11px] font-medium mt-0.5 ${plan.isSufficient ? 'text-emerald-700' : 'text-amber-800'}`}>
+          <div className={`text-[11px] font-medium mt-0.5 ${plan.isSufficient ? 'text-[#5C2434]' : 'text-amber-800'}`}>
             {plan.isSufficient ? `+${plan.surplusM} m balance` : `-${plan.shortfallM} m shortfall`}
           </div>
         </div>
@@ -120,7 +120,7 @@ export function FabricRequirementPlanner({
             <CheckCircle2 className="w-3.5 h-3.5 text-crimson-700" />
             <span>Validated Cut Length: <strong className="text-crimson-800 font-extrabold">{plan.validatedCutLengthM} m</strong> ({plan.validatedCutLengthCm} cm)</span>
           </div>
-          <span className="text-[11px] font-mono text-emerald-700 font-semibold">
+          <span className="text-[11px] font-mono text-[#5C2434] font-semibold">
             All {plan.validatedPlacedCount}/{plan.totalRequestedPieces} pieces placed
           </span>
         </div>

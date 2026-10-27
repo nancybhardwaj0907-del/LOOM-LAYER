@@ -9,7 +9,7 @@ export function ThemeToggle({ className = '' }) {
     <button
       type="button"
       onClick={toggleTheme}
-      className={`p-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 cursor-pointer ${
+      className={`p-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#5C2434]/30 cursor-pointer ${
         isDark
           ? 'bg-stone-800 border-stone-700 text-amber-400 hover:bg-stone-700 hover:text-amber-300'
           : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900'

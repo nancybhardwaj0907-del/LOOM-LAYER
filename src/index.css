@@ -5,13 +5,13 @@
 @layer base {
   :root {
     --color-fabric-grid: rgba(215, 199, 178, 0.55);
-    --color-fabric-bg: #faf6f0;
-    --color-stitch: #9e2a2b;
+    --color-fabric-bg: #faf7f4;
+    --color-stitch: #5c2434;
   }
 
   body {
-    background-color: #faf6f0;
-    color: #241c1a;
+    background-color: #faf7f4;
+    color: #2e1822;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     transition: background-color 0.2s ease, color 0.2s ease;
   }
@@ -56,7 +56,7 @@
 .tailor-basting-stitch {
   border-style: dashed;
   border-width: 1.5px;
-  border-color: #9e2a2b;
+  border-color: #5c2434;
 }
 
 .tailor-chalk-mark {
@@ -108,66 +108,66 @@
   z-index: 1;
 }
 
-/* Crimson Woven Cloth Button (Primary) */
+/* Wine Woven Cloth Button (Primary) */
 .cloth-btn-primary {
-  background-color: #9e2a2b;
+  background-color: #5c2434;
   background-image: 
     radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0),
     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%);
   background-size: 4px 4px, 100% 100%;
-  color: #fffaf0;
-  border: 1px solid #7d1c1d;
-  box-shadow: 0 1px 3px rgba(110, 20, 20, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #fffdfd;
+  border: 1px solid #481b28;
+  box-shadow: 0 1px 3px rgba(92, 36, 52, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .cloth-btn-primary::before {
-  border: 1px dashed rgba(255, 240, 230, 0.45);
+  border: 1px dashed rgba(252, 238, 237, 0.5);
 }
 
 .cloth-btn-primary:hover:not(:disabled) {
-  background-color: #b23032;
-  box-shadow: 0 3px 8px rgba(110, 20, 20, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background-color: #481b28;
+  box-shadow: 0 3px 8px rgba(92, 36, 52, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
 }
 
 .cloth-btn-primary:hover:not(:disabled)::before {
-  border-color: rgba(255, 245, 240, 0.7);
+  border-color: rgba(252, 238, 237, 0.8);
 }
 
 .cloth-btn-primary:active:not(:disabled) {
-  background-color: #841e1f;
+  background-color: #38141f;
   transform: translateY(0);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 /* Cream Linen Swatch Button (Outline) */
 .cloth-btn-outline {
-  background-color: #fdfbf7;
+  background-color: #FAF7F4;
   background-image: 
-    radial-gradient(rgba(163, 141, 116, 0.12) 1px, transparent 0);
+    radial-gradient(rgba(122, 98, 108, 0.1) 1px, transparent 0);
   background-size: 5px 5px;
-  color: #561f1f;
-  border: 1px solid #e2d5c4;
-  box-shadow: 0 1px 2px rgba(44, 34, 30, 0.05);
+  color: #5c2434;
+  border: 1px solid #EDE3DF;
+  box-shadow: 0 1px 2px rgba(46, 24, 34, 0.04);
 }
 
 .cloth-btn-outline::before {
-  border: 1px dashed rgba(158, 42, 43, 0.35);
+  border: 1px dashed rgba(92, 36, 52, 0.3);
 }
 
 .cloth-btn-outline:hover:not(:disabled) {
-  background-color: #f7eee2;
-  border-color: #cbb8a0;
-  color: #891e1e;
+  background-color: #FCEEED;
+  border-color: #F0D0CB;
+  color: #481b28;
   transform: translateY(-1px);
 }
 
 .cloth-btn-outline:hover:not(:disabled)::before {
-  border-color: rgba(158, 42, 43, 0.65);
+  border-color: rgba(92, 36, 52, 0.6);
 }
 
 .cloth-btn-outline:active:not(:disabled) {
-  background-color: #ede2d3;
+  background-color: #F9DFDE;
   transform: translateY(0);
 }
 

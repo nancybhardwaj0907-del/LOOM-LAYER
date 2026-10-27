@@ -85,7 +85,7 @@ export function FabricAnalysisCard({
             <span
               className={`px-1.5 py-0.5 rounded text-[10px] ${
                 clarity.rating === 'Good'
-                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  ? 'bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB]'
                   : clarity.rating === 'Marginal'
                   ? 'bg-amber-50 text-amber-800 border border-amber-200'
                   : 'bg-rose-50 text-rose-800 border border-rose-200'
@@ -153,8 +153,8 @@ export function FabricAnalysisCard({
           {isGrainDetected && onApplyGrainDirection && (
             <div className="flex items-center gap-2 self-end sm:self-auto">
               {isGrainMatchesCurrent ? (
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
-                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#5C2434] bg-[#FCEEED] border border-[#F0D0CB] px-2 py-1 rounded">
+                  <Check className="w-3.5 h-3.5 text-[#5C2434]" />
                   <span>Applied to Project</span>
                 </span>
               ) : (

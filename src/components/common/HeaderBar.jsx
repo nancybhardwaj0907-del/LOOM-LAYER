@@ -28,11 +28,11 @@ export function HeaderBar({
           </div>
         )}
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#143823] tracking-tight leading-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#5C2434] tracking-tight leading-tight">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs sm:text-sm text-[#5C665F] mt-0.5">
+            <p className="text-xs sm:text-sm text-[#7A626C] mt-0.5">
               {subtitle}
             </p>
           )}

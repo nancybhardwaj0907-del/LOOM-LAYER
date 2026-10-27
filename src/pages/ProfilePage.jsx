@@ -172,7 +172,7 @@ export function ProfilePage() {
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#E5EFE6] shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#FCEEED] shrink-0">
             <img
               src={profile.avatar || "/atelier/user_avatar.jpg"}
               alt="Designer Profile"
@@ -183,10 +183,10 @@ export function ProfilePage() {
             />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#143823] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#5C2434] tracking-tight">
               Settings
             </h1>
-            <p className="text-xs text-[#5C665F]">
+            <p className="text-xs text-[#7A626C]">
               Manage your account preferences and application settings.
             </p>
           </div>
@@ -195,15 +195,15 @@ export function ProfilePage() {
 
       {/* Save Success Alert Notification */}
       {saveSuccess && (
-        <div className="p-3.5 rounded-xl bg-[#E5EFE6] border border-[#CCDCCD] text-[#143823] text-xs flex items-center justify-between shadow-xs animate-in fade-in">
+        <div className="p-3.5 rounded-xl bg-[#FCEEED] border border-[#F0D0CB] text-[#5C2434] text-xs flex items-center justify-between shadow-xs animate-in fade-in">
           <div className="flex items-center gap-2 font-medium">
-            <CheckCircle2 className="w-4 h-4 text-[#143823] shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#5C2434] shrink-0" />
             <span>Settings updated and saved successfully!</span>
           </div>
           <button
             type="button"
             onClick={() => setSaveSuccess(false)}
-            className="text-[#143823] text-xs font-bold px-2 py-0.5 hover:underline cursor-pointer"
+            className="text-[#5C2434] text-xs font-bold px-2 py-0.5 hover:underline cursor-pointer"
           >
             Dismiss
           </button>
@@ -216,7 +216,7 @@ export function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Sub-Navigation Menu (4 cols) */}
-        <div className="lg:col-span-4 bg-white rounded-2xl border border-[#E8E2D6] p-3 shadow-xs space-y-1">
+        <div className="lg:col-span-4 bg-white rounded-2xl border border-[#EDE3DF] p-3 shadow-xs space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -227,11 +227,11 @@ export function ProfilePage() {
                 onClick={() => setActiveTab(item.id)}
                 className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer text-left ${
                   isActive
-                    ? 'bg-[#E5EFE6] text-[#143823] font-bold border border-[#D5DFD5]'
+                    ? 'bg-[#FCEEED] text-[#5C2434] font-bold border border-[#D5DFD5]'
                     : 'text-stone-700 hover:bg-[#FAF8F5] border border-transparent'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#143823]' : 'text-stone-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#5C2434]' : 'text-stone-400'}`} />
                 <span>{item.label}</span>
               </button>
             );
@@ -239,10 +239,10 @@ export function ProfilePage() {
         </div>
 
         {/* Right Settings Content Card (8 cols) */}
-        <div className="lg:col-span-8 bg-white rounded-2xl border border-[#E8E2D6] p-6 sm:p-7 shadow-xs relative overflow-hidden">
+        <div className="lg:col-span-8 bg-white rounded-2xl border border-[#EDE3DF] p-6 sm:p-7 shadow-xs relative overflow-hidden">
           
           {/* Subtle Botanical Leaf Accent in background */}
-          <div className="absolute top-6 right-6 pointer-events-none opacity-20 text-[#143823]">
+          <div className="absolute top-6 right-6 pointer-events-none opacity-20 text-[#5C2434]">
             <Leaf className="w-24 h-24" />
           </div>
 
@@ -251,7 +251,7 @@ export function ProfilePage() {
               ======================================================== */}
           {activeTab === 'profile' && (
             <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
+              <h2 className="text-sm font-semibold text-[#5C2434] mb-6">
                 Profile Information
               </h2>
 
@@ -259,7 +259,7 @@ export function ProfilePage() {
                 
                 {/* Avatar Photo Section with Functional File Picker */}
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#D5DFD5] bg-[#E5EFE6] shrink-0 shadow-xs relative group">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#D5DFD5] bg-[#FCEEED] shrink-0 shadow-xs relative group">
                     <img
                       src={profile.avatar || "/atelier/user_avatar.jpg"}
                       alt="Profile Avatar"
@@ -284,9 +284,9 @@ export function ProfilePage() {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="px-3 py-1.5 rounded-xl text-xs font-medium border border-[#DDD5C7] bg-[#FAF8F5] text-stone-700 hover:bg-white hover:border-[#143823] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                        className="px-3 py-1.5 rounded-xl text-xs font-medium border border-[#DDD5C7] bg-[#FAF8F5] text-stone-700 hover:bg-white hover:border-[#5C2434] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                       >
-                        <Camera className="w-3.5 h-3.5 text-[#143823]" />
+                        <Camera className="w-3.5 h-3.5 text-[#5C2434]" />
                         <span>Change Photo</span>
                       </button>
 
@@ -316,7 +316,7 @@ export function ProfilePage() {
                       type="text"
                       value={localProfile.name}
                       onChange={(e) => setLocalProfile({ ...localProfile, name: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                       placeholder="e.g. Nancy"
                     />
                   </div>
@@ -330,7 +330,7 @@ export function ProfilePage() {
                       type="email"
                       value={localProfile.email}
                       onChange={(e) => setLocalProfile({ ...localProfile, email: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                       placeholder="e.g. nonu@example.com"
                     />
                   </div>
@@ -344,7 +344,7 @@ export function ProfilePage() {
                       type="text"
                       value={localProfile.role}
                       onChange={(e) => setLocalProfile({ ...localProfile, role: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                       placeholder="e.g. Student / Developer"
                     />
                   </div>
@@ -358,7 +358,7 @@ export function ProfilePage() {
                       type="text"
                       value={localProfile.organization}
                       onChange={(e) => setLocalProfile({ ...localProfile, organization: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                       placeholder="e.g. Loom & Layer"
                     />
                   </div>
@@ -373,7 +373,7 @@ export function ProfilePage() {
                     rows={2}
                     value={localProfile.bio}
                     onChange={(e) => setLocalProfile({ ...localProfile, bio: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all resize-none"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all resize-none"
                     placeholder="Short description of your atelier or production focus..."
                   />
                 </div>
@@ -382,7 +382,7 @@ export function ProfilePage() {
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
                   >
                     Save Changes
                   </button>
@@ -397,7 +397,7 @@ export function ProfilePage() {
               ======================================================== */}
           {activeTab === 'preferences' && (
             <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
+              <h2 className="text-sm font-semibold text-[#5C2434] mb-6">
                 Cutting & Nesting Preferences
               </h2>
 
@@ -411,7 +411,7 @@ export function ProfilePage() {
                   <select
                     value={localPrefs.defaultFabric}
                     onChange={(e) => setLocalPrefs({ ...localPrefs, defaultFabric: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all cursor-pointer"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all cursor-pointer"
                   >
                     <option value="Cotton">Cotton (Plain Weave / Poplin)</option>
                     <option value="Denim">Heavy Denim (Twill)</option>
@@ -435,7 +435,7 @@ export function ProfilePage() {
                       max="3.0"
                       value={localPrefs.defaultSpacing}
                       onChange={(e) => setLocalPrefs({ ...localPrefs, defaultSpacing: Number(e.target.value) })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                     />
                     <span className="text-xs font-mono font-semibold px-3 py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-stone-600">
                       cm
@@ -456,7 +456,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalPrefs({ ...localPrefs, allowRotation: !localPrefs.allowRotation })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localPrefs.allowRotation ? 'bg-[#143823]' : 'bg-stone-300'
+                        localPrefs.allowRotation ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span
@@ -477,7 +477,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalPrefs({ ...localPrefs, respectGrain: !localPrefs.respectGrain })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localPrefs.respectGrain ? 'bg-[#143823]' : 'bg-stone-300'
+                        localPrefs.respectGrain ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span
@@ -498,7 +498,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalPrefs({ ...localPrefs, autoSaveLayouts: !localPrefs.autoSaveLayouts })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localPrefs.autoSaveLayouts ? 'bg-[#143823]' : 'bg-stone-300'
+                        localPrefs.autoSaveLayouts ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span
@@ -514,7 +514,7 @@ export function ProfilePage() {
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
                   >
                     Save Preferences
                   </button>
@@ -529,7 +529,7 @@ export function ProfilePage() {
               ======================================================== */}
           {activeTab === 'units' && (
             <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
+              <h2 className="text-sm font-semibold text-[#5C2434] mb-6">
                 Units & Measurement Standards
               </h2>
 
@@ -546,7 +546,7 @@ export function ProfilePage() {
                       onClick={() => setLocalUnits({ ...localUnits, unitSystem: 'metric', areaUnit: 'm²', weightUnit: 'kg' })}
                       className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         localUnits.unitSystem === 'metric'
-                          ? 'border-[#143823] bg-[#E5EFE6] ring-1 ring-[#143823]'
+                          ? 'border-[#5C2434] bg-[#FCEEED] ring-1 ring-[#5C2434]'
                           : 'border-[#DDD5C7] bg-[#FAF8F5]'
                       }`}
                     >
@@ -559,7 +559,7 @@ export function ProfilePage() {
                       onClick={() => setLocalUnits({ ...localUnits, unitSystem: 'imperial', areaUnit: 'yd²', weightUnit: 'lb' })}
                       className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         localUnits.unitSystem === 'imperial'
-                          ? 'border-[#143823] bg-[#E5EFE6] ring-1 ring-[#143823]'
+                          ? 'border-[#5C2434] bg-[#FCEEED] ring-1 ring-[#5C2434]'
                           : 'border-[#DDD5C7] bg-[#FAF8F5]'
                       }`}
                     >
@@ -578,7 +578,7 @@ export function ProfilePage() {
                     <select
                       value={localUnits.precision}
                       onChange={(e) => setLocalUnits({ ...localUnits, precision: Number(e.target.value) })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all cursor-pointer"
                     >
                       <option value={0}>0 decimals (e.g. 150 cm)</option>
                       <option value={1}>1 decimal (e.g. 150.5 cm)</option>
@@ -593,7 +593,7 @@ export function ProfilePage() {
                     <select
                       value={localUnits.areaUnit}
                       onChange={(e) => setLocalUnits({ ...localUnits, areaUnit: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all cursor-pointer"
                     >
                       <option value="m²">Square Meters (m²)</option>
                       <option value="yd²">Square Yards (yd²)</option>
@@ -606,7 +606,7 @@ export function ProfilePage() {
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
                   >
                     Save Units
                   </button>
@@ -621,7 +621,7 @@ export function ProfilePage() {
               ======================================================== */}
           {activeTab === 'notifications' && (
             <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
+              <h2 className="text-sm font-semibold text-[#5C2434] mb-6">
                 Notification & Alert Preferences
               </h2>
 
@@ -636,7 +636,7 @@ export function ProfilePage() {
                     type="email"
                     value={localNotifs.notificationEmail || localProfile.email}
                     onChange={(e) => setLocalNotifs({ ...localNotifs, notificationEmail: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#143823] transition-all"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] text-stone-900 focus:bg-white focus:outline-none focus:border-[#5C2434] transition-all"
                   />
                 </div>
 
@@ -651,7 +651,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalNotifs({ ...localNotifs, emailNestingDone: !localNotifs.emailNestingDone })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localNotifs.emailNestingDone ? 'bg-[#143823]' : 'bg-stone-300'
+                        localNotifs.emailNestingDone ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localNotifs.emailNestingDone ? 'left-5' : 'left-1'}`} />
@@ -667,7 +667,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalNotifs({ ...localNotifs, scrapAlerts: !localNotifs.scrapAlerts })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localNotifs.scrapAlerts ? 'bg-[#143823]' : 'bg-stone-300'
+                        localNotifs.scrapAlerts ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localNotifs.scrapAlerts ? 'left-5' : 'left-1'}`} />
@@ -683,7 +683,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalNotifs({ ...localNotifs, weeklyESG: !localNotifs.weeklyESG })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localNotifs.weeklyESG ? 'bg-[#143823]' : 'bg-stone-300'
+                        localNotifs.weeklyESG ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localNotifs.weeklyESG ? 'left-5' : 'left-1'}`} />
@@ -695,7 +695,7 @@ export function ProfilePage() {
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
                   >
                     Save Notifications
                   </button>
@@ -712,7 +712,7 @@ export function ProfilePage() {
               ======================================================== */}
           {activeTab === 'appearance' && (
             <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
+              <h2 className="text-sm font-semibold text-[#5C2434] mb-6">
                 Visual Theme & Display Options
               </h2>
 
@@ -724,12 +724,12 @@ export function ProfilePage() {
                     Application Palette
                   </label>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="p-3.5 rounded-xl border border-[#143823] bg-[#E5EFE6] ring-1 ring-[#143823]">
+                    <div className="p-3.5 rounded-xl border border-[#5C2434] bg-[#FCEEED] ring-1 ring-[#5C2434]">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="w-3 h-3 rounded-full bg-[#143823]" />
-                        <span className="text-xs font-bold text-stone-900">Atelier Warm Cream</span>
+                        <span className="w-3 h-3 rounded-full bg-[#5C2434]" />
+                        <span className="text-xs font-bold text-stone-900">Luxury Wine & Dusty Rose</span>
                       </div>
-                      <span className="text-[11px] text-[#7C857E]">Editorial parchment, forest-green accents & sage surfaces</span>
+                      <span className="text-[11px] text-[#7C857E]">Warm porcelain canvas, berry wine accents & blush rose surfaces</span>
                     </div>
 
                     <div className="p-3.5 rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] opacity-60">
@@ -753,7 +753,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalAppearance({ ...localAppearance, highContrastRulers: !localAppearance.highContrastRulers })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localAppearance.highContrastRulers ? 'bg-[#143823]' : 'bg-stone-300'
+                        localAppearance.highContrastRulers ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localAppearance.highContrastRulers ? 'left-5' : 'left-1'}`} />
@@ -769,7 +769,7 @@ export function ProfilePage() {
                       type="button"
                       onClick={() => setLocalAppearance({ ...localAppearance, botanicalAccents: !localAppearance.botanicalAccents })}
                       className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localAppearance.botanicalAccents ? 'bg-[#143823]' : 'bg-stone-300'
+                        localAppearance.botanicalAccents ? 'bg-[#5C2434]' : 'bg-stone-300'
                       }`}
                     >
                       <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localAppearance.botanicalAccents ? 'left-5' : 'left-1'}`} />
@@ -781,7 +781,7 @@ export function ProfilePage() {
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
                   >
                     Save Appearance
                   </button>

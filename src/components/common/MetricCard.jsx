@@ -15,33 +15,33 @@ export function MetricCard({
   const variantStyles = {
     default: {
       bg: 'bg-white',
-      border: 'border-stone-200/90',
-      iconBg: 'bg-stone-100 text-stone-700',
-      valueColor: 'text-stone-900',
+      border: 'border-[#EDE3DF]',
+      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
+      valueColor: 'text-[#2E1822]',
     },
     crimson: {
-      bg: 'bg-crimson-50/50',
-      border: 'border-crimson-200/80',
-      iconBg: 'bg-crimson-100 text-crimson-800',
-      valueColor: 'text-crimson-950',
+      bg: 'bg-[#FDF8F7]',
+      border: 'border-[#F0D0CB]',
+      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
+      valueColor: 'text-[#5C2434]',
     },
     bordeaux: {
-      bg: 'bg-red-50/40',
-      border: 'border-red-200/80',
-      iconBg: 'bg-red-100 text-red-800',
-      valueColor: 'text-red-950',
+      bg: 'bg-[#FCEEED]/60',
+      border: 'border-[#F0D0CB]',
+      iconBg: 'bg-[#5C2434] text-white',
+      valueColor: 'text-[#2E1822]',
     },
     emerald: {
-      bg: 'bg-stone-50',
-      border: 'border-stone-200',
-      iconBg: 'bg-crimson-50 text-crimson-700',
-      valueColor: 'text-crimson-900',
+      bg: 'bg-[#FDF8F7]',
+      border: 'border-[#EDE3DF]',
+      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
+      valueColor: 'text-[#5C2434]',
     },
     amber: {
-      bg: 'bg-amber-50/40',
-      border: 'border-amber-200/80',
-      iconBg: 'bg-amber-100 text-amber-800',
-      valueColor: 'text-amber-950',
+      bg: 'bg-[#FFF9F5]',
+      border: 'border-[#F4DEC6]',
+      iconBg: 'bg-[#FEF0E4] text-[#B45309]',
+      valueColor: 'text-[#78350F]',
     },
   };
 
@@ -75,7 +75,7 @@ export function MetricCard({
             <span
               className={`inline-flex items-center gap-1 font-mono font-medium px-1.5 py-0.5 rounded ${
                 trendDirection === 'up'
-                  ? 'text-crimson-800 bg-crimson-100/80'
+                  ? 'text-[#5C2434] bg-[#FCEEED] border border-[#F0D0CB]'
                   : trendDirection === 'down'
                   ? 'text-amber-800 bg-amber-100/70'
                   : 'text-stone-600 bg-stone-100'

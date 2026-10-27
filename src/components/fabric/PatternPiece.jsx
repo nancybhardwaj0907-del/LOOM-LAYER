@@ -11,7 +11,7 @@ function getAtelierPatternColor(rawColor) {
     return '#3A5A6D'; // Atelier Slate Indigo
   }
   if (c === '#059669' || c === '#10b981' || c === '#16a34a' || c === '#22c55e') {
-    return '#2D5A3D'; // Atelier Deep Forest
+    return '#8C3D4A'; // Atelier Rosewood / Wine
   }
   if (c === '#d97706' || c === '#f59e0b' || c === '#eab308' || c === '#ea580c') {
     return '#A2593C'; // Atelier Terracotta Ochre
@@ -144,9 +144,9 @@ export function PatternPiece({
               isColliding
                 ? '#ef4444'
                 : isSelected
-                ? '#143823'
+                ? '#5C2434'
                 : isCutActive
-                ? '#143823'
+                ? '#5C2434'
                 : '#2D5A3D'
             }
             strokeWidth={scale * (isColliding ? 3.5 : isCutActive ? 3 : 2.5)}
@@ -183,12 +183,12 @@ export function PatternPiece({
             isColliding
               ? '#dc2626'
               : isSelected
-              ? '#143823'
+              ? '#5C2434'
               : isCutCompleted
-              ? '#2D5A3D'
+              ? '#5C2434'
               : isCutActive
-              ? '#143823'
-              : '#1F2E26'
+              ? '#5C2434'
+              : '#481B28'
           }
           strokeWidth={Math.max(1, scale * (isColliding ? 0.8 : isCutCompleted || isCutActive ? 0.6 : 0.4))}
           strokeLinejoin="round"

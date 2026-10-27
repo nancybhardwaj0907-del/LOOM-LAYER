@@ -7,7 +7,7 @@ export function RootLayout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#FBF8F2] text-stone-900 flex flex-col md:flex-row antialiased selection:bg-[#E2EBE2] selection:text-[#143823]">
+    <div className="min-h-screen bg-[#FAF7F4] text-[#2E1822] flex flex-col md:flex-row antialiased selection:bg-[#FCEEED] selection:text-[#5C2434]">
       {/* Global Left Sidebar Navigation */}
       <Sidebar />
 

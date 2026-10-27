@@ -98,14 +98,14 @@ export function Sidebar() {
           onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2.5 px-2 py-1 group"
         >
-          <div className="w-8 h-8 rounded-lg bg-[#143823] text-cream-50 flex items-center justify-center shadow-xs">
-            <Leaf className="w-4 h-4 text-[#D8E6DA]" />
+          <div className="w-8 h-8 rounded-lg bg-[#5C2434] text-white flex items-center justify-center shadow-xs">
+            <Leaf className="w-4 h-4 text-[#FCEEED]" />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold tracking-tight text-[#143823] leading-none group-hover:text-stone-950 transition-colors">
+            <span className="font-serif text-lg font-bold tracking-tight text-[#2E1822] leading-none group-hover:text-[#5C2434] transition-colors">
               Loom & Layer
             </span>
-            <span className="text-[10px] text-stone-500 font-sans mt-0.5">
+            <span className="text-[10px] text-[#7A626C] font-sans mt-0.5">
               Circular Atelier
             </span>
           </div>
@@ -123,11 +123,11 @@ export function Sidebar() {
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                   active
-                    ? 'bg-[#E2EBE2] text-[#143823] font-semibold shadow-2xs border border-[#D0E0D2]'
-                    : 'text-stone-700 hover:text-stone-900 hover:bg-[#F2ECE1]'
+                    ? 'bg-[#FCEEED] text-[#5C2434] font-semibold shadow-2xs border border-[#F0D0CB]'
+                    : 'text-[#6E5660] hover:text-[#2E1822] hover:bg-[#F9ECEB]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${active ? 'text-[#143823]' : 'text-stone-500'}`} />
+                <Icon className={`w-4 h-4 ${active ? 'text-[#5C2434]' : 'text-stone-400'}`} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -135,33 +135,30 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Bottom Circular Atelier Card with Botanical Art (Reference User Mockup) */}
-      <div className="mt-8 rounded-2xl border border-[#E8E2D6] p-4 text-stone-900 relative overflow-hidden shadow-2xs group min-h-[160px] flex flex-col justify-between">
-        {/* Photographic Background of Draped Linen and Eucalyptus */}
+      {/* Bottom Circular Atelier Card with Rose Watercolor Artwork (Reference User Mockup) */}
+      <div className="mt-8 rounded-2xl border border-[#EDE3DF] p-4 text-[#2E1822] relative overflow-hidden shadow-2xs group min-h-[170px] flex flex-col justify-between bg-white">
+        {/* Watercolor Rose Botanical Background */}
         <img
-          src="/atelier/sidebar_card_bg.jpg"
-          alt="Linen and eucalyptus background"
+          src="/atelier/sidebar_rose_botanical.jpg"
+          alt="Dusty rose watercolor botanical leaves"
           className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
         />
         {/* Soft gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/70 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent pointer-events-none" />
 
-        <div className="relative z-10 space-y-2">
-          <div className="w-8 h-8 rounded-full bg-white/95 text-[#143823] flex items-center justify-center shadow-xs border border-[#CCDCCD]">
-            <Leaf className="w-4 h-4 text-[#143823]" />
-          </div>
-          <p className="text-xs font-serif leading-snug text-stone-900 font-bold">
-            Turn <br />
-            fabric waste <br />
-            into <br />
-            new possibilities.
+        <div className="relative z-10 space-y-1">
+          <p className="font-serif text-sm font-bold text-[#2E1822] leading-tight">
+            Less <br />
+            Waste. <br />
+            More <br />
+            Possibilities.
           </p>
         </div>
 
         <div className="relative z-10 pt-2">
           <Link
             to="/sustainability"
-            className="w-7 h-7 rounded-full bg-white text-stone-800 border border-stone-200/90 shadow-xs flex items-center justify-center hover:text-[#143823] hover:scale-110 transition-all cursor-pointer inline-flex"
+            className="w-8 h-8 rounded-full bg-white text-[#2E1822] border border-stone-200/90 shadow-xs flex items-center justify-center hover:bg-[#5C2434] hover:text-white hover:scale-110 transition-all cursor-pointer inline-flex"
             title="Sustainability"
           >
             <ArrowRight className="w-3.5 h-3.5" />
@@ -174,12 +171,12 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Sticky Header Bar with Menu Toggle */}
-      <div className="md:hidden sticky top-0 z-40 bg-[#FBF8F2] border-b border-[#EFE9DF] px-4 py-3 flex items-center justify-between shadow-2xs">
+      <div className="md:hidden sticky top-0 z-40 bg-[#FAF7F4] border-b border-[#EFE6E2] px-4 py-3 flex items-center justify-between shadow-2xs">
         <Link to="/dashboard" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#143823] text-cream-50 flex items-center justify-center">
-            <Leaf className="w-3.5 h-3.5 text-[#D8E6DA]" />
+          <div className="w-7 h-7 rounded-lg bg-[#5C2434] text-white flex items-center justify-center">
+            <Leaf className="w-3.5 h-3.5 text-[#FCEEED]" />
           </div>
-          <span className="font-serif text-base font-bold text-[#143823]">
+          <span className="font-serif text-base font-bold text-[#2E1822]">
             Loom & Layer
           </span>
         </Link>
@@ -201,14 +198,14 @@ export function Sidebar() {
       )}
 
       {/* Mobile Drawer Sidebar */}
-      <div className={`md:hidden fixed inset-y-0 left-0 z-50 w-64 bg-[#FBF8F2] border-r border-[#EFE9DF] transform transition-transform duration-200 ease-in-out ${
+      <div className={`md:hidden fixed inset-y-0 left-0 z-50 w-64 bg-[#FAF7F4] border-r border-[#EFE6E2] transform transition-transform duration-200 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {sidebarContent}
       </div>
 
       {/* Desktop Persistent Left Sidebar */}
-      <aside className="hidden md:flex w-56 lg:w-60 shrink-0 bg-[#FBF8F2] border-r border-[#EFE9DF] min-h-screen sticky top-0 h-screen overflow-y-auto">
+      <aside className="hidden md:flex w-56 lg:w-60 shrink-0 bg-[#FAF7F4] border-r border-[#EFE6E2] min-h-screen sticky top-0 h-screen overflow-y-auto">
         {sidebarContent}
       </aside>
     </>

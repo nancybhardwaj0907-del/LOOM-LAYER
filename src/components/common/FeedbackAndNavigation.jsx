@@ -50,9 +50,9 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono transition-all duration-200 ${
                     isCompleted
-                      ? 'bg-crimson-700 text-white ring-4 ring-crimson-100'
+                      ? 'bg-[#5C2434] text-white ring-4 ring-[#FCEEED]'
                       : isCurrent
-                      ? 'bg-atelier-900 text-white ring-4 ring-cream-300'
+                      ? 'bg-[#5C2434] text-white ring-4 ring-[#FCEEED]'
                       : 'bg-white text-stone-400 border border-stone-300 group-hover:border-stone-400'
                   }`}
                 >
@@ -61,14 +61,14 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
                 <div className="hidden sm:block text-left">
                   <p
                     className={`text-xs font-mono font-medium ${
-                      isCurrent ? 'text-crimson-800 font-bold' : isCompleted ? 'text-stone-800' : 'text-stone-400'
+                      isCurrent ? 'text-[#5C2434] font-bold' : isCompleted ? 'text-stone-800' : 'text-stone-400'
                     }`}
                   >
                     Step 0{step.number}
                   </p>
                   <p
                     className={`text-xs font-semibold ${
-                      isCurrent ? 'text-stone-900' : isCompleted ? 'text-stone-700' : 'text-stone-400'
+                      isCurrent ? 'text-[#2E1822]' : isCompleted ? 'text-stone-700' : 'text-stone-400'
                     }`}
                   >
                     {step.name}
@@ -77,10 +77,10 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
               </div>
 
               {index < STEPS.length - 1 && (
-                <div className="flex-1 mx-2 sm:mx-4 h-0.5 bg-stone-200">
+                <div className="flex-1 mx-2 sm:mx-4 h-0.5 bg-[#EDE3DF]">
                   <div
                     className={`h-full transition-all duration-300 ${
-                      step.number < currentStep ? 'bg-crimson-700' : 'bg-transparent'
+                      step.number < currentStep ? 'bg-[#5C2434]' : 'bg-transparent'
                     }`}
                   />
                 </div>
@@ -95,7 +95,7 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
 
 export function StatusBadge({ status = 'Draft', className = '' }) {
   const styles = {
-    Completed: 'bg-crimson-50 text-crimson-800 border-crimson-200',
+    Completed: 'bg-[#FCEEED] text-[#5C2434] border-[#F0D0CB]',
     'In-Progress': 'bg-stone-100 text-stone-800 border-stone-300 animate-pulse',
     Optimizing: 'bg-amber-50 text-amber-800 border-amber-200',
     Draft: 'bg-cream-100 text-stone-600 border-stone-200',
@@ -111,7 +111,7 @@ export function StatusBadge({ status = 'Draft', className = '' }) {
       <span
         className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
           status === 'Completed'
-            ? 'bg-crimson-700'
+            ? 'bg-[#5C2434]'
             : status === 'Optimizing' || status === 'In-Progress'
             ? 'bg-amber-600'
             : status === 'Pending'

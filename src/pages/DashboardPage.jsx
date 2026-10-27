@@ -112,7 +112,7 @@ export function DashboardPage() {
     ? (completedProjects.reduce((sum, p) => sum + (p.wasteDeltaPp || 8.2), 0) / completedProjects.length).toFixed(1)
     : '8.2';
 
-  // Curated reference projects matching Image 2 exactly
+  // Curated reference projects matching reference palette
   const defaultRecentProjects = [
     {
       id: 'proj-summer-col',
@@ -171,7 +171,6 @@ export function DashboardPage() {
     };
   });
 
-  // Combine real projects with defaults to guarantee a full, beautiful table
   const allProjects = [...mappedRealProjects];
   defaultRecentProjects.forEach(def => {
     if (!allProjects.some(p => p.name === def.name)) {
@@ -189,7 +188,7 @@ export function DashboardPage() {
     <div className="space-y-6">
       
       {/* ========================================================
-          1. TOP HEADER BAR (Reference Image 2)
+          1. TOP HEADER BAR (Wine & Porcelain Palette)
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-1">
         {/* Search Bar */}
@@ -200,7 +199,7 @@ export function DashboardPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects, fabrics, layouts..."
-            className="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-white border border-[#E8E2D6] focus:outline-none focus:border-[#143823] text-stone-800 placeholder-stone-400 shadow-2xs transition-all"
+            className="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-white border border-[#EDE3DF] focus:outline-none focus:border-[#5C2434] text-[#2E1822] placeholder-stone-400 shadow-2xs transition-all"
           />
         </div>
 
@@ -210,26 +209,27 @@ export function DashboardPage() {
           <button
             type="button"
             onClick={() => navigate('/settings')}
-            className="w-9 h-9 rounded-xl border border-[#E8E2D6] bg-white flex items-center justify-center text-stone-600 hover:text-[#143823] hover:border-[#DDD5C7] shadow-2xs transition-all cursor-pointer relative"
+            className="w-9 h-9 rounded-xl border border-[#EDE3DF] bg-white flex items-center justify-center text-stone-600 hover:text-[#5C2434] hover:border-[#DDD5C7] shadow-2xs transition-all cursor-pointer relative"
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
+            <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2 ring-2 ring-white" />
           </button>
 
           {/* User Account Capsule Pill */}
           <button
             type="button"
             onClick={() => navigate('/settings')}
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-[#E8E2D6] bg-white hover:border-[#143823]/40 shadow-2xs cursor-pointer transition-colors"
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-[#EDE3DF] bg-white hover:border-[#5C2434]/40 shadow-2xs cursor-pointer transition-colors"
           >
-            <div className="w-6 h-6 rounded-full overflow-hidden bg-[#6941C6] text-white flex items-center justify-center font-medium text-xs shrink-0">
+            <div className="w-6 h-6 rounded-full overflow-hidden bg-[#5C2434] text-white flex items-center justify-center font-medium text-xs shrink-0">
               {profile?.avatar && profile.avatar !== '/atelier/user_avatar.jpg' ? (
                 <img src={profile.avatar} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <span>{profile?.name ? profile.name.charAt(0).toUpperCase() : 'N'}</span>
               )}
             </div>
-            <span className="text-xs font-semibold text-stone-800 max-w-[130px] truncate">
+            <span className="text-xs font-semibold text-[#2E1822] max-w-[130px] truncate">
               {profile?.name || 'Nancy Bhardwaj'}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
@@ -239,7 +239,7 @@ export function DashboardPage() {
           <button
             type="button"
             onClick={() => navigate('/project/new')}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer shrink-0"
           >
             <Plus className="w-4 h-4" />
             <span>New Project</span>
@@ -248,28 +248,28 @@ export function DashboardPage() {
       </div>
 
       {/* ========================================================
-          2. SUSTAINABLE FASHION HERO BANNER (Reference Image 2)
+          2. SUSTAINABLE FASHION HERO BANNER (Wine & Warm Cashmere)
           ======================================================== */}
-      <div className="bg-[#FAF5EC] rounded-3xl border border-[#E8E2D6] p-6 sm:p-8 shadow-2xs relative overflow-hidden">
+      <div className="bg-[#FAF2EE] rounded-3xl border border-[#EDE3DF] p-6 sm:p-8 shadow-2xs relative overflow-hidden">
         {/* Subtle top right handwritten script label */}
         <div className="hidden sm:flex items-center gap-1.5 text-stone-600 font-serif italic text-xs sm:text-sm absolute top-5 right-7 pointer-events-none select-none z-10">
           <span>Less waste, More possibilities</span>
-          <Leaf className="w-3.5 h-3.5 text-[#143823]" />
+          <Leaf className="w-3.5 h-3.5 text-[#5C2434]" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           {/* Left Text Column */}
           <div className="lg:col-span-7 space-y-3.5 sm:space-y-4">
-            <p className="text-[11px] font-bold tracking-widest text-[#5C665F] uppercase font-sans">
+            <p className="text-[11px] font-bold tracking-widest text-[#7A626C] uppercase font-sans">
               SUSTAINABLE FASHION. SMARTER CUTTING.
             </p>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-serif font-bold text-[#143823] leading-[1.12] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-serif font-bold text-[#2E1822] leading-[1.12] tracking-tight">
               Optimize. Create. <br />
               Reimagine.
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#5C665F] leading-relaxed max-w-lg font-sans">
+            <p className="text-xs sm:text-sm text-[#6E5660] leading-relaxed max-w-lg font-sans">
               Plan smarter, cut better, and give leftover fabric a new life with AI-powered optimization and circular design tools.
             </p>
 
@@ -277,7 +277,7 @@ export function DashboardPage() {
               <button
                 type="button"
                 onClick={() => navigate('/project/new')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-all shadow-xs cursor-pointer group"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-all shadow-xs cursor-pointer group"
               >
                 <span>Start a New Project</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -287,7 +287,7 @@ export function DashboardPage() {
 
           {/* Right Image Column */}
           <div className="lg:col-span-5 relative mt-2 lg:mt-0">
-            <div className="rounded-2xl overflow-hidden shadow-xs border border-[#E8E2D6] aspect-16/10 w-full max-w-md ml-auto relative bg-stone-100">
+            <div className="rounded-2xl overflow-hidden shadow-xs border border-[#EDE3DF] aspect-16/10 w-full max-w-md ml-auto relative bg-stone-100">
               <img
                 src="/atelier/dashboard_hero_linen.jpg"
                 alt="Neatly folded organic linen and eucalyptus branch"
@@ -299,7 +299,7 @@ export function DashboardPage() {
 
               {/* Floating Leaf Pill Badge */}
               <div className="absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 bg-white/95 backdrop-blur-md rounded-full px-3 py-1.5 shadow-xs border border-stone-200/80 flex items-center gap-1.5 text-[11px] font-medium text-stone-800">
-                <Leaf className="w-3.5 h-3.5 text-[#143823]" />
+                <Leaf className="w-3.5 h-3.5 text-[#5C2434]" />
                 <span>Circular design for a greener tomorrow.</span>
               </div>
             </div>
@@ -308,7 +308,7 @@ export function DashboardPage() {
       </div>
 
       {/* ========================================================
-          3. FOUR STAT SUMMARY CARDS (Reference Image 2)
+          3. FOUR STAT SUMMARY CARDS (Blush & Wine Accents)
           ======================================================== */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         
@@ -318,16 +318,16 @@ export function DashboardPage() {
             const el = document.getElementById('projects');
             el?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#CCDCCD] transition-all group cursor-pointer"
+          className="bg-white rounded-2xl border border-[#EDE3DF] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#F0D0CB] transition-all group cursor-pointer"
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center shrink-0 mb-3">
-              <Folder className="w-5 h-5 text-[#143823]" />
+            <div className="w-10 h-10 rounded-xl bg-[#FCEEED] text-[#5C2434] flex items-center justify-center shrink-0 mb-3">
+              <Folder className="w-5 h-5 text-[#5C2434]" />
             </div>
-            <p className="text-xs font-medium text-[#7C857E]">Total Projects</p>
-            <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">{totalProjectsCount}</p>
+            <p className="text-xs font-medium text-[#7A626C]">Total Projects</p>
+            <p className="text-2xl font-serif font-bold text-[#2E1822] mt-0.5">{totalProjectsCount}</p>
           </div>
-          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#143823] group-hover:border-[#143823] group-hover:bg-[#FAF8F5] transition-all shrink-0">
+          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#5C2434] group-hover:border-[#5C2434] group-hover:bg-[#FCEEED] transition-all shrink-0">
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -335,16 +335,16 @@ export function DashboardPage() {
         {/* Card 2: Fabric Saved */}
         <div 
           onClick={() => navigate('/sustainability')}
-          className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#CCDCCD] transition-all group cursor-pointer"
+          className="bg-white rounded-2xl border border-[#EDE3DF] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#F0D0CB] transition-all group cursor-pointer"
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center shrink-0 mb-3">
-              <Leaf className="w-5 h-5 text-[#143823]" />
+            <div className="w-10 h-10 rounded-xl bg-[#FCEEED] text-[#5C2434] flex items-center justify-center shrink-0 mb-3">
+              <Leaf className="w-5 h-5 text-[#5C2434]" />
             </div>
-            <p className="text-xs font-medium text-[#7C857E]">Fabric Saved</p>
-            <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">{totalSavedMeters} m²</p>
+            <p className="text-xs font-medium text-[#7A626C]">Fabric Saved</p>
+            <p className="text-2xl font-serif font-bold text-[#2E1822] mt-0.5">{totalSavedMeters} m²</p>
           </div>
-          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#143823] group-hover:border-[#143823] group-hover:bg-[#FAF8F5] transition-all shrink-0">
+          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#5C2434] group-hover:border-[#5C2434] group-hover:bg-[#FCEEED] transition-all shrink-0">
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -352,16 +352,16 @@ export function DashboardPage() {
         {/* Card 3: Waste Reduced */}
         <div 
           onClick={() => navigate('/sustainability')}
-          className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#CCDCCD] transition-all group cursor-pointer"
+          className="bg-white rounded-2xl border border-[#EDE3DF] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#F0D0CB] transition-all group cursor-pointer"
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center shrink-0 mb-3">
-              <Recycle className="w-5 h-5 text-[#143823]" />
+            <div className="w-10 h-10 rounded-xl bg-[#FCEEED] text-[#5C2434] flex items-center justify-center shrink-0 mb-3">
+              <Recycle className="w-5 h-5 text-[#5C2434]" />
             </div>
-            <p className="text-xs font-medium text-[#7C857E]">Waste Reduced</p>
-            <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">{avgWasteReduction} kg</p>
+            <p className="text-xs font-medium text-[#7A626C]">Waste Reduced</p>
+            <p className="text-2xl font-serif font-bold text-[#2E1822] mt-0.5">{avgWasteReduction} kg</p>
           </div>
-          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#143823] group-hover:border-[#143823] group-hover:bg-[#FAF8F5] transition-all shrink-0">
+          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#5C2434] group-hover:border-[#5C2434] group-hover:bg-[#FCEEED] transition-all shrink-0">
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -369,16 +369,16 @@ export function DashboardPage() {
         {/* Card 4: Products Upcycled */}
         <div 
           onClick={() => navigate('/rethread')}
-          className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#CCDCCD] transition-all group cursor-pointer"
+          className="bg-white rounded-2xl border border-[#EDE3DF] p-4 sm:p-5 flex items-center justify-between shadow-2xs hover:border-[#F0D0CB] transition-all group cursor-pointer"
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center shrink-0 mb-3">
-              <Package className="w-5 h-5 text-[#143823]" />
+            <div className="w-10 h-10 rounded-xl bg-[#FCEEED] text-[#5C2434] flex items-center justify-center shrink-0 mb-3">
+              <Package className="w-5 h-5 text-[#5C2434]" />
             </div>
-            <p className="text-xs font-medium text-[#7C857E]">Products Upcycled</p>
-            <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">48</p>
+            <p className="text-xs font-medium text-[#7A626C]">Products Upcycled</p>
+            <p className="text-2xl font-serif font-bold text-[#2E1822] mt-0.5">48</p>
           </div>
-          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#143823] group-hover:border-[#143823] group-hover:bg-[#FAF8F5] transition-all shrink-0">
+          <div className="w-7 h-7 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:text-[#5C2434] group-hover:border-[#5C2434] group-hover:bg-[#FCEEED] transition-all shrink-0">
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -386,24 +386,24 @@ export function DashboardPage() {
       </div>
 
       {/* ========================================================
-          4. TWO-COLUMN LOWER SECTION (Reference Image 2)
+          4. TWO-COLUMN LOWER SECTION
              Left: Recent Projects Table
              Right: "Every pattern has a purpose" Card
           ======================================================== */}
       <div id="projects" className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
         
         {/* Left Column: Recent Projects Table (8 cols on lg) */}
-        <div className="lg:col-span-8 bg-white rounded-3xl border border-[#E8E2D6] p-5 sm:p-6 shadow-2xs relative">
+        <div className="lg:col-span-8 bg-white rounded-3xl border border-[#EDE3DF] p-5 sm:p-6 shadow-2xs relative">
           
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base sm:text-lg font-serif font-bold text-[#143823]">
+            <h2 className="text-base sm:text-lg font-serif font-bold text-[#2E1822]">
               Recent Projects
             </h2>
             <button
               type="button"
               onClick={() => navigate('/project/new')}
-              className="text-xs font-semibold text-stone-600 hover:text-[#143823] flex items-center gap-1 transition-colors cursor-pointer"
+              className="text-xs font-semibold text-[#5C2434] hover:underline flex items-center gap-1 transition-colors cursor-pointer"
             >
               <span>View All</span>
               <ArrowRight className="w-3 h-3" />
@@ -412,15 +412,15 @@ export function DashboardPage() {
 
           {/* Deletion Toast */}
           {deleteNotification && (
-            <div className="mb-4 p-3 rounded-xl bg-[#E5EFE6] border border-[#CCDCCD] text-[#143823] text-xs flex items-center justify-between shadow-2xs">
+            <div className="mb-4 p-3 rounded-xl bg-[#FCEEED] border border-[#F0D0CB] text-[#5C2434] text-xs flex items-center justify-between shadow-2xs">
               <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-[#143823] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#5C2434] shrink-0" />
                 <span>{deleteNotification}</span>
               </div>
               <button
                 type="button"
                 onClick={() => setDeleteNotification(null)}
-                className="text-[#5C665F] hover:text-[#143823] p-1 cursor-pointer"
+                className="text-[#7A626C] hover:text-[#5C2434] p-1 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -450,11 +450,11 @@ export function DashboardPage() {
                       navigate(`/project/${p.id}/result`);
                     }
                   }}
-                  className="py-3 px-2 rounded-xl flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:items-center hover:bg-[#FAF8F5] transition-colors cursor-pointer group"
+                  className="py-3 px-2 rounded-xl flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:items-center hover:bg-[#FAF7F4] transition-colors cursor-pointer group"
                 >
                   {/* Name + Swatch */}
                   <div className="sm:col-span-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#E8E2D6] shrink-0 bg-stone-100 flex items-center justify-center shadow-2xs">
+                    <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#EDE3DF] shrink-0 bg-stone-100 flex items-center justify-center shadow-2xs">
                       <img
                         src={p.swatch}
                         alt={p.name}
@@ -465,10 +465,10 @@ export function DashboardPage() {
                       />
                     </div>
                     <div>
-                      <p className="text-xs sm:text-sm font-semibold text-stone-900 group-hover:text-[#143823] transition-colors">
+                      <p className="text-xs sm:text-sm font-semibold text-[#2E1822] group-hover:text-[#5C2434] transition-colors">
                         {p.name}
                       </p>
-                      <p className="sm:hidden text-[11px] text-[#7C857E]">
+                      <p className="sm:hidden text-[11px] text-[#7A626C]">
                         {p.fabricType} • {p.patterns} patterns
                       </p>
                     </div>
@@ -488,7 +488,7 @@ export function DashboardPage() {
                   <div className="sm:col-span-2 flex items-center justify-between sm:justify-start">
                     <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold inline-flex items-center ${
                       p.status === 'Completed'
-                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        ? 'bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB]'
                         : p.status === 'In Progress'
                         ? 'bg-sky-50 text-sky-800 border border-sky-200'
                         : 'bg-stone-100 text-stone-600 border border-stone-200'
@@ -533,7 +533,7 @@ export function DashboardPage() {
                             setOpenMenuId(null);
                             navigate(`/project/${p.id}/result`);
                           }}
-                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF8F5] flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF7F4] flex items-center gap-2 cursor-pointer"
                         >
                           <Scissors className="w-3.5 h-3.5 text-stone-500" />
                           <span>View Layout</span>
@@ -544,7 +544,7 @@ export function DashboardPage() {
                             setOpenMenuId(null);
                             navigate(`/project/${p.id}/optimize`);
                           }}
-                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF8F5] flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF7F4] flex items-center gap-2 cursor-pointer"
                         >
                           <Layers className="w-3.5 h-3.5 text-stone-500" />
                           <span>Fabric Optimizer</span>
@@ -555,7 +555,7 @@ export function DashboardPage() {
                             setOpenMenuId(null);
                             navigate(`/project/${p.id}/sustainability`);
                           }}
-                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF8F5] flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 text-left text-xs text-stone-700 hover:bg-[#FAF7F4] flex items-center gap-2 cursor-pointer"
                         >
                           <BarChart3 className="w-3.5 h-3.5 text-stone-500" />
                           <span>Sustainability</span>
@@ -581,16 +581,16 @@ export function DashboardPage() {
         </div>
 
         {/* Right Column: "Every pattern has a purpose" Card (4 cols on lg) */}
-        <div className="lg:col-span-4 bg-[#FAF5EC] rounded-3xl border border-[#E8E2D6] p-6 sm:p-7 shadow-2xs flex flex-col justify-between overflow-hidden relative min-h-[380px]">
+        <div className="lg:col-span-4 bg-[#FAF2EE] rounded-3xl border border-[#EDE3DF] p-6 sm:p-7 shadow-2xs flex flex-col justify-between overflow-hidden relative min-h-[380px]">
           
           {/* Top Text Content */}
           <div className="space-y-3 z-10">
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#143823] leading-snug tracking-tight">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#2E1822] leading-snug tracking-tight">
               Every pattern <br />
               has a purpose.
             </h3>
 
-            <p className="text-xs sm:text-sm text-[#5C665F] leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-[#6E5660] leading-relaxed font-sans">
               Design smarter. <br />
               Use resources better. <br />
               Build a circular future.
@@ -600,7 +600,7 @@ export function DashboardPage() {
               <button
                 type="button"
                 onClick={() => navigate('/sustainability')}
-                className="w-9 h-9 rounded-full bg-white border border-[#DDD5C7] shadow-xs flex items-center justify-center text-[#143823] hover:scale-105 hover:bg-[#143823] hover:text-white transition-all cursor-pointer"
+                className="w-9 h-9 rounded-full bg-white border border-[#DDD5C7] shadow-xs flex items-center justify-center text-[#5C2434] hover:scale-105 hover:bg-[#5C2434] hover:text-white transition-all cursor-pointer"
                 title="Explore Sustainability"
               >
                 <ArrowRight className="w-4 h-4" />
@@ -609,7 +609,7 @@ export function DashboardPage() {
           </div>
 
           {/* Bottom Editorial Texture Photo */}
-          <div className="rounded-2xl overflow-hidden border border-[#E8E2D6] shadow-2xs mt-6 aspect-4/3 w-full bg-stone-100">
+          <div className="rounded-2xl overflow-hidden border border-[#EDE3DF] shadow-2xs mt-6 aspect-4/3 w-full bg-stone-100">
             <img
               src="/atelier/dashboard_pattern_purpose.jpg"
               alt="Artisanal organic linen fabric draped in atelier"
@@ -651,12 +651,12 @@ export function DashboardPage() {
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#E8E2D6]">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#EDE3DF]">
             <button
               type="button"
               onClick={handleCancelDelete}
               disabled={isDeleting}
-              className="px-3.5 py-2 rounded-xl text-xs font-medium border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+              className="px-3.5 py-2 rounded-xl text-xs font-medium border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF7F4] transition-colors cursor-pointer"
             >
               Cancel
             </button>

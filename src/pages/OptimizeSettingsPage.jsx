@@ -59,12 +59,12 @@ export function OptimizeSettingsPage() {
 
   if (!project) {
     return (
-      <div className="max-w-xl mx-auto px-4 py-16 text-center bg-white rounded-2xl border border-[#E8E2D6] my-8 shadow-xs">
-        <h2 className="text-xl font-serif font-bold text-[#143823]">Project Not Found</h2>
+      <div className="max-w-xl mx-auto px-4 py-16 text-center bg-white rounded-2xl border border-[#EDE3DF] my-8 shadow-xs">
+        <h2 className="text-xl font-serif font-bold text-[#5C2434]">Project Not Found</h2>
         <button
           type="button"
           onClick={() => navigate('/dashboard')}
-          className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors cursor-pointer"
+          className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors cursor-pointer"
         >
           Go to Dashboard
         </button>
@@ -168,7 +168,7 @@ export function OptimizeSettingsPage() {
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#E5EFE6] shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#FCEEED] shrink-0">
             <img
               src={profile?.avatar || "/atelier/user_avatar.jpg"}
               alt={profile?.name || "Designer"}
@@ -179,10 +179,10 @@ export function OptimizeSettingsPage() {
             />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#143823] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#5C2434] tracking-tight">
               Optimization Settings
             </h1>
-            <p className="text-xs text-[#5C665F]">
+            <p className="text-xs text-[#7A626C]">
               Set blade clearance, rotation flexibility, and nesting objective priorities.
             </p>
           </div>
@@ -193,7 +193,7 @@ export function OptimizeSettingsPage() {
           onClick={() => setIsCopModalOpen(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF8F5] transition-colors shadow-2xs cursor-pointer self-start sm:self-auto"
         >
-          <Layers className="w-3.5 h-3.5 text-[#143823]" />
+          <Layers className="w-3.5 h-3.5 text-[#5C2434]" />
           <span>Stage 1: COP Schedule</span>
         </button>
       </div>
@@ -201,20 +201,20 @@ export function OptimizeSettingsPage() {
       {/* Step Indicator Bar */}
       <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 overflow-x-auto pb-1 text-xs font-medium">
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">1</span>
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">1</span>
           <span>Upload Patterns</span>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">2</span>
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">2</span>
           <span>Fabric Settings</span>
         </div>
         {/* Step 3: Active */}
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#143823] text-white shadow-xs shrink-0">
-          <span className="w-4 h-4 rounded-full bg-white text-[#143823] flex items-center justify-center font-bold text-[10px]">3</span>
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5C2434] text-white shadow-xs shrink-0">
+          <span className="w-4 h-4 rounded-full bg-white text-[#5C2434] flex items-center justify-center font-bold text-[10px]">3</span>
           <span className="font-semibold">Optimize</span>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#7C857E] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#E8E2D6] text-stone-600 flex items-center justify-center text-[10px]">4</span>
+          <span className="w-4 h-4 rounded-full bg-[#EDE3DF] text-stone-600 flex items-center justify-center text-[10px]">4</span>
           <span>Results</span>
         </div>
       </div>
@@ -248,10 +248,10 @@ export function OptimizeSettingsPage() {
           <form onSubmit={handleStartOptimization} className="space-y-6">
             
             {/* Cutting Constraints & Clearance */}
-            <div className="bg-white rounded-2xl border border-[#E8E2D6] p-5 sm:p-6 shadow-xs space-y-4">
+            <div className="bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-[#143823]" />
-                <h3 className="text-sm font-semibold text-[#143823]">
+                <SlidersHorizontal className="w-4 h-4 text-[#5C2434]" />
+                <h3 className="text-sm font-semibold text-[#5C2434]">
                   Cutting Constraints & Clearance
                 </h3>
               </div>
@@ -275,7 +275,7 @@ export function OptimizeSettingsPage() {
                       max="5.0"
                       value={settings.minSpacing}
                       onChange={(e) => setSettings({ ...settings, minSpacing: Math.max(0, Number(e.target.value) || 0) })}
-                      className="w-full px-3 py-2 text-xs font-bold bg-white border border-[#DDD5C7] rounded-xl focus:outline-none focus:border-[#143823] text-stone-900"
+                      className="w-full px-3 py-2 text-xs font-bold bg-white border border-[#DDD5C7] rounded-xl focus:outline-none focus:border-[#5C2434] text-stone-900"
                       required
                     />
                     <span className="text-xs font-semibold text-stone-600 bg-white px-3 py-2 rounded-xl border border-[#DDD5C7] shrink-0">
@@ -289,8 +289,8 @@ export function OptimizeSettingsPage() {
                   onClick={() => setSettings({ ...settings, allowRotation: !settings.allowRotation })}
                   className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
                     settings.allowRotation
-                      ? 'border-[#143823] bg-[#E5EFE6]'
-                      : 'border-[#DDD5C7] bg-[#FAF8F5] hover:border-[#143823]'
+                      ? 'border-[#5C2434] bg-[#FCEEED]'
+                      : 'border-[#DDD5C7] bg-[#FAF8F5] hover:border-[#5C2434]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -303,7 +303,7 @@ export function OptimizeSettingsPage() {
                       </p>
                     </div>
                     <div className={`w-9 h-5 rounded-full transition-colors p-0.5 shrink-0 ${
-                      settings.allowRotation ? 'bg-[#143823]' : 'bg-stone-300'
+                      settings.allowRotation ? 'bg-[#5C2434]' : 'bg-stone-300'
                     }`}>
                       <div className={`w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
                         settings.allowRotation ? 'translate-x-4' : 'translate-x-0'
@@ -311,8 +311,8 @@ export function OptimizeSettingsPage() {
                     </div>
                   </div>
                   <div className="mt-3 pt-2.5 border-t border-[#DDD5C7] flex items-center gap-1.5 text-[11px]">
-                    <RotateCw className="w-3.5 h-3.5 text-[#143823]" />
-                    <span className={settings.allowRotation ? 'text-[#143823] font-semibold' : 'text-stone-500'}>
+                    <RotateCw className="w-3.5 h-3.5 text-[#5C2434]" />
+                    <span className={settings.allowRotation ? 'text-[#5C2434] font-semibold' : 'text-stone-500'}>
                       {settings.allowRotation ? 'Rotation enabled' : 'Rotation locked'}
                     </span>
                   </div>
@@ -323,8 +323,8 @@ export function OptimizeSettingsPage() {
                   onClick={() => setSettings({ ...settings, respectGrain: !settings.respectGrain })}
                   className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
                     settings.respectGrain
-                      ? 'border-[#143823] bg-[#E5EFE6]'
-                      : 'border-[#DDD5C7] bg-[#FAF8F5] hover:border-[#143823]'
+                      ? 'border-[#5C2434] bg-[#FCEEED]'
+                      : 'border-[#DDD5C7] bg-[#FAF8F5] hover:border-[#5C2434]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -337,7 +337,7 @@ export function OptimizeSettingsPage() {
                       </p>
                     </div>
                     <div className={`w-9 h-5 rounded-full transition-colors p-0.5 shrink-0 ${
-                      settings.respectGrain ? 'bg-[#143823]' : 'bg-stone-300'
+                      settings.respectGrain ? 'bg-[#5C2434]' : 'bg-stone-300'
                     }`}>
                       <div className={`w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
                         settings.respectGrain ? 'translate-x-4' : 'translate-x-0'
@@ -345,8 +345,8 @@ export function OptimizeSettingsPage() {
                     </div>
                   </div>
                   <div className="mt-3 pt-2.5 border-t border-[#DDD5C7] flex items-center gap-1.5 text-[11px]">
-                    <Compass className="w-3.5 h-3.5 text-[#143823]" />
-                    <span className={settings.respectGrain ? 'text-[#143823] font-semibold' : 'text-stone-500'}>
+                    <Compass className="w-3.5 h-3.5 text-[#5C2434]" />
+                    <span className={settings.respectGrain ? 'text-[#5C2434] font-semibold' : 'text-stone-500'}>
                       {settings.respectGrain ? `Aligned (${project.grainDirection || 'Vertical'})` : 'Flexible alignment'}
                     </span>
                   </div>
@@ -355,10 +355,10 @@ export function OptimizeSettingsPage() {
             </div>
 
             {/* Optimization Priority Section */}
-            <div className="bg-white rounded-2xl border border-[#E8E2D6] p-5 sm:p-6 shadow-xs space-y-4">
+            <div className="bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
               <div className="flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-[#143823]" />
-                <h3 className="text-sm font-semibold text-[#143823]">
+                <Cpu className="w-4 h-4 text-[#5C2434]" />
+                <h3 className="text-sm font-semibold text-[#5C2434]">
                   Optimization Objective Priority
                 </h3>
               </div>
@@ -394,8 +394,8 @@ export function OptimizeSettingsPage() {
                       onClick={() => setSettings({ ...settings, optimizationPriority: opt.value })}
                       className={`p-4 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between ${
                         isSelected
-                          ? 'border-[#143823] bg-[#E5EFE6]'
-                          : 'border-[#DDD5C7] hover:border-[#143823] bg-[#FAF8F5]'
+                          ? 'border-[#5C2434] bg-[#FCEEED]'
+                          : 'border-[#DDD5C7] hover:border-[#5C2434] bg-[#FAF8F5]'
                       }`}
                     >
                       <div>
@@ -403,7 +403,7 @@ export function OptimizeSettingsPage() {
                           <div className="flex items-center gap-2">
                             <div
                               className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                                isSelected ? 'border-[#143823] bg-[#143823]' : 'border-stone-400 bg-white'
+                                isSelected ? 'border-[#5C2434] bg-[#5C2434]' : 'border-stone-400 bg-white'
                               }`}
                             >
                               {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -413,7 +413,7 @@ export function OptimizeSettingsPage() {
                             </span>
                           </div>
                           <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                            isSelected ? 'bg-white text-[#143823] border border-[#CCDCCD]' : 'bg-[#EAE4D8] text-stone-600'
+                            isSelected ? 'bg-white text-[#5C2434] border border-[#F0D0CB]' : 'bg-[#EAE4D8] text-stone-600'
                           }`}>
                             {opt.tag}
                           </span>
@@ -441,7 +441,7 @@ export function OptimizeSettingsPage() {
                 type="submit"
                 disabled={isOptimizing}
                 onClick={handleStartOptimization}
-                className="px-6 py-2.5 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                className="px-6 py-2.5 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 <Scissors className="w-4 h-4" />
                 <span>Execute Marker Nesting ({totalPieces} Pieces)</span>

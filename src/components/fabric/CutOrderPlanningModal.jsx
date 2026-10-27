@@ -202,27 +202,27 @@ export function CutOrderPlanningModal({
 
         {/* Live COP Optimization Results Strip */}
         {plan.isValid && (
-          <div className="p-4 rounded-xl border border-emerald-300 bg-emerald-50/40 space-y-3">
+          <div className="p-4 rounded-xl border border-[#F0D0CB] bg-[#FCEEED]/60 space-y-3">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800">
-                  <Sparkles className="w-4 h-4 text-emerald-700" />
+                <div className="p-1.5 rounded-lg bg-[#5C2434] text-white">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-stone-900">
+                  <h4 className="text-sm font-bold text-[#2E1822]">
                     Optimal Multi-Ply Lay Schedule
                   </h4>
-                  <p className="text-xs text-stone-600 font-mono">
+                  <p className="text-xs text-[#7A626C] font-mono">
                     {plan.bundleRatioSummary}
                   </p>
                 </div>
               </div>
 
               <div className="text-right">
-                <span className="text-[10px] font-mono uppercase font-bold text-emerald-800 block">
+                <span className="text-[10px] font-mono uppercase font-bold text-[#5C2434] block">
                   Interlocking Yield Boost:
                 </span>
-                <span className="text-xs font-bold font-mono text-emerald-700 flex items-center gap-1 justify-end">
+                <span className="text-xs font-bold font-mono text-[#5C2434] flex items-center gap-1 justify-end">
                   <TrendingUp className="w-3.5 h-3.5" /> +{plan.interlockingYieldBoostPp}% Boost
                 </span>
               </div>
@@ -231,12 +231,12 @@ export function CutOrderPlanningModal({
             {/* Lay breakdown cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
               {plan.lays.map((lay) => (
-                <div key={lay.layNumber} className="p-3 rounded-lg bg-white border border-cream-300 text-xs space-y-1.5">
-                  <div className="flex justify-between items-center font-bold text-stone-900">
+                <div key={lay.layNumber} className="p-3 rounded-lg bg-white border border-[#EDE3DF] text-xs space-y-1.5">
+                  <div className="flex justify-between items-center font-bold text-[#2E1822]">
                     <span className="flex items-center gap-1.5">
-                      <Layers className="w-3.5 h-3.5 text-crimson-700" /> Lay #{lay.layNumber}
+                      <Layers className="w-3.5 h-3.5 text-[#5C2434]" /> Lay #{lay.layNumber}
                     </span>
-                    <span className="font-mono text-emerald-700">
+                    <span className="font-mono text-[#5C2434]">
                       {lay.plyCount} Plies ({lay.garmentsProduced} garments)
                     </span>
                   </div>
