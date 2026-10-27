@@ -60,7 +60,7 @@ export function ReportsPage() {
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D8DFD8] shadow-xs bg-[#FCEEED] shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#EAE2DE] shadow-xs bg-[#F3E6E4] shrink-0">
             <img
               src={profile?.avatar || "/atelier/user_avatar.jpg"}
               alt={profile?.name || "Designer"}
@@ -71,10 +71,10 @@ export function ReportsPage() {
             />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#5C2434] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#4A252B] tracking-tight">
               Reports
             </h1>
-            <p className="text-xs text-[#7A626C]">
+            <p className="text-xs text-[#81777B]">
               Analyse project insights, fabric usage, and sustainability impact.
             </p>
           </div>
@@ -82,8 +82,8 @@ export function ReportsPage() {
 
         {/* Date Selector & Export */}
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-1.5 text-xs text-stone-600 bg-white border border-[#DDD5C7] rounded-xl px-3 py-1.5 shadow-2xs">
-            <Calendar className="w-3.5 h-3.5 text-[#7C857E]" />
+          <div className="flex items-center gap-1.5 text-xs text-stone-600 bg-white border border-[#EAE2DE] rounded-xl px-3 py-1.5 shadow-2xs">
+            <Calendar className="w-3.5 h-3.5 text-[#81777B]" />
             <select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
@@ -98,7 +98,7 @@ export function ReportsPage() {
           <button
             type="button"
             onClick={handleExport}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#5C2434] text-white hover:bg-[#481B28] transition-colors shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#783751] text-white hover:bg-[#642C43] transition-colors shadow-xs cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Export</span>
@@ -119,8 +119,8 @@ export function ReportsPage() {
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-1.5 rounded-full transition-all cursor-pointer shrink-0 ${
                 isActive
-                  ? 'bg-[#5C2434] text-white font-semibold shadow-xs'
-                  : 'bg-white text-stone-700 hover:bg-[#FAF8F5] border border-[#DDD5C7]'
+                  ? 'bg-[#783751] text-white font-semibold shadow-xs'
+                  : 'bg-white text-stone-700 hover:bg-[#FBF7F5] border border-[#EAE2DE]'
               }`}
             >
               {tab}
@@ -135,46 +135,46 @@ export function ReportsPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         
         {/* Total Projects */}
-        <div className="bg-white rounded-2xl border border-[#EDE3DF] p-4 flex items-center justify-between shadow-xs">
+        <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 flex items-center justify-between shadow-xs">
           <div>
-            <p className="text-[11px] font-medium text-[#7C857E]">Total Projects</p>
-            <p className="text-2xl font-serif font-bold text-[#5C2434] mt-0.5">{totalProjects}</p>
+            <p className="text-[11px] font-medium text-[#81777B]">Total Projects</p>
+            <p className="text-2xl font-serif font-bold text-[#4A252B] mt-0.5">{totalProjects}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#F4EDF8] text-[#8E2A8E] flex items-center justify-center shrink-0">
-            <FolderPlus className="w-5 h-5 text-[#8E2A8E]" />
+          <div className="w-10 h-10 rounded-xl bg-[#F3E6E4] text-[#783751] flex items-center justify-center shrink-0">
+            <FolderPlus className="w-5 h-5 text-[#783751]" />
           </div>
         </div>
 
         {/* Total Fabric Used */}
-        <div className="bg-white rounded-2xl border border-[#EDE3DF] p-4 flex items-center justify-between shadow-xs">
+        <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 flex items-center justify-between shadow-xs">
           <div>
-            <p className="text-[11px] font-medium text-[#7C857E]">Total Fabric Used</p>
-            <p className="text-2xl font-serif font-bold text-[#5C2434] mt-0.5">{totalFabricUsed} m²</p>
+            <p className="text-[11px] font-medium text-[#81777B]">Total Fabric Used</p>
+            <p className="text-2xl font-serif font-bold text-[#4A252B] mt-0.5">{totalFabricUsed} m²</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#FCEEED] text-[#5C2434] flex items-center justify-center shrink-0">
-            <Leaf className="w-5 h-5 text-[#5C2434]" />
+          <div className="w-10 h-10 rounded-xl bg-[#F3E6E4] text-[#783751] flex items-center justify-center shrink-0">
+            <Leaf className="w-5 h-5 text-[#783751]" />
           </div>
         </div>
 
         {/* Total Waste Reduced */}
-        <div className="bg-white rounded-2xl border border-[#EDE3DF] p-4 flex items-center justify-between shadow-xs">
+        <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 flex items-center justify-between shadow-xs">
           <div>
-            <p className="text-[11px] font-medium text-[#7C857E]">Total Waste Reduced</p>
-            <p className="text-2xl font-serif font-bold text-[#5C2434] mt-0.5">{totalWasteReduced} kg</p>
+            <p className="text-[11px] font-medium text-[#81777B]">Total Waste Reduced</p>
+            <p className="text-2xl font-serif font-bold text-[#4A252B] mt-0.5">{totalWasteReduced} kg</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#FEF3E6] text-[#D97706] flex items-center justify-center shrink-0">
-            <Recycle className="w-5 h-5 text-[#D97706]" />
+          <div className="w-10 h-10 rounded-xl bg-[#F3E6E4] text-[#C08274] flex items-center justify-center shrink-0">
+            <Recycle className="w-5 h-5 text-[#C08274]" />
           </div>
         </div>
 
         {/* Upcycled Products */}
-        <div className="bg-white rounded-2xl border border-[#EDE3DF] p-4 flex items-center justify-between shadow-xs">
+        <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 flex items-center justify-between shadow-xs">
           <div>
-            <p className="text-[11px] font-medium text-[#7C857E]">Upcycled Products</p>
-            <p className="text-2xl font-serif font-bold text-[#5C2434] mt-0.5">{productsUpcycled}</p>
+            <p className="text-[11px] font-medium text-[#81777B]">Upcycled Products</p>
+            <p className="text-2xl font-serif font-bold text-[#4A252B] mt-0.5">{productsUpcycled}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#E6F4F1] text-[#0D9488] flex items-center justify-center shrink-0">
-            <ShoppingBag className="w-5 h-5 text-[#0D9488]" />
+          <div className="w-10 h-10 rounded-xl bg-[#F0DCD2] text-[#783751] flex items-center justify-center shrink-0">
+            <ShoppingBag className="w-5 h-5 text-[#783751]" />
           </div>
         </div>
 
@@ -186,13 +186,13 @@ export function ReportsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Fabric Utilization Trend (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#EAE2DE] p-5 sm:p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#5C2434]">
+            <h2 className="text-sm font-semibold text-[#4A252B]">
               Fabric Utilization Trend
             </h2>
-            <div className="flex items-center gap-1.5 text-[11px] text-[#5C2434] font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#5C2434]" />
+            <div className="flex items-center gap-1.5 text-[11px] text-[#783751] font-medium">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#783751]" />
               <span>Utilization Rate</span>
             </div>
           </div>
@@ -202,10 +202,10 @@ export function ReportsPage() {
             <div className="h-44 w-full relative">
               <svg viewBox="0 0 500 160" className="w-full h-full overflow-visible">
                 {/* Horizontal Grid lines */}
-                <line x1="0" y1="20" x2="500" y2="20" stroke="#F0EBE0" strokeDasharray="3 3" />
-                <line x1="0" y1="60" x2="500" y2="60" stroke="#F0EBE0" strokeDasharray="3 3" />
-                <line x1="0" y1="100" x2="500" y2="100" stroke="#F0EBE0" strokeDasharray="3 3" />
-                <line x1="0" y1="140" x2="500" y2="140" stroke="#EDE3DF" />
+                <line x1="0" y1="20" x2="500" y2="20" stroke="#EAE2DE" strokeDasharray="3 3" />
+                <line x1="0" y1="60" x2="500" y2="60" stroke="#EAE2DE" strokeDasharray="3 3" />
+                <line x1="0" y1="100" x2="500" y2="100" stroke="#EAE2DE" strokeDasharray="3 3" />
+                <line x1="0" y1="140" x2="500" y2="140" stroke="#EAE2DE" />
 
                 {/* Shaded Area */}
                 <path
@@ -217,7 +217,7 @@ export function ReportsPage() {
                 <path
                   d="M 20 120 C 100 110, 160 100, 220 90 C 280 80, 360 65, 480 40"
                   fill="none"
-                  stroke="#5C2434"
+                  stroke="#783751"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
@@ -232,20 +232,20 @@ export function ReportsPage() {
                   { cx: 480, cy: 40, label: '88%' }
                 ].map((pt, i) => (
                   <g key={i}>
-                    <circle cx={pt.cx} cy={pt.cy} r="4" fill="white" stroke="#5C2434" strokeWidth="2.5" />
+                    <circle cx={pt.cx} cy={pt.cy} r="4" fill="white" stroke="#783751" strokeWidth="2.5" />
                   </g>
                 ))}
 
                 <defs>
                   <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#5C2434" stopOpacity="0.18" />
-                    <stop offset="100%" stopColor="#5C2434" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#783751" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#783751" stopOpacity="0" />
                   </linearGradient>
                 </defs>
               </svg>
 
               {/* Month Labels */}
-              <div className="flex justify-between text-[11px] font-mono text-[#7C857E] mt-2 px-2">
+              <div className="flex justify-between text-[11px] font-mono text-[#81777B] mt-2 px-2">
                 {trendMonths.map((m, i) => (
                   <span key={i}>{m.month}</span>
                 ))}
@@ -255,8 +255,8 @@ export function ReportsPage() {
         </div>
 
         {/* Top Garment Types (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border border-[#EDE3DF] p-5 sm:p-6 shadow-xs space-y-4">
-          <h2 className="text-sm font-semibold text-[#5C2434]">
+        <div className="lg:col-span-5 bg-white rounded-2xl border border-[#EAE2DE] p-5 sm:p-6 shadow-xs space-y-4">
+          <h2 className="text-sm font-semibold text-[#4A252B]">
             Top Garment Types
           </h2>
 
@@ -267,9 +267,9 @@ export function ReportsPage() {
                   <span className="font-medium text-stone-800">{g.label}</span>
                   <span className="font-mono font-bold text-stone-900">{g.percent}%</span>
                 </div>
-                <div className="w-full h-2 rounded-full bg-[#FAF5EC] overflow-hidden border border-[#EDE3DF]">
+                <div className="w-full h-2 rounded-full bg-[#FBF7F5] overflow-hidden border border-[#EAE2DE]">
                   <div
-                    className="h-full bg-[#5C2434] rounded-full transition-all duration-300"
+                    className="h-full bg-[#783751] rounded-full transition-all duration-300"
                     style={{ width: `${g.percent}%` }}
                   />
                 </div>

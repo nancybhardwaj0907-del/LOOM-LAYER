@@ -434,8 +434,8 @@ export function PatternUploadZone({
                               <polygon
                                 key={cand.id || idx}
                                 points={pts}
-                                fill={isActive ? 'rgba(92, 36, 52, 0.22)' : 'rgba(192, 96, 114, 0.15)'}
-                                stroke={isActive ? '#5C2434' : '#C06072'}
+                                fill={isActive ? 'rgba(120, 55, 81, 0.22)' : 'rgba(192, 130, 116, 0.15)'}
+                                stroke={isActive ? '#783751' : '#C08274'}
                                 strokeWidth={isActive ? '2.2' : '1.4'}
                                 strokeDasharray={isActive ? 'none' : '3,3'}
                                 strokeLinejoin="round"
@@ -447,12 +447,12 @@ export function PatternUploadZone({
                     </div>
                     <div className="mt-2.5 text-[11px] font-mono text-stone-500 flex flex-wrap items-center justify-center gap-3">
                       <span className="flex items-center gap-1">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#5C2434] inline-block"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#783751] inline-block"></span>
                         Active Piece Boundary
                       </span>
                       {candidatesList.length > 1 && (
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#C06072] inline-block"></span>
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#C08274] inline-block"></span>
                           Other Detected Pieces
                         </span>
                       )}
@@ -482,8 +482,8 @@ export function PatternUploadZone({
                         <svg viewBox="0 0 140 140" className="h-full w-auto">
                           <polygon
                             points={getSvgPointsString(currentDisplayShape.outline, 140, 140)}
-                            fill="rgba(158, 42, 43, 0.18)"
-                            stroke="#9e2a2b"
+                            fill="rgba(120, 55, 81, 0.18)"
+                            stroke="#783751"
                             strokeWidth="2"
                             strokeLinejoin="round"
                           />
@@ -520,7 +520,7 @@ export function PatternUploadZone({
                     </div>
                     <div className="p-2 rounded bg-white border border-stone-200">
                       <div className="text-stone-500 text-[10px]">DIMENSIONS & SCALE</div>
-                      <div className={`font-semibold mt-0.5 ${currentDisplayShape.isUncalibrated ? 'text-amber-700' : 'text-[#5C2434]'}`}>
+                      <div className={`font-semibold mt-0.5 ${currentDisplayShape.isUncalibrated ? 'text-amber-700' : 'text-[#783751]'}`}>
                         ~{currentDisplayShape.width}×{currentDisplayShape.height}cm {currentDisplayShape.isUncalibrated ? '(uncalibrated)' : '(calibrated)'}
                       </div>
                     </div>
@@ -564,15 +564,15 @@ export function PatternUploadZone({
                         type="button"
                         onClick={handleApplyCalibration}
                         disabled={!calInput || parseFloat(calInput) <= 0}
-                        className="px-2.5 py-1 text-[11px] font-semibold rounded bg-[#5C2434] hover:bg-[#481B28] text-white disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors shadow-2xs"
+                        className="px-2.5 py-1 text-[11px] font-semibold rounded bg-[#783751] hover:bg-[#642C43] text-white disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors shadow-2xs"
                       >
                         Apply Scale
                       </button>
                     </div>
                   </div>
                   {calNotice && (
-                    <div className="text-[10px] text-[#5C2434] font-mono flex items-center gap-1">
-                      <Check className="w-3 h-3 text-[#5C2434]" />
+                    <div className="text-[10px] text-[#783751] font-mono flex items-center gap-1">
+                      <Check className="w-3 h-3 text-[#783751]" />
                       <span>{calNotice}</span>
                     </div>
                   )}
@@ -599,7 +599,7 @@ export function PatternUploadZone({
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-stone-100">
                   <div className="text-xs text-stone-600 text-left">
                     {isCurrentPieceAdded ? (
-                      <span className="text-[#5C2434] font-medium inline-flex items-center gap-1">
+                      <span className="text-[#783751] font-medium inline-flex items-center gap-1">
                         <Check className="w-3.5 h-3.5" />
                         This piece has been validated and added to project patterns.
                       </span>
@@ -615,13 +615,13 @@ export function PatternUploadZone({
                         onClick={() => handleAddPiece(currentDisplayShape, candidateIndex)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer shadow-2xs transition-colors inline-flex items-center gap-1.5 ${
                           isCurrentPieceAdded
-                            ? 'bg-[#FCEEED] border border-[#F0D0CB] text-[#5C2434] hover:bg-[#F9DFDE]'
-                            : 'bg-[#5C2434] hover:bg-[#481B28] text-white'
+                            ? 'bg-[#F3E6E4] border border-[#C08274] text-[#783751] hover:bg-[#ECD8D5]'
+                            : 'bg-[#783751] hover:bg-[#642C43] text-white'
                         }`}
                       >
                         {isCurrentPieceAdded ? (
                           <>
-                            <Check className="w-3.5 h-3.5 text-[#5C2434]" />
+                            <Check className="w-3.5 h-3.5 text-[#783751]" />
                             <span>Add Another Copy</span>
                           </>
                         ) : (

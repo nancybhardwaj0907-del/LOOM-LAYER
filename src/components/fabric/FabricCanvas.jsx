@@ -430,8 +430,8 @@ export function FabricCanvas({
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                   isHumanMode
-                    ? 'bg-[#5C2434] text-white shadow-xs font-semibold ring-2 ring-[#5C2434]/20'
-                    : 'bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF8F5]'
+                    ? 'bg-[#783751] text-white shadow-xs font-semibold ring-2 ring-[#783751]/20'
+                    : 'bg-white border border-[#EAE2DE] text-stone-700 hover:bg-[#FBF7F5]'
                 }`}
                 title="Toggle interactive manual arrangement — drag, rotate, and fine-tune pattern layout"
               >
@@ -447,10 +447,10 @@ export function FabricCanvas({
               onClick={() => setIsDefectMode(!isDefectMode)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                 isDefectMode
-                  ? 'bg-[#9E533F] text-white shadow-xs ring-2 ring-[#9E533F]/20'
+                  ? 'bg-[#C08274] text-white shadow-xs ring-2 ring-[#C08274]/20'
                   : defects.length > 0
-                  ? 'bg-[#FDF4F2] text-[#9E533F] border border-[#F3D5CF] hover:bg-[#FAEAE7]'
-                  : 'bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF8F5]'
+                  ? 'bg-[#F3E6E4] text-[#783751] border border-[#C08274] hover:bg-[#ECD8D5]'
+                  : 'bg-white border border-[#EAE2DE] text-stone-700 hover:bg-[#FBF7F5]'
               }`}
               title={isDefectMode ? 'Click anywhere on fabric canvas to drop a flaw pin' : 'Activate flaw pin tool to mark defective fabric zones'}
             >
@@ -513,23 +513,23 @@ export function FabricCanvas({
 
       {/* Interactive Manual Arrangement Workbench (Warm Atelier Redesign) */}
       {isHumanMode && (
-        <div className="mx-4 sm:mx-6 mt-3 p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-[#EDE3DF] text-stone-900 shadow-xs space-y-3.5 animate-in fade-in slide-in-from-top-2">
+        <div className="mx-4 sm:mx-6 mt-3 p-4 sm:p-5 rounded-2xl bg-[#FBF7F5] border border-[#EAE2DE] text-stone-900 shadow-xs space-y-3.5 animate-in fade-in slide-in-from-top-2">
           {/* Header Row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#EDE3DF]">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#EAE2DE]">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB] shadow-2xs">
+              <div className="p-2 rounded-xl bg-[#F3E6E4] text-[#783751] border border-[#C08274] shadow-2xs">
                 <Sliders className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="font-serif font-bold text-sm text-[#5C2434]">
+                  <h4 className="font-serif font-bold text-sm text-[#4A252B]">
                     Interactive Marker Adjustment
                   </h4>
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-semibold bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB]">
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-semibold bg-[#F3E6E4] text-[#783751] border border-[#C08274]">
                     Live Placement Mode
                   </span>
                 </div>
-                <p className="text-xs text-[#7A626C]">
+                <p className="text-xs text-[#81777B]">
                   Drag pieces directly to pack closely. Press <strong className="text-stone-800">R</strong> or click ↻ to rotate. Smart edge-snap aligns borders automatically.
                 </p>
               </div>
@@ -539,7 +539,7 @@ export function FabricCanvas({
               <button
                 type="button"
                 onClick={handleResetToAi}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white hover:bg-[#F5F2EB] text-stone-700 border border-[#DDD5C7] transition-colors cursor-pointer shadow-2xs"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white hover:bg-[#FBF7F5] text-stone-700 border border-[#EAE2DE] transition-colors cursor-pointer shadow-2xs"
                 title="Discard manual changes and restore AI optimal nesting"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-stone-500" />
@@ -550,7 +550,7 @@ export function FabricCanvas({
                 <button
                   type="button"
                   onClick={() => handleRotatePiece(selectedPiece)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#FCEEED] hover:bg-[#D5E5D7] text-[#5C2434] border border-[#F0D0CB] transition-colors cursor-pointer shadow-2xs"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F3E6E4] hover:bg-[#ECD8D5] text-[#783751] border border-[#C08274] transition-colors cursor-pointer shadow-2xs"
                   title="Rotate selected piece 90° clockwise (Shortcut: R)"
                 >
                   <RotateCw className="w-3.5 h-3.5" />
@@ -564,9 +564,9 @@ export function FabricCanvas({
                 disabled={!evaluation.isValid}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   saveSuccess
-                    ? 'bg-[#5C2434] text-white shadow-xs'
+                    ? 'bg-[#783751] text-white shadow-xs'
                     : evaluation.isValid
-                    ? 'bg-[#5C2434] hover:bg-[#481B28] text-white cursor-pointer shadow-xs'
+                    ? 'bg-[#783751] hover:bg-[#642C43] text-white cursor-pointer shadow-xs'
                     : 'bg-stone-200 text-stone-400 cursor-not-allowed border border-stone-300'
                 }`}
                 title={evaluation.isValid ? 'Save manual arrangement to project' : 'Resolve overlapping collisions before saving'}
@@ -589,13 +589,13 @@ export function FabricCanvas({
           {/* Metric Comparison Cards Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 text-xs">
             {/* AI Benchmark */}
-            <div className="p-3 rounded-xl bg-white border border-[#EDE3DF] space-y-1 shadow-2xs">
+            <div className="p-3 rounded-xl bg-white border border-[#EAE2DE] space-y-1 shadow-2xs">
               <div className="text-[10px] text-stone-500 font-medium flex items-center justify-between">
                 <span>AI Benchmark Layout</span>
-                <span className="text-[#2D5A3D] font-semibold bg-[#FCEEED] px-1.5 py-0.2 rounded text-[9px]">100% Clean</span>
+                <span className="text-[#783751] font-semibold bg-[#F3E6E4] px-1.5 py-0.2 rounded text-[9px]">100% Clean</span>
               </div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-serif font-bold text-[#5C2434]">
+                <span className="text-lg font-serif font-bold text-[#783751]">
                   {evaluation.comparison?.aiYield || markerYield}%
                 </span>
                 <span className="text-stone-500 text-[11px]">yield</span>
@@ -610,24 +610,24 @@ export function FabricCanvas({
               !evaluation.isValid
                 ? 'bg-[#FDF4F2] border-[#F3D5CF]'
                 : evaluation.comparison?.humanWins
-                ? 'bg-[#F0F7F2] border-[#F0D0CB]'
-                : 'bg-white border-[#EDE3DF]'
+                ? 'bg-[#F0F7F2] border-[#C08274]'
+                : 'bg-white border-[#EAE2DE]'
             }`}>
               <div className="text-[10px] font-medium flex items-center justify-between">
                 <span className="text-stone-700">Current Arrangement</span>
                 {!evaluation.isValid ? (
-                  <span className="text-[#9E533F] font-semibold bg-[#FAEAE7] px-1.5 py-0.2 rounded text-[9px]">⚠️ Overlap</span>
+                  <span className="text-[#C08274] font-semibold bg-[#FAEAE7] px-1.5 py-0.2 rounded text-[9px]">⚠️ Overlap</span>
                 ) : (
-                  <span className="text-[#2D5A3D] font-semibold bg-[#FCEEED] px-1.5 py-0.2 rounded text-[9px]">✓ 0 Collisions</span>
+                  <span className="text-[#783751] font-semibold bg-[#F3E6E4] px-1.5 py-0.2 rounded text-[9px]">✓ 0 Collisions</span>
                 )}
               </div>
               <div className="flex items-baseline gap-1.5">
                 <span className={`text-lg font-serif font-bold ${
                   !evaluation.isValid
-                    ? 'text-[#9E533F]'
+                    ? 'text-[#C08274]'
                     : evaluation.comparison?.humanWins
-                    ? 'text-[#2D5A3D]'
-                    : 'text-[#5C2434]'
+                    ? 'text-[#783751]'
+                    : 'text-[#783751]'
                 }`}>
                   {evaluation.markerYield}%
                 </span>
@@ -639,7 +639,7 @@ export function FabricCanvas({
             </div>
 
             {/* Yield Variance */}
-            <div className="p-3 rounded-xl bg-white border border-[#EDE3DF] space-y-1 shadow-2xs">
+            <div className="p-3 rounded-xl bg-white border border-[#EAE2DE] space-y-1 shadow-2xs">
               <div className="text-[10px] text-stone-500 font-medium">
                 Yield Variance
               </div>
@@ -666,7 +666,7 @@ export function FabricCanvas({
             <div className={`p-3 rounded-xl border space-y-1 shadow-2xs ${
               evaluation.overlaps.length > 0
                 ? 'bg-[#FDF4F2] border-[#F3D5CF]'
-                : 'bg-white border-[#EDE3DF]'
+                : 'bg-white border-[#EAE2DE]'
             }`}>
               <div className="text-[10px] text-stone-500 font-medium">Clearance & Safety Buffer</div>
               <div className="text-sm font-semibold">
@@ -731,10 +731,10 @@ export function FabricCanvas({
                 style={{ left: `${actualLengthUsedCm * currentScale}px` }}
                 title={`Marker cut line: ${actualLengthUsedCm.toFixed(1)} cm`}
               >
-                <span className="mb-0.5 transform -translate-x-1/2 text-white font-semibold text-[9px] bg-[#5C2434] px-1.5 py-0.5 rounded shadow-2xs whitespace-nowrap">
+                <span className="mb-0.5 transform -translate-x-1/2 text-white font-semibold text-[9px] bg-[#783751] px-1.5 py-0.5 rounded shadow-2xs whitespace-nowrap">
                   ✂ {actualLengthUsedCm.toFixed(0)}cm
                 </span>
-                <div className="w-[2px] h-3 bg-[#5C2434]" />
+                <div className="w-[2px] h-3 bg-[#783751]" />
               </div>
             )}
           </div>
@@ -873,7 +873,7 @@ export function FabricCanvas({
                       y1={0}
                       x2={actualLengthUsedCm * currentScale}
                       y2={svgHeight}
-                      stroke="#5C2434"
+                      stroke="#783751"
                       strokeWidth="1.5"
                       strokeDasharray="6,4"
                     />
@@ -1029,14 +1029,14 @@ export function FabricCanvas({
                         width={145}
                         height={22}
                         rx={6}
-                        fill="#FAF8F5"
-                        stroke="#DDD5C7"
+                        fill="#FBF7F5"
+                        stroke="#EAE2DE"
                         strokeWidth="1"
                       />
                       <text
                         x={8}
                         y={15}
-                        fill="#5C2434"
+                        fill="#783751"
                         fontSize="10"
                         fontFamily="system-ui, -apple-system, sans-serif"
                         fontWeight="600"
@@ -1054,14 +1054,14 @@ export function FabricCanvas({
                           width={175}
                           height={20}
                           rx={5}
-                          fill="#FAF8F5"
-                          stroke="#EDE3DF"
+                          fill="#FBF7F5"
+                          stroke="#EAE2DE"
                           strokeWidth="1"
                         />
                         <text
                           x={8}
                           y={-3}
-                          fill="#7A626C"
+                          fill="#81777B"
                           fontSize="10"
                           fontFamily="system-ui, -apple-system, sans-serif"
                           fontWeight="500"
@@ -1106,7 +1106,7 @@ export function FabricCanvas({
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-400">Orientation:</span>
-                <span className="text-[#FCEEED]">{activeInspection.rotation}° Rotation</span>
+                <span className="text-[#F3E6E4]">{activeInspection.rotation}° Rotation</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-400">Coordinates:</span>
@@ -1114,8 +1114,8 @@ export function FabricCanvas({
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-400">Grain Match:</span>
-                <span className="text-[#FCEEED] flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-[#F0D0CB]" /> Aligned
+                <span className="text-[#F3E6E4] flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C08274]" /> Aligned
                 </span>
               </div>
             </div>
@@ -1172,11 +1172,11 @@ export function FabricCanvas({
 
         <div className="flex items-center gap-2 text-[11px] text-stone-500 font-mono">
           {isHumanMode ? (
-            <span className="text-[#8C5E35] font-sans font-medium">
-              Drag pieces to reposition with smart edge-snap. Press <strong className="font-semibold text-[#5C2434]">'R'</strong> to rotate.
+            <span className="text-[#4A252B] font-sans font-medium">
+              Drag pieces to reposition with smart edge-snap. Press <strong className="font-semibold text-[#783751]">'R'</strong> to rotate.
             </span>
           ) : (
-            <span className="font-sans text-[#7C857E]">Click <strong className="font-semibold text-[#5C2434]">'Manual Adjust'</strong> in the toolbar above to reposition pattern pieces on the fabric.</span>
+            <span className="font-sans text-[#81777B]">Click <strong className="font-semibold text-[#783751]">'Manual Adjust'</strong> in the toolbar above to reposition pattern pieces on the fabric.</span>
           )}
         </div>
       </div>

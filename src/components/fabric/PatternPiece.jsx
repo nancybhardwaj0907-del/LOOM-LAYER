@@ -144,10 +144,10 @@ export function PatternPiece({
               isColliding
                 ? '#ef4444'
                 : isSelected
-                ? '#5C2434'
+                ? '#783751'
                 : isCutActive
-                ? '#5C2434'
-                : '#2D5A3D'
+                ? '#783751'
+                : '#C08274'
             }
             strokeWidth={scale * (isColliding ? 3.5 : isCutActive ? 3 : 2.5)}
             className={`filter drop-shadow-md ${
@@ -183,12 +183,12 @@ export function PatternPiece({
             isColliding
               ? '#dc2626'
               : isSelected
-              ? '#5C2434'
+              ? '#783751'
               : isCutCompleted
-              ? '#5C2434'
+              ? '#783751'
               : isCutActive
-              ? '#5C2434'
-              : '#481B28'
+              ? '#783751'
+              : '#642C43'
           }
           strokeWidth={Math.max(1, scale * (isColliding ? 0.8 : isCutCompleted || isCutActive ? 0.6 : 0.4))}
           strokeLinejoin="round"

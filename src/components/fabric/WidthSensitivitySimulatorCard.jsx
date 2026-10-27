@@ -79,8 +79,8 @@ export function WidthSensitivitySimulatorCard({
         {simulation.recommendedWidth && (
           <div className="text-right shrink-0">
             <span className="text-[11px] font-mono text-stone-500 block">Recommended Purchase:</span>
-            <span className="text-xs font-bold text-[#5C2434] font-mono flex items-center gap-1 justify-end">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#5C2434]" /> {simulation.recommendedWidth} cm Roll
+            <span className="text-xs font-bold text-[#783751] font-mono flex items-center gap-1 justify-end">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#783751]" /> {simulation.recommendedWidth} cm Roll
             </span>
           </div>
         )}
@@ -98,10 +98,10 @@ export function WidthSensitivitySimulatorCard({
               key={opt.width}
               className={`p-4 rounded-xl border transition-all flex flex-col justify-between relative ${
                 isRec
-                  ? 'border-[#5C2434] bg-[#FCEEED] ring-1 ring-[#5C2434] shadow-xs'
+                  ? 'border-[#C08274] bg-[#F3E6E4] ring-1 ring-[#783751] shadow-xs'
                   : isCurrent
-                  ? 'border-[#5C2434] bg-[#FCEEED]/40'
-                  : 'border-[#EDE3DF] bg-white hover:border-[#F0D0CB]'
+                  ? 'border-[#783751] bg-[#F3E6E4]/40'
+                  : 'border-[#EAE2DE] bg-white hover:border-[#C08274]'
               }`}
             >
               {/* Card Badges */}
@@ -117,12 +117,12 @@ export function WidthSensitivitySimulatorCard({
 
                 <div className="flex items-center gap-1">
                   {isRec && (
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#5C2434] text-white border border-[#481B28]">
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#783751] text-white border border-[#642C43]">
                       ★ Best Buy
                     </span>
                   )}
                   {isCurrent && (
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-[#FCEEED] text-[#5C2434] border border-[#F0D0CB]">
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-[#F3E6E4] text-[#783751] border border-[#C08274]">
                       Current
                     </span>
                   )}
@@ -130,10 +130,10 @@ export function WidthSensitivitySimulatorCard({
               </div>
 
               {/* Main Metrics */}
-              <div className="space-y-2 py-2 border-y border-[#EDE3DF] my-1 text-xs">
+              <div className="space-y-2 py-2 border-y border-[#EAE2DE] my-1 text-xs">
                 <div className="flex justify-between items-center">
                   <span className="text-stone-500 font-sans">Marker Yield:</span>
-                  <span className={`font-mono font-bold ${isRec ? 'text-[#5C2434]' : 'text-stone-900'}`}>
+                  <span className={`font-mono font-bold ${isRec ? 'text-[#783751]' : 'text-stone-900'}`}>
                     {opt.utilization}%
                   </span>
                 </div>
@@ -163,8 +163,8 @@ export function WidthSensitivitySimulatorCard({
               {/* Action Button */}
               <div className="pt-2">
                 {isCurrent ? (
-                  <div className="w-full py-1.5 px-3 rounded-lg bg-[#FAF7F4] text-[#5C2434] text-center font-mono text-xs font-semibold flex items-center justify-center gap-1 border border-[#EDE3DF]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#5C2434]" /> Active Roll Width
+                  <div className="w-full py-1.5 px-3 rounded-lg bg-[#FBF7F5] text-[#783751] text-center font-mono text-xs font-semibold flex items-center justify-center gap-1 border border-[#EAE2DE]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#783751]" /> Active Roll Width
                   </div>
                 ) : (
                   <Button

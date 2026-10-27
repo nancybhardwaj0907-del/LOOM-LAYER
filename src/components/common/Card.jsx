@@ -9,8 +9,8 @@ export function Card({
 }) {
   return (
     <div
-      className={`bg-white rounded-xl border border-[#EDE3DF] shadow-sm ${
-        hoverEffect ? 'transition-all duration-200 hover:shadow-md hover:border-[#F0D0CB]' : ''
+      className={`bg-white rounded-xl border border-[#EAE2DE] shadow-sm ${
+        hoverEffect ? 'transition-all duration-200 hover:shadow-md hover:border-[#C08274]' : ''
       } ${padding} ${className}`}
       {...props}
     >
@@ -26,10 +26,10 @@ export function CardHeader({
   className = '',
 }) {
   return (
-    <div className={`flex items-start justify-between pb-4 border-b border-[#EDE3DF] ${className}`}>
+    <div className={`flex items-start justify-between pb-4 border-b border-[#EAE2DE] ${className}`}>
       <div>
-        <h3 className="font-semibold text-[#2E1822] text-base sm:text-lg">{title}</h3>
-        {subtitle && <p className="text-xs sm:text-sm text-[#7A626C] mt-0.5">{subtitle}</p>}
+        <h3 className="font-semibold text-[#4A252B] text-base sm:text-lg">{title}</h3>
+        {subtitle && <p className="text-xs sm:text-sm text-[#81777B] mt-0.5">{subtitle}</p>}
       </div>
       {action && <div className="ml-4 shrink-0">{action}</div>}
     </div>

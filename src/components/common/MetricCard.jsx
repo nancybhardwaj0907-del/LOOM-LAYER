@@ -15,27 +15,27 @@ export function MetricCard({
   const variantStyles = {
     default: {
       bg: 'bg-white',
-      border: 'border-[#EDE3DF]',
-      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
-      valueColor: 'text-[#2E1822]',
+      border: 'border-[#EAE2DE]',
+      iconBg: 'bg-[#F3E6E4] text-[#783751]',
+      valueColor: 'text-[#4A252B]',
     },
     crimson: {
-      bg: 'bg-[#FDF8F7]',
-      border: 'border-[#F0D0CB]',
-      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
-      valueColor: 'text-[#5C2434]',
+      bg: 'bg-[#FBF7F5]',
+      border: 'border-[#EAE2DE]',
+      iconBg: 'bg-[#F3E6E4] text-[#783751]',
+      valueColor: 'text-[#783751]',
     },
     bordeaux: {
-      bg: 'bg-[#FCEEED]/60',
-      border: 'border-[#F0D0CB]',
-      iconBg: 'bg-[#5C2434] text-white',
-      valueColor: 'text-[#2E1822]',
+      bg: 'bg-[#F3E6E4]/70',
+      border: 'border-[#C08274]/50',
+      iconBg: 'bg-[#783751] text-white',
+      valueColor: 'text-[#4A252B]',
     },
     emerald: {
-      bg: 'bg-[#FDF8F7]',
-      border: 'border-[#EDE3DF]',
-      iconBg: 'bg-[#FCEEED] text-[#5C2434]',
-      valueColor: 'text-[#5C2434]',
+      bg: 'bg-[#FBF7F5]',
+      border: 'border-[#EAE2DE]',
+      iconBg: 'bg-[#F3E6E4] text-[#783751]',
+      valueColor: 'text-[#783751]',
     },
     amber: {
       bg: 'bg-[#FFF9F5]',
@@ -75,7 +75,7 @@ export function MetricCard({
             <span
               className={`inline-flex items-center gap-1 font-mono font-medium px-1.5 py-0.5 rounded ${
                 trendDirection === 'up'
-                  ? 'text-[#5C2434] bg-[#FCEEED] border border-[#F0D0CB]'
+                  ? 'text-[#783751] bg-[#F3E6E4] border border-[#C08274]/40'
                   : trendDirection === 'down'
                   ? 'text-amber-800 bg-amber-100/70'
                   : 'text-stone-600 bg-stone-100'

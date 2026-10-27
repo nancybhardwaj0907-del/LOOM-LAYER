@@ -98,14 +98,14 @@ export function Sidebar() {
           onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2.5 px-2 py-1 group"
         >
-          <div className="w-8 h-8 rounded-lg bg-[#5C2434] text-white flex items-center justify-center shadow-xs">
-            <Leaf className="w-4 h-4 text-[#FCEEED]" />
+          <div className="w-8 h-8 rounded-lg bg-[#783751] text-white flex items-center justify-center shadow-xs">
+            <Leaf className="w-4 h-4 text-[#F3E6E4]" />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold tracking-tight text-[#2E1822] leading-none group-hover:text-[#5C2434] transition-colors">
+            <span className="font-serif text-lg font-bold tracking-tight text-[#4A252B] leading-none group-hover:text-[#783751] transition-colors">
               Loom & Layer
             </span>
-            <span className="text-[10px] text-[#7A626C] font-sans mt-0.5">
+            <span className="text-[10px] text-[#81777B] font-sans mt-0.5">
               Circular Atelier
             </span>
           </div>
@@ -123,11 +123,11 @@ export function Sidebar() {
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                   active
-                    ? 'bg-[#FCEEED] text-[#5C2434] font-semibold shadow-2xs border border-[#F0D0CB]'
-                    : 'text-[#6E5660] hover:text-[#2E1822] hover:bg-[#F9ECEB]'
+                    ? 'bg-[#F3E6E4] text-[#783751] font-semibold shadow-2xs border border-[#C08274]/40'
+                    : 'text-[#81777B] hover:text-[#4A252B] hover:bg-[#F3E6E4]/50'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${active ? 'text-[#5C2434]' : 'text-stone-400'}`} />
+                <Icon className={`w-4 h-4 ${active ? 'text-[#783751]' : 'text-[#81777B]'}`} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -136,7 +136,7 @@ export function Sidebar() {
       </div>
 
       {/* Bottom Circular Atelier Card with Rose Watercolor Artwork (Reference User Mockup) */}
-      <div className="mt-8 rounded-2xl border border-[#EDE3DF] p-4 text-[#2E1822] relative overflow-hidden shadow-2xs group min-h-[170px] flex flex-col justify-between bg-white">
+      <div className="mt-8 rounded-2xl border border-[#EAE2DE] p-4 text-[#4A252B] relative overflow-hidden shadow-2xs group min-h-[170px] flex flex-col justify-between bg-white">
         {/* Watercolor Rose Botanical Background */}
         <img
           src="/atelier/sidebar_rose_botanical.jpg"
@@ -147,7 +147,7 @@ export function Sidebar() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent pointer-events-none" />
 
         <div className="relative z-10 space-y-1">
-          <p className="font-serif text-sm font-bold text-[#2E1822] leading-tight">
+          <p className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
             Less <br />
             Waste. <br />
             More <br />
@@ -158,7 +158,7 @@ export function Sidebar() {
         <div className="relative z-10 pt-2">
           <Link
             to="/sustainability"
-            className="w-8 h-8 rounded-full bg-white text-[#2E1822] border border-stone-200/90 shadow-xs flex items-center justify-center hover:bg-[#5C2434] hover:text-white hover:scale-110 transition-all cursor-pointer inline-flex"
+            className="w-8 h-8 rounded-full bg-white text-[#4A252B] border border-[#EAE2DE] shadow-xs flex items-center justify-center hover:bg-[#783751] hover:text-white hover:scale-110 transition-all cursor-pointer inline-flex"
             title="Sustainability"
           >
             <ArrowRight className="w-3.5 h-3.5" />
@@ -171,19 +171,19 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Sticky Header Bar with Menu Toggle */}
-      <div className="md:hidden sticky top-0 z-40 bg-[#FAF7F4] border-b border-[#EFE6E2] px-4 py-3 flex items-center justify-between shadow-2xs">
+      <div className="md:hidden sticky top-0 z-40 bg-[#FBF7F5] border-b border-[#EAE2DE] px-4 py-3 flex items-center justify-between shadow-2xs">
         <Link to="/dashboard" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#5C2434] text-white flex items-center justify-center">
-            <Leaf className="w-3.5 h-3.5 text-[#FCEEED]" />
+          <div className="w-7 h-7 rounded-lg bg-[#783751] text-white flex items-center justify-center">
+            <Leaf className="w-3.5 h-3.5 text-[#F3E6E4]" />
           </div>
-          <span className="font-serif text-base font-bold text-[#2E1822]">
+          <span className="font-serif text-base font-bold text-[#4A252B]">
             Loom & Layer
           </span>
         </Link>
         <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-1.5 rounded-lg border border-[#DDD5C7] text-stone-700 hover:bg-[#F2ECE1]"
+          className="p-1.5 rounded-lg border border-[#EAE2DE] text-[#39343A] hover:bg-[#F3E6E4]"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -198,14 +198,14 @@ export function Sidebar() {
       )}
 
       {/* Mobile Drawer Sidebar */}
-      <div className={`md:hidden fixed inset-y-0 left-0 z-50 w-64 bg-[#FAF7F4] border-r border-[#EFE6E2] transform transition-transform duration-200 ease-in-out ${
+      <div className={`md:hidden fixed inset-y-0 left-0 z-50 w-64 bg-[#FBF7F5] border-r border-[#EAE2DE] transform transition-transform duration-200 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {sidebarContent}
       </div>
 
       {/* Desktop Persistent Left Sidebar */}
-      <aside className="hidden md:flex w-56 lg:w-60 shrink-0 bg-[#FAF7F4] border-r border-[#EFE6E2] min-h-screen sticky top-0 h-screen overflow-y-auto">
+      <aside className="hidden md:flex w-56 lg:w-60 shrink-0 bg-[#FBF7F5] border-r border-[#EAE2DE] min-h-screen sticky top-0 h-screen overflow-y-auto">
         {sidebarContent}
       </aside>
     </>

@@ -26,7 +26,7 @@ export function AuthButton({ className = '' }) {
 
   if (loading) {
     return (
-      <div className="w-8 h-8 rounded-full bg-[#EAE4D8] animate-pulse border border-[#DDD5C7]" />
+      <div className="w-8 h-8 rounded-full bg-[#F3E6E4] animate-pulse border border-[#EAE2DE]" />
     );
   }
 
@@ -63,7 +63,7 @@ export function AuthButton({ className = '' }) {
           type="button"
           onClick={handleSignIn}
           disabled={isSigningIn}
-          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-800 hover:bg-[#FAF8F5] hover:border-[#5C2434]/50 shadow-2xs transition-all cursor-pointer disabled:opacity-50 ${className}`}
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#EAE2DE] text-[#39343A] hover:bg-[#F3E6E4]/40 hover:border-[#783751]/50 shadow-2xs transition-all cursor-pointer disabled:opacity-50 ${className}`}
           title="Sign in with your Google Account"
         >
           <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
@@ -93,12 +93,12 @@ export function AuthButton({ className = '' }) {
         </button>
 
         {authError && (
-          <div className="absolute right-0 top-full mt-2 w-72 p-3 bg-white border border-rose-200 rounded-xl shadow-lg z-50 text-[11px] text-rose-800 space-y-1">
+          <div className="absolute right-0 top-full mt-2 w-72 p-3 bg-white border border-[#EAE2DE] rounded-xl shadow-lg z-50 text-[11px] text-[#783751] space-y-1">
             <div className="flex items-center gap-1.5 font-bold">
-              <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
+              <AlertCircle className="w-3.5 h-3.5 text-[#C08274]" />
               <span>Authentication Error</span>
             </div>
-            <p className="text-[#7A626C] leading-tight">{authError}</p>
+            <p className="text-[#81777B] leading-tight">{authError}</p>
           </div>
         )}
       </div>
@@ -116,74 +116,74 @@ export function AuthButton({ className = '' }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1 rounded-full sm:rounded-xl bg-white border border-[#DDD5C7] hover:border-[#5C2434] hover:bg-[#FAF8F5] transition-colors cursor-pointer text-left shadow-2xs"
+        className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1 rounded-full sm:rounded-xl bg-white border border-[#EAE2DE] hover:border-[#783751] hover:bg-[#F3E6E4]/30 transition-colors cursor-pointer text-left shadow-2xs"
         title={`Signed in as ${email}`}
       >
         {avatarUrl ? (
           <img
             src={avatarUrl}
             alt={displayName}
-            className="w-6 h-6 rounded-full object-cover border border-[#DDD5C7]"
+            className="w-6 h-6 rounded-full object-cover border border-[#EAE2DE]"
             referrerPolicy="no-referrer"
           />
         ) : (
-          <div className="w-6 h-6 rounded-full bg-[#5C2434] text-white flex items-center justify-center text-xs font-bold font-serif">
+          <div className="w-6 h-6 rounded-full bg-[#783751] text-white flex items-center justify-center text-xs font-bold font-serif">
             {initial}
           </div>
         )}
-        <span className="hidden sm:inline text-xs font-medium text-stone-900 max-w-[120px] truncate">
+        <span className="hidden sm:inline text-xs font-medium text-[#39343A] max-w-[120px] truncate">
           {displayName}
         </span>
-        <ChevronDown className="hidden sm:inline w-3 h-3 text-stone-500" />
+        <ChevronDown className="hidden sm:inline w-3 h-3 text-[#81777B]" />
       </button>
 
       {/* Profile & Session Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white border border-[#EDE3DF] shadow-lg py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white border border-[#EAE2DE] shadow-lg py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
           {/* Header row linking directly to Profile */}
           <button
             type="button"
             onClick={() => handleGoTo('/profile')}
-            className="w-full text-left px-4 py-3 border-b border-[#F0EBE0] hover:bg-[#FAF8F5] transition-colors cursor-pointer"
+            className="w-full text-left px-4 py-3 border-b border-[#EAE2DE] hover:bg-[#F3E6E4]/40 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-3">
               {avatarUrl ? (
                 <img
                   src={avatarUrl}
                   alt={displayName}
-                  className="w-10 h-10 rounded-full object-cover border border-[#DDD5C7]"
+                  className="w-10 h-10 rounded-full object-cover border border-[#EAE2DE]"
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-[#5C2434] text-white flex items-center justify-center text-sm font-bold font-serif">
+                <div className="w-10 h-10 rounded-full bg-[#783751] text-white flex items-center justify-center text-sm font-bold font-serif">
                   {initial}
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-[#5C2434] truncate">{displayName}</p>
-                <p className="text-[11px] text-[#7C857E] truncate font-mono">{email}</p>
-                <span className="inline-block mt-0.5 text-[10px] text-[#2D5A3D] font-semibold bg-[#FCEEED] px-1.5 py-0.2 rounded">Google Verified</span>
+                <p className="text-xs font-bold text-[#4A252B] truncate">{displayName}</p>
+                <p className="text-[11px] text-[#81777B] truncate font-mono">{email}</p>
+                <span className="inline-block mt-0.5 text-[10px] text-[#783751] font-semibold bg-[#F3E6E4] px-1.5 py-0.2 rounded border border-[#C08274]/30">Google Verified</span>
               </div>
             </div>
           </button>
 
           {/* Navigation Links in Dropdown */}
-          <div className="px-2 py-1.5 space-y-0.5 border-b border-[#F0EBE0]">
+          <div className="px-2 py-1.5 space-y-0.5 border-b border-[#EAE2DE]">
             <button
               type="button"
               onClick={() => handleGoTo('/profile')}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-stone-700 hover:bg-[#FAF8F5] hover:text-[#5C2434] transition-colors cursor-pointer text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#39343A] hover:bg-[#F3E6E4]/50 hover:text-[#783751] transition-colors cursor-pointer text-left"
             >
-              <User className="w-3.5 h-3.5 text-[#5C2434]" />
+              <User className="w-3.5 h-3.5 text-[#783751]" />
               <span>Atelier Profile</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleGoTo('/dashboard')}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-stone-700 hover:bg-[#FAF8F5] hover:text-[#5C2434] transition-colors cursor-pointer text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[#39343A] hover:bg-[#F3E6E4]/50 hover:text-[#783751] transition-colors cursor-pointer text-left"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-stone-500" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#81777B]" />
               <span>Dashboard</span>
             </button>
           </div>
@@ -192,7 +192,7 @@ export function AuthButton({ className = '' }) {
             <button
               type="button"
               onClick={handleSignOut}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-rose-700 hover:bg-rose-50 hover:text-rose-800 transition-colors cursor-pointer text-left"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-[#783751] hover:bg-[#F3E6E4] hover:text-[#642C43] transition-colors cursor-pointer text-left"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Sign Out</span>

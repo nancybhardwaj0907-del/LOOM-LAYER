@@ -4,14 +4,40 @@
 
 @layer base {
   :root {
-    --color-fabric-grid: rgba(215, 199, 178, 0.55);
-    --color-fabric-bg: #faf7f4;
-    --color-stitch: #5c2434;
+    /* Backgrounds */
+    --color-background: #FBF7F5;
+    --color-card: #FFFFFF;
+    --color-sidebar: #FBF7F5;
+
+    /* Brand */
+    --color-primary: #783751;
+    --color-primary-hover: #642C43;
+    --color-secondary: #C08274;
+
+    /* Accent */
+    --color-blush: #F3E6E4;
+    --color-peach: #F0DCD2;
+
+    /* Typography */
+    --color-heading: #4A252B;
+    --color-text: #39343A;
+    --color-muted: #81777B;
+
+    /* Borders */
+    --color-border: #EAE2DE;
+
+    /* States */
+    --color-selected: #F3E6E4;
+    --color-success: #783751;
+
+    --color-fabric-grid: rgba(217, 212, 214, 0.55);
+    --color-fabric-bg: #FBF7F5;
+    --color-stitch: #783751;
   }
 
   body {
-    background-color: #faf7f4;
-    color: #2e1822;
+    background-color: #FBF7F5;
+    color: #39343A;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     transition: background-color 0.2s ease, color 0.2s ease;
   }
@@ -56,11 +82,11 @@
 .tailor-basting-stitch {
   border-style: dashed;
   border-width: 1.5px;
-  border-color: #5c2434;
+  border-color: #783751;
 }
 
 .tailor-chalk-mark {
-  border-bottom: 2px dashed rgba(194, 85, 55, 0.5);
+  border-bottom: 2px dashed rgba(192, 130, 116, 0.5);
 }
 
 /* Fabric grain directions */
@@ -69,7 +95,7 @@
     0deg,
     transparent,
     transparent 19px,
-    rgba(163, 141, 116, 0.22) 20px
+    rgba(129, 119, 123, 0.22) 20px
   );
 }
 
@@ -78,7 +104,7 @@
     90deg,
     transparent,
     transparent 19px,
-    rgba(163, 141, 116, 0.22) 20px
+    rgba(129, 119, 123, 0.22) 20px
   );
 }
 
@@ -108,66 +134,66 @@
   z-index: 1;
 }
 
-/* Wine Woven Cloth Button (Primary) */
+/* Dusty Burgundy Woven Cloth Button (Primary) */
 .cloth-btn-primary {
-  background-color: #5c2434;
+  background-color: #783751;
   background-image: 
     radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0),
     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%);
   background-size: 4px 4px, 100% 100%;
-  color: #fffdfd;
-  border: 1px solid #481b28;
-  box-shadow: 0 1px 3px rgba(92, 36, 52, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  border: 1px solid #642C43;
+  box-shadow: 0 1px 3px rgba(120, 55, 81, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .cloth-btn-primary::before {
-  border: 1px dashed rgba(252, 238, 237, 0.5);
+  border: 1px dashed rgba(243, 230, 228, 0.55);
 }
 
 .cloth-btn-primary:hover:not(:disabled) {
-  background-color: #481b28;
-  box-shadow: 0 3px 8px rgba(92, 36, 52, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background-color: #642C43;
+  box-shadow: 0 3px 8px rgba(100, 44, 67, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
 }
 
 .cloth-btn-primary:hover:not(:disabled)::before {
-  border-color: rgba(252, 238, 237, 0.8);
+  border-color: rgba(243, 230, 228, 0.85);
 }
 
 .cloth-btn-primary:active:not(:disabled) {
-  background-color: #38141f;
+  background-color: #4A252B;
   transform: translateY(0);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
-/* Cream Linen Swatch Button (Outline) */
+/* Warm Ivory Linen Swatch Button (Outline) */
 .cloth-btn-outline {
-  background-color: #FAF7F4;
+  background-color: #FBF7F5;
   background-image: 
-    radial-gradient(rgba(122, 98, 108, 0.1) 1px, transparent 0);
+    radial-gradient(rgba(129, 119, 123, 0.1) 1px, transparent 0);
   background-size: 5px 5px;
-  color: #5c2434;
-  border: 1px solid #EDE3DF;
-  box-shadow: 0 1px 2px rgba(46, 24, 34, 0.04);
+  color: #783751;
+  border: 1px solid #EAE2DE;
+  box-shadow: 0 1px 2px rgba(57, 52, 58, 0.04);
 }
 
 .cloth-btn-outline::before {
-  border: 1px dashed rgba(92, 36, 52, 0.3);
+  border: 1px dashed rgba(120, 55, 81, 0.35);
 }
 
 .cloth-btn-outline:hover:not(:disabled) {
-  background-color: #FCEEED;
-  border-color: #F0D0CB;
-  color: #481b28;
+  background-color: #F3E6E4;
+  border-color: #C08274;
+  color: #642C43;
   transform: translateY(-1px);
 }
 
 .cloth-btn-outline:hover:not(:disabled)::before {
-  border-color: rgba(92, 36, 52, 0.6);
+  border-color: rgba(120, 55, 81, 0.65);
 }
 
 .cloth-btn-outline:active:not(:disabled) {
-  background-color: #F9DFDE;
+  background-color: #F0DCD2;
   transform: translateY(0);
 }
 
