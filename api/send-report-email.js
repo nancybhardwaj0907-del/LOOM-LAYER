@@ -151,6 +151,7 @@ export default async function handler(req, res) {
         to: [to],
         subject: `[Loom & Layer] ${title} — ${proj}`,
         html: emailHtml,
+        text: `Hello ${name},\n\nYour requested report for "${proj}" (${title}) is ready.\n\nDownload report link: ${downloadUrl || 'Access directly in your Loom & Layer atelier dashboard'}\n\nMetrics Summary:\n- Marker Utilization: ${metrics?.utilization || 'N/A'}%\n- Fabric Saved: ${metrics?.fabricSaved || 'N/A'}\n- Waste Reduced: ${metrics?.wasteReduced || 'N/A'}\n\nLoom & Layer Circular Cutting Atelier`,
       }),
     });
 

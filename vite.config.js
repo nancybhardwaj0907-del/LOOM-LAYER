@@ -147,6 +147,7 @@ export default defineConfig(({ mode }) => {
                     to: [to],
                     subject: `[Loom & Layer] ${title} — ${proj}`,
                     html: emailHtml,
+                    text: `Hello ${name},\n\nYour requested report for "${proj}" (${title}) is ready.\n\nDownload report link: ${downloadUrl || 'Access directly in your Loom & Layer atelier dashboard'}\n\nLoom & Layer Circular Cutting Atelier`,
                   }),
                 })
 

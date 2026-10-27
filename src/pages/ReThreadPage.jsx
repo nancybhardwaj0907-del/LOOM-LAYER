@@ -17,10 +17,17 @@ import {
   BookmarkCheck, 
   Printer, 
   Check, 
-  X
+  X,
+  LayoutGrid,
+  Columns,
+  SlidersHorizontal,
+  CheckCircle2,
+  Info,
+  PackageCheck,
+  Scale
 } from 'lucide-react';
 import { useUserProfile } from '../context/useUserProfile';
-import { evaluateScrapRecommendations } from '../utils/rethreadCatalog';
+import { evaluateScrapRecommendations, RETHREAD_PRODUCTS } from '../utils/rethreadCatalog';
 
 const SAVED_PLANS_KEY = 'rethread_saved_plans_v1';
 
@@ -37,6 +44,11 @@ export function ReThreadPage() {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('all'); // 'all' | 'direct' | 'patchwork' | 'Accessories' | 'Home & Kitchen' | 'Bags & Storage'
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'slider'
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchFeedback, setSearchFeedback] = useState('');
+
   const sliderRef = useRef(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -46,7 +58,7 @@ export function ReThreadPage() {
   const scrollSlider = useCallback((direction) => {
     if (!sliderRef.current) return;
     const cardWidth = sliderRef.current.querySelector('[data-product-card]')?.offsetWidth || 300;
-    const scrollAmount = cardWidth + 16; // card width + gap
+    const scrollAmount = cardWidth + 16;
     sliderRef.current.scrollBy({
       left: direction === 'left' ? -scrollAmount : scrollAmount,
       behavior: 'smooth'
@@ -72,6 +84,7 @@ export function ReThreadPage() {
   const handleMouseUpOrLeave = () => {
     isDraggingRef.current = false;
   };
+
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [savedPlans, setSavedPlans] = useState(() => {
     try {
@@ -82,96 +95,50 @@ export function ReThreadPage() {
     }
   });
 
-  const primaryDisplayProducts = useMemo(() => {
-    const defaultCatalog = [
-      {
-        id: 'coffee-sleeve',
-        name: 'Coffee Cup Sleeve',
-        category: 'Accessories',
-        difficulty: 'Easy',
-        image: '/rethread/rethread_cup_sleeve.jpg',
-        description: 'Insulated reusable fabric cup sleeve with elastic band closure. Fits standard 12-16 oz takeaway coffee tumblers.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (8 * 24)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 2,
-        minPieceWidth: 8,
-        minPieceLength: 24,
-        hardwareNeeded: 'Elastic cord or Velcro tab'
-      },
-      {
-        id: 'scrunchies',
-        name: 'Fabric Scrunchies',
-        category: 'Accessories',
-        difficulty: 'Easy',
-        image: '/rethread/rethread_scrunchies.jpg',
-        description: 'Classic ruched hair scrunchies with enclosed braided elastic. Excellent for small fabric remnant offcuts.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (10 * 45)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 1,
-        minPieceWidth: 10,
-        minPieceLength: 45,
-        hardwareNeeded: '20 cm braided elastic band'
-      },
-      {
-        id: 'patchwork-bandana',
-        name: 'Patchwork Bandana',
-        category: 'Accessories',
-        difficulty: 'Medium',
-        image: '/rethread/rethread_bandana.jpg',
-        description: 'Artisanal square neckerchief pieced together from geometric remnant squares with hand-rolled hems.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (25 * 25)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 4,
-        minPieceWidth: 25,
-        minPieceLength: 25,
-        hardwareNeeded: 'None (Self-bound fabric edge)'
-      },
-      {
-        id: 'zip-pouch',
-        name: 'Mini Zip Pouch',
-        category: 'Bags & Storage',
-        difficulty: 'Medium',
-        image: '/rethread/rethread_zip_pouch.jpg',
-        description: 'Compact zippered coin and card wallet lined with scrap interfacing for durability and structured form.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (14 * 12)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 2,
-        minPieceWidth: 14,
-        minPieceLength: 12,
-        hardwareNeeded: '15 cm nylon coil zipper'
-      },
-      {
-        id: 'coasters-set',
-        name: 'Fabric Coasters (Set of 4)',
-        category: 'Home & Kitchen',
-        difficulty: 'Easy',
-        image: '/rethread/rethread_coasters.jpg',
-        description: 'Quilted circular table coasters featuring concentric topstitching and heat-resistant scrap fleece inner batting.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (12 * 12)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 2,
-        minPieceWidth: 12,
-        minPieceLength: 12,
-        hardwareNeeded: 'Upcycled batting or denim layer'
-      },
-      {
-        id: 'hair-bow',
-        name: 'Hair Bow / Bow Clip',
-        category: 'Accessories',
-        difficulty: 'Easy',
-        image: '/rethread/rethread_hair_bow.jpg',
-        description: 'Hand-tied artisanal accent bow mounted onto alligator hair clips or headband fixtures.',
-        estimatedUnits: Math.max(1, Math.floor(((scrapInput.width * scrapInput.length) / (8 * 18)) * (scrapInput.quantity || 1))),
-        piecesPerUnit: 2,
-        minPieceWidth: 8,
-        minPieceLength: 18,
-        hardwareNeeded: 'Alligator metal clip'
-      }
-    ];
+  // Dynamic evaluation using deterministic geometric matching
+  const evaluationResult = useMemo(() => {
+    return evaluateScrapRecommendations(scrapInput);
+  }, [scrapInput]);
 
-    if (!searchQuery.trim()) return defaultCatalog;
-    const q = searchQuery.toLowerCase().trim();
-    return defaultCatalog.filter(p => 
-      p.name.toLowerCase().includes(q) || 
-      p.category.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
-    );
-  }, [scrapInput, searchQuery]);
+  // Filtered and searched products
+  const displayProducts = useMemo(() => {
+    let items = evaluationResult.recommendations || [];
+
+    // Filter tab
+    if (activeFilter === 'direct') {
+      items = items.filter((p) => p.isDirectFit && p.estimatedUnits > 0);
+    } else if (activeFilter === 'patchwork') {
+      items = items.filter((p) => p.isPatchworkFit || p.calculationMethod === 'patchwork_pieced');
+    } else if (activeFilter !== 'all') {
+      items = items.filter((p) => p.category === activeFilter);
+    }
+
+    // Search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      items = items.filter((p) => 
+        p.name.toLowerCase().includes(q) || 
+        p.category.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q)
+      );
+    }
+
+    return items;
+  }, [evaluationResult, activeFilter, searchQuery]);
+
+  const handleFindProducts = () => {
+    setIsSearching(true);
+    setSearchFeedback(`Analyzing scrap pattern for ${scrapInput.width}×${scrapInput.length} cm (${scrapInput.quantity} pcs, ${scrapInput.fabricType})...`);
+
+    setTimeout(() => {
+      setIsSearching(false);
+      const feasibleCount = (evaluationResult.recommendations || []).filter(r => r.estimatedUnits > 0).length;
+      setSearchFeedback(`✓ Evaluated! Found ${feasibleCount} viable circular products tailored to your ${scrapInput.fabricType} remnants.`);
+      
+      const el = document.getElementById('recommendations-section');
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 350);
+  };
 
   const handleToggleSavePlan = (product) => {
     const isAlreadySaved = savedPlans.some((p) => p.productId === product.id);
@@ -203,7 +170,7 @@ export function ReThreadPage() {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>ReThread Cutting Ticket — ${plan.productName}</title>
+          <title>ReThread Cutting Ticket — ${plan.productName || plan.name}</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; color: #4A252B; line-height: 1.5; }
             h1 { font-size: 20px; font-weight: bold; margin-bottom: 4px; }
@@ -216,9 +183,9 @@ export function ReThreadPage() {
           <h1>Loom & Layer — ReThread Cutting Ticket</h1>
           <div class="meta">Circular Atelier Remnant Spec • ${new Date().toLocaleDateString()}</div>
           <div class="box">
-            <p><strong>Target Product:</strong> ${plan.productName} <span class="badge">${plan.category}</span></p>
+            <p><strong>Target Product:</strong> ${plan.productName || plan.name} <span class="badge">${plan.category}</span></p>
             <p><strong>Estimated Yield:</strong> ~${plan.estimatedUnits} units</p>
-            <p><strong>Scrap Input:</strong> ${plan.scrapSpecs.width} × ${plan.scrapSpecs.length} cm (${plan.scrapSpecs.quantity} pieces, ${plan.scrapSpecs.fabricType})</p>
+            <p><strong>Scrap Input:</strong> ${plan.scrapSpecs?.width || scrapInput.width} × ${plan.scrapSpecs?.length || scrapInput.length} cm (${plan.scrapSpecs?.quantity || scrapInput.quantity} pieces, ${plan.scrapSpecs?.fabricType || scrapInput.fabricType})</p>
             <p><strong>Hardware Needed:</strong> ${plan.hardwareNeeded || 'None'}</p>
           </div>
         </body>
@@ -243,14 +210,14 @@ export function ReThreadPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products, fabrics..."
+            placeholder="Search products, fabrics, accessories..."
             className="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-white border border-[#EAE2DE] focus:outline-none focus:border-[#783751] text-[#4A252B] placeholder-stone-400 shadow-2xs transition-all"
           />
         </div>
 
         {/* Right Header Actions */}
         <div className="flex items-center gap-2.5 sm:gap-3 self-end sm:self-auto">
-          {/* Notification Bell with red indicator dot */}
+          {/* Notification Bell with indicator dot */}
           <button
             type="button"
             onClick={() => navigate('/settings')}
@@ -295,44 +262,70 @@ export function ReThreadPage() {
               ReThread
             </h1>
             <p className="text-xs text-[#81777B] font-sans mt-0.5">
-              Transform leftover fabric scraps into useful, beautiful products.
+              Transform cutting-room remnants into high-value circular products.
             </p>
           </div>
         </div>
 
-        {/* Right: Compact motto pill */}
+        {/* Right: Motto pill */}
         <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#F3E6E4] to-[#FBF7F5] border border-[#EAE2DE] shadow-2xs">
           <Leaf className="w-3.5 h-3.5 text-[#783751]" />
-          <span className="font-serif italic text-xs text-[#4A252B]">Less waste. More possibilities.</span>
+          <span className="font-serif italic text-xs text-[#4A252B]">Zero-waste. Infinite atelier possibilities.</span>
         </div>
       </div>
 
       {/* ========================================================
-          3. COMPACT SCRAP INPUT STRIP
+          3. INTERACTIVE SCRAP INPUT STRIP
           ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 sm:p-5 shadow-2xs">
+      <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 sm:p-5 shadow-2xs space-y-3.5">
         
         {/* Section Header Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
               1
             </div>
             <div>
               <h2 className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
-                Enter Scrap Details
+                Enter Scrap Measurements
               </h2>
               <p className="text-[11px] text-[#81777B] font-sans">
-                Add measurements to get product recommendations.
+                Type dimensions and quantity to calculate compatible products.
               </p>
             </div>
           </div>
+
+          {/* Quick presets */}
+          <div className="flex items-center gap-1.5 text-[11px] text-[#81777B]">
+            <span className="font-medium">Presets:</span>
+            <button
+              type="button"
+              onClick={() => setScrapInput({ width: 24, length: 36, quantity: 35, fabricType: 'Cotton', shapeType: 'rectangular' })}
+              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+            >
+              24×36cm Cotton
+            </button>
+            <button
+              type="button"
+              onClick={() => setScrapInput({ width: 15, length: 45, quantity: 25, fabricType: 'Denim', shapeType: 'strips' })}
+              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+            >
+              15×45cm Denim
+            </button>
+            <button
+              type="button"
+              onClick={() => setScrapInput({ width: 12, length: 18, quantity: 50, fabricType: 'Linen', shapeType: 'rectangular' })}
+              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+            >
+              12×18cm Linen
+            </button>
+          </div>
         </div>
 
-        {/* Inline Input Row: Width, Length, Quantity, Fabric Type, Button — all in one row on large screens */}
-        <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+        {/* Inline Input Row */}
+        <div className="flex flex-col lg:flex-row lg:items-end gap-3 pt-1">
           {/* Width */}
-          <div className="flex-1 min-w-[100px]">
+          <div className="flex-1 min-w-[90px]">
             <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
               Width (cm)
             </label>
@@ -350,7 +343,7 @@ export function ReThreadPage() {
           </div>
 
           {/* Length */}
-          <div className="flex-1 min-w-[100px]">
+          <div className="flex-1 min-w-[90px]">
             <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
               Length (cm)
             </label>
@@ -368,9 +361,9 @@ export function ReThreadPage() {
           </div>
 
           {/* Quantity */}
-          <div className="flex-1 min-w-[100px]">
+          <div className="flex-1 min-w-[90px]">
             <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
-              Quantity
+              Quantity (pcs)
             </label>
             <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
               <Layers className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
@@ -388,13 +381,13 @@ export function ReThreadPage() {
           {/* Divider on large screens */}
           <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
 
-          {/* Fabric Type Inline Pills */}
+          {/* Fabric Type Pills */}
           <div className="flex-shrink-0">
             <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
               Fabric Type
             </label>
             <div className="flex flex-wrap gap-1.5">
-              {['Cotton', 'Denim', 'Linen', 'Jersey', 'Mixed'].map((fabric) => {
+              {['Cotton', 'Denim', 'Linen', 'Jersey', 'Canvas', 'Silk', 'Mixed'].map((fabric) => {
                 const isSelected = scrapInput.fabricType === fabric;
                 return (
                   <button
@@ -418,133 +411,374 @@ export function ReThreadPage() {
           {/* Divider on large screens */}
           <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
 
-          {/* Find Button */}
+          {/* Action Button: Find Products */}
           <button
             type="button"
-            onClick={() => {
-              const el = document.getElementById('recommendations-section');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="py-2.5 px-5 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer whitespace-nowrap shrink-0"
+            onClick={handleFindProducts}
+            disabled={isSearching}
+            className="py-2.5 px-5 rounded-xl bg-[#783751] hover:bg-[#642C43] active:scale-98 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer whitespace-nowrap shrink-0 disabled:opacity-70"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#F3E6E4]" />
-            <span>Find Products</span>
+            <Sparkles className={`w-3.5 h-3.5 text-[#F3E6E4] ${isSearching ? 'animate-spin' : ''}`} />
+            <span>{isSearching ? 'Matching...' : 'Find Products'}</span>
           </button>
+        </div>
+
+        {/* Live Feedback Toast / Notification */}
+        {searchFeedback && (
+          <div className="mt-2 py-2 px-3.5 rounded-xl bg-[#F3E6E4]/60 border border-[#C08274]/30 flex items-center justify-between text-xs text-[#4A252B] animate-in fade-in duration-200">
+            <div className="flex items-center gap-2 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#783751] shrink-0" />
+              <span>{searchFeedback}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSearchFeedback('')}
+              className="text-stone-400 hover:text-stone-700 cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ========================================================
+          4. METRICS STRIP: RECOVERED MATERIAL & YIELD
+          ======================================================== */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-stone-500 mb-1">
+            <Layers className="w-3.5 h-3.5 text-[#783751]" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider">Total Scraps</span>
+          </div>
+          <p className="text-base font-serif font-bold text-[#4A252B]">
+            {scrapInput.quantity || 0} pieces
+          </p>
+          <p className="text-[10px] text-stone-400">
+            {scrapInput.width} × {scrapInput.length} cm each
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-stone-500 mb-1">
+            <Maximize2 className="w-3.5 h-3.5 text-[#783751]" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider">Remnant Area</span>
+          </div>
+          <p className="text-base font-serif font-bold text-[#4A252B]">
+            {evaluationResult.totalScrapAreaM2 || 0} m²
+          </p>
+          <p className="text-[10px] text-stone-400">
+            ~{Math.round(evaluationResult.usableTotalAreaCm2 || 0)} cm² usable
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-stone-500 mb-1">
+            <Scale className="w-3.5 h-3.5 text-[#2E6F40]" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider">Waste Diverted</span>
+          </div>
+          <p className="text-base font-serif font-bold text-[#2E6F40]">
+            {evaluationResult.textileWasteDivertedKg || 0} kg
+          </p>
+          <p className="text-[10px] text-stone-400">
+            Prevented from landfill
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-stone-500 mb-1">
+            <PackageCheck className="w-3.5 h-3.5 text-[#783751]" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider">Matching Goods</span>
+          </div>
+          <p className="text-base font-serif font-bold text-[#783751]">
+            {displayProducts.filter(p => p.estimatedUnits > 0).length} products
+          </p>
+          <p className="text-[10px] text-stone-400">
+            {displayProducts.length} total options
+          </p>
         </div>
       </div>
 
       {/* ========================================================
-          4. PRODUCT RECOMMENDATIONS — HORIZONTAL SLIDER
+          5. PRODUCT RECOMMENDATIONS & VIEW CONTROLS
           ======================================================== */}
-      <div id="recommendations-section" className="space-y-4">
+      <div id="recommendations-section" className="space-y-4 pt-1">
         
-        {/* Section Header with Slider Arrows */}
-        <div className="flex items-center justify-between">
+        {/* Controls Bar: Filters & View Switcher */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-[#EAE2DE] shadow-2xs">
+          
+          {/* Left: Section Title & Count */}
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
               2
             </div>
             <div>
-              <h2 className="font-serif text-base font-bold text-[#4A252B] leading-tight">
-                Product Recommendations
+              <h2 className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
+                Recommended Upcycled Products
               </h2>
-              <p className="text-[11px] text-[#81777B] font-sans">
-                Products you can make from your {scrapInput.width}×{scrapInput.length} cm {scrapInput.fabricType} scraps.
+              <p className="text-[11px] text-[#81777B]">
+                Showing {displayProducts.length} circular designs for your scraps
               </p>
             </div>
           </div>
 
-          {/* Slider Navigation Arrows */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => scrollSlider('left')}
-              className="w-8 h-8 rounded-full border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] hover:border-[#783751]/50 shadow-2xs transition-all cursor-pointer"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollSlider('right')}
-              className="w-8 h-8 rounded-full border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] hover:border-[#783751]/50 shadow-2xs transition-all cursor-pointer"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+          {/* Center / Right: Filter Tabs & View Mode */}
+          <div className="flex flex-wrap items-center gap-2">
+            
+            {/* Filter Pills */}
+            <div className="flex items-center gap-1 bg-[#FBF7F5] p-1 rounded-xl border border-[#EAE2DE] text-[11px]">
+              {[
+                { id: 'all', label: 'All Products' },
+                { id: 'direct', label: 'Direct-Cut' },
+                { id: 'patchwork', label: 'Patchwork' },
+                { id: 'Accessories', label: 'Accessories' },
+                { id: 'Home & Kitchen', label: 'Home' },
+                { id: 'Bags & Storage', label: 'Bags' }
+              ].map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setActiveFilter(f.id)}
+                  className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
+                    activeFilter === f.id
+                      ? 'bg-[#783751] text-white font-semibold shadow-2xs'
+                      : 'text-stone-600 hover:text-[#4A252B] hover:bg-white/60'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+
+            {/* View Mode Toggle: Grid vs Slider */}
+            <div className="flex items-center gap-1 bg-[#FBF7F5] p-1 rounded-xl border border-[#EAE2DE]">
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
+                  viewMode === 'grid'
+                    ? 'bg-[#783751] text-white'
+                    : 'text-stone-600 hover:text-[#4A252B]'
+                }`}
+                title="Grid View (All at once)"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('slider')}
+                className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
+                  viewMode === 'slider'
+                    ? 'bg-[#783751] text-white'
+                    : 'text-stone-600 hover:text-[#4A252B]'
+                }`}
+                title="Horizontal Slider View"
+              >
+                <Columns className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* Slider navigation buttons (only when in slider view) */}
+            {viewMode === 'slider' && (
+              <div className="flex items-center gap-1.5 ml-1">
+                <button
+                  type="button"
+                  onClick={() => scrollSlider('left')}
+                  className="w-7 h-7 rounded-lg border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] shadow-2xs transition-all cursor-pointer"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollSlider('right')}
+                  className="w-7 h-7 rounded-lg border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] shadow-2xs transition-all cursor-pointer"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
 
-        {/* Horizontal Scrollable Slider */}
-        <div
-          ref={sliderRef}
-          data-slider-track
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUpOrLeave}
-          onMouseLeave={handleMouseUpOrLeave}
-          className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-3 -mb-3 cursor-grab active:cursor-grabbing select-none"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {/* Hide webkit scrollbar */}
-          <style>{`[data-slider-track]::-webkit-scrollbar { display: none; }`}</style>
-          {primaryDisplayProducts.map((prod) => (
-            <div
-              key={prod.id}
-              data-product-card
-              onClick={() => {
-                if (dragDistanceRef.current > 5) return;
-                setSelectedProductModal(prod);
-              }}
-              className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group snap-start shrink-0"
-              style={{ width: 'calc(33.333% - 11px)', minWidth: '260px' }}
+        {/* Empty State */}
+        {displayProducts.length === 0 && (
+          <div className="bg-white rounded-2xl border border-[#EAE2DE] p-12 text-center space-y-3">
+            <Scissors className="w-10 h-10 text-stone-300 mx-auto" />
+            <h3 className="font-serif text-base font-bold text-[#4A252B]">
+              No Products Match Current Filter
+            </h3>
+            <p className="text-xs text-stone-500 max-w-sm mx-auto">
+              Try adjusting your filter or increasing scrap dimensions to match more circular upcycling patterns.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setActiveFilter('all'); setSearchQuery(''); }}
+              className="px-4 py-2 rounded-xl bg-[#783751] text-white text-xs font-semibold cursor-pointer"
             >
-              {/* Product Photo */}
-              <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
-                <img
-                  src={prod.image}
-                  alt={prod.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.currentTarget.src = "/atelier/swatches.jpg";
-                  }}
-                />
-                {/* Yield badge overlay */}
-                <div className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-sm text-[#783751] px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
-                  ~{prod.estimatedUnits} units
+              Reset Filters
+            </button>
+          </div>
+        )}
+
+        {/* GRID VIEW */}
+        {viewMode === 'grid' && displayProducts.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {displayProducts.map((prod) => (
+              <div
+                key={prod.id}
+                data-product-card
+                onClick={() => setSelectedProductModal(prod)}
+                className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+              >
+                <div>
+                  {/* Photo & Badges */}
+                  <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = "/atelier/swatches.jpg";
+                      }}
+                    />
+                    
+                    {/* Yield badge */}
+                    <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm text-[#783751] px-2.5 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
+                      ~{prod.estimatedUnits} {prod.unitLabel || 'units'}
+                    </div>
+
+                    {/* Feasibility Tag */}
+                    <div className="absolute bottom-2.5 left-2.5">
+                      {prod.status === 'optimal' ? (
+                        <span className="bg-emerald-600/90 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[9px] font-bold shadow-xs">
+                          Direct Cut Ready
+                        </span>
+                      ) : prod.status === 'patchwork' ? (
+                        <span className="bg-amber-600/90 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[9px] font-bold shadow-xs">
+                          Patchwork Piecing
+                        </span>
+                      ) : (
+                        <span className="bg-stone-600/80 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[9px] font-medium shadow-xs">
+                          {prod.category}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-3.5 space-y-2">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-[10px] font-semibold text-[#81777B] uppercase tracking-wide">
+                        {prod.category}
+                      </span>
+                      <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
+                        {prod.difficulty}
+                      </span>
+                    </div>
+
+                    <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight line-clamp-1">
+                      {prod.name}
+                    </h3>
+
+                    <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
+                      {prod.description}
+                    </p>
+
+                    <div className="pt-1 text-[10px] text-stone-500 space-y-0.5 font-mono">
+                      <div className="flex items-center justify-between">
+                        <span>Piece requirement:</span>
+                        <span className="font-semibold text-[#4A252B]">{prod.minPieceWidth}×{prod.minPieceLength} cm</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>Sewing time:</span>
+                        <span className="font-semibold text-[#4A252B]">~{prod.estimatedSewTimeMin || 8} min</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Action */}
+                <div className="p-3.5 pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751] bg-[#FBF7F5]/50">
+                  <span className="group-hover:underline">View Cutting Ticket</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              {/* Card Body */}
-              <div className="p-3.5 space-y-2">
-                <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight">
-                  {prod.name}
-                </h3>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#FBF7F5] text-[#81777B] border border-[#EAE2DE] px-2 py-0.5 rounded-md text-[10px] font-medium">
-                    {prod.category}
-                  </span>
-                  <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
-                    {prod.difficulty}
-                  </span>
+        {/* SLIDER VIEW */}
+        {viewMode === 'slider' && displayProducts.length > 0 && (
+          <div
+            ref={sliderRef}
+            data-slider-track
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onMouseLeave={handleMouseUpOrLeave}
+            className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-3 -mb-3 cursor-grab active:cursor-grabbing select-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            <style>{`[data-slider-track]::-webkit-scrollbar { display: none; }`}</style>
+            {displayProducts.map((prod) => (
+              <div
+                key={prod.id}
+                data-product-card
+                onClick={() => {
+                  if (dragDistanceRef.current > 5) return;
+                  setSelectedProductModal(prod);
+                }}
+                className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group snap-start shrink-0 flex flex-col justify-between"
+                style={{ width: 'calc(33.333% - 11px)', minWidth: '270px' }}
+              >
+                <div>
+                  <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = "/atelier/swatches.jpg";
+                      }}
+                    />
+                    <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm text-[#783751] px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
+                      ~{prod.estimatedUnits} {prod.unitLabel || 'units'}
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 space-y-2">
+                    <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight line-clamp-1">
+                      {prod.name}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-[#FBF7F5] text-[#81777B] border border-[#EAE2DE] px-2 py-0.5 rounded-md text-[10px] font-medium">
+                        {prod.category}
+                      </span>
+                      <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
+                        {prod.difficulty}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
+                      {prod.description}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
-                  {prod.description}
-                </p>
 
-                {/* Footer */}
-                <div className="pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751]">
-                  <span className="group-hover:underline">View Details</span>
+                <div className="p-3.5 pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751]">
+                  <span className="group-hover:underline">View Cutting Plan</span>
                   <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
       </div>
 
       {/* ========================================================
-          PRODUCT DETAIL MODAL
+          6. PRODUCT DETAIL & CUTTING TICKET MODAL
           ======================================================== */}
       {selectedProductModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-stone-900/50 backdrop-blur-xs">
@@ -559,6 +793,11 @@ export function ReThreadPage() {
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#F0DCD2] text-[#4A252B] border border-[#EAE2DE]">
                   {selectedProductModal.difficulty}
                 </span>
+                {selectedProductModal.isDirectFit && (
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    Direct Cut Compatible
+                  </span>
+                )}
               </div>
               <button
                 type="button"
@@ -570,7 +809,7 @@ export function ReThreadPage() {
             </div>
 
             {/* Modal Body */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
               <div className="aspect-4/3 rounded-2xl overflow-hidden border border-[#EAE2DE] bg-stone-100">
                 <img
                   src={selectedProductModal.image}
@@ -585,19 +824,33 @@ export function ReThreadPage() {
                 <p className="text-xs text-[#81777B] leading-relaxed">
                   {selectedProductModal.description}
                 </p>
-                <div className="pt-2 text-xs space-y-1">
-                  <p className="text-stone-800">
-                    <strong>Estimated Yield:</strong> ~{selectedProductModal.estimatedUnits} units
+                <div className="pt-2 text-xs space-y-1.5 bg-[#FBF7F5] p-3 rounded-xl border border-[#EAE2DE]">
+                  <p className="text-stone-800 flex justify-between">
+                    <span>Estimated Yield:</span>
+                    <strong className="text-[#783751]">~{selectedProductModal.estimatedUnits} {selectedProductModal.unitLabel || 'units'}</strong>
                   </p>
-                  <p className="text-stone-800">
-                    <strong>Piece Min Size:</strong> {selectedProductModal.minPieceWidth}×{selectedProductModal.minPieceLength} cm
+                  <p className="text-stone-800 flex justify-between">
+                    <span>Min Pattern Size:</span>
+                    <strong>{selectedProductModal.minPieceWidth} × {selectedProductModal.minPieceLength} cm</strong>
                   </p>
-                  <p className="text-stone-600 text-[11px]">
-                    <strong>Hardware:</strong> {selectedProductModal.hardwareNeeded}
+                  <p className="text-stone-800 flex justify-between">
+                    <span>Pieces per Unit:</span>
+                    <strong>{selectedProductModal.piecesPerUnit || 1} panel(s)</strong>
+                  </p>
+                  <p className="text-stone-600 text-[11px] pt-1 border-t border-[#EAE2DE]">
+                    <strong>Hardware / Notions:</strong> {selectedProductModal.hardwareNeeded || 'None required'}
                   </p>
                 </div>
               </div>
             </div>
+
+            {/* Formula Explanation Callout */}
+            {selectedProductModal.formulaExplanation && (
+              <div className="bg-[#F3E6E4]/40 border border-[#C08274]/30 rounded-xl p-3 text-xs text-[#4A252B]">
+                <p className="font-semibold text-[#783751] mb-0.5">Yield Calculation Logic:</p>
+                <p className="text-[11px] text-[#5B5257]">{selectedProductModal.formulaExplanation}</p>
+              </div>
+            )}
 
             {/* Modal Footer */}
             <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#EAE2DE]">
@@ -615,7 +868,7 @@ export function ReThreadPage() {
                 className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#783751] text-white hover:bg-[#642C43] transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <Bookmark className="w-3.5 h-3.5" />
-                <span>{savedPlans.some(p => p.productId === selectedProductModal.id) ? 'Saved' : 'Save Plan'}</span>
+                <span>{savedPlans.some(p => p.productId === selectedProductModal.id) ? 'Saved in Plans' : 'Save Plan'}</span>
               </button>
             </div>
 
