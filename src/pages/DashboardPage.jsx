@@ -22,7 +22,6 @@ import {
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
 import { Modal } from '../components/common/FeedbackAndNavigation';
-import { AuthButton } from '../components/common/AuthButton';
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -155,9 +154,6 @@ export function DashboardPage() {
             />
           </div>
 
-          {/* Google Sign In / Account Status */}
-          <AuthButton />
-
           {/* New Project Button */}
           <button
             type="button"
@@ -181,8 +177,8 @@ export function DashboardPage() {
             <p className="text-[11px] font-medium text-[#7C857E]">Total Projects</p>
             <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">{totalProjectsCount}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#F4EDF8] text-[#8E2A8E] flex items-center justify-center shrink-0">
-            <FolderPlus className="w-5 h-5 text-[#8E2A8E]" />
+          <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center shrink-0">
+            <FolderPlus className="w-5 h-5 text-[#143823]" />
           </div>
         </div>
 
@@ -203,8 +199,8 @@ export function DashboardPage() {
             <p className="text-[11px] font-medium text-[#7C857E]">Waste Reduced</p>
             <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">{avgWasteReduction} kg</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#FEF3E6] text-[#D97706] flex items-center justify-center shrink-0">
-            <Recycle className="w-5 h-5 text-[#D97706]" />
+          <div className="w-10 h-10 rounded-xl bg-[#FDF4F2] text-[#A2593C] flex items-center justify-center shrink-0">
+            <Recycle className="w-5 h-5 text-[#A2593C]" />
           </div>
         </div>
 
@@ -214,8 +210,8 @@ export function DashboardPage() {
             <p className="text-[11px] font-medium text-[#7C857E]">Products Upcycled</p>
             <p className="text-2xl font-serif font-bold text-[#143823] mt-0.5">48</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#E6F4F1] text-[#0D9488] flex items-center justify-center shrink-0">
-            <ShoppingBag className="w-5 h-5 text-[#0D9488]" />
+          <div className="w-10 h-10 rounded-xl bg-[#FAF5EC] text-[#8C5E35] flex items-center justify-center shrink-0">
+            <ShoppingBag className="w-5 h-5 text-[#8C5E35]" />
           </div>
         </div>
 

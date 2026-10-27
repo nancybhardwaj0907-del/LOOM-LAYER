@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Scissors, Leaf, LayoutDashboard, FolderGit2, Recycle } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
-import { AuthButton } from './AuthButton';
 
 export function Navbar() {
   const location = useLocation();
@@ -78,8 +77,6 @@ export function Navbar() {
           {/* Right Header Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             <ThemeToggle />
-
-            <AuthButton />
           </div>
         </div>
       </div>

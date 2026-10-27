@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from './useAuth';
 
 const USER_PROFILE_STORAGE_KEY = 'loom_layer_atelier_profile_prefs_v1';
 
@@ -83,24 +82,6 @@ export function UserProfileProvider({ children }) {
       console.warn('Failed to save profile to localStorage:', e);
     }
   }, [profile]);
-
-  const { user } = useAuth();
-
-  // Automatically sync Google account name, email & profile photo when logged in
-  useEffect(() => {
-    if (user) {
-      const googleName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0];
-      const googleEmail = user.email;
-      const googleAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-
-      setProfile((prev) => ({
-        ...prev,
-        ...(googleName ? { name: googleName } : {}),
-        ...(googleEmail ? { email: googleEmail } : {}),
-        ...(googleAvatar ? { avatar: googleAvatar } : {})
-      }));
-    }
-  }, [user]);
 
   const updateProfile = (updates) => {
     setProfile((prev) => ({
