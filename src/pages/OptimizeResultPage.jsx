@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Download, 
+  Mail,
   Leaf, 
   Scissors, 
   Layers, 
@@ -16,6 +17,7 @@ import { Modal } from '../components/common/FeedbackAndNavigation';
 import { FabricCanvas } from '../components/fabric/FabricCanvas';
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
+import { EmailReportModal } from '../components/common/EmailReportModal';
 
 import { 
   generateCuttingPlan,
@@ -35,6 +37,7 @@ export function OptimizeResultPage() {
   const { profile } = useUserProfile();
 
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const project = getProject(id);
@@ -167,6 +170,16 @@ export function OptimizeResultPage() {
           >
             <BarChart3 className="w-3.5 h-3.5" />
             <span>ESG Report</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsEmailModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-[#EAE2DE] text-[#783751] hover:bg-[#F3E6E4]/40 transition-colors shadow-2xs cursor-pointer"
+            title="Email cutting plan report directly to inbox"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Email Report</span>
           </button>
 
           <button
@@ -449,6 +462,25 @@ export function OptimizeResultPage() {
                   </div>
                   <Download className="w-4 h-4 text-[#81777B]" />
                 </div>
+
+                <div
+                  onClick={() => {
+                    setIsExportModalOpen(false);
+                    setIsEmailModalOpen(true);
+                  }}
+                  className="p-3.5 rounded-xl border border-[#783751]/30 bg-[#FBF7F5] hover:bg-[#F3E6E4]/50 cursor-pointer transition-all flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-[#783751] text-white font-mono font-bold text-xs">
+                      EMAIL
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#4A252B]">Send Report to Email</div>
+                      <div className="text-[11px] text-[#81777B]">Deliver cutting plan report and cloud download link to inbox</div>
+                    </div>
+                  </div>
+                  <Mail className="w-4 h-4 text-[#783751]" />
+                </div>
               </div>
 
               <div className="pt-2 flex justify-end">
@@ -464,6 +496,24 @@ export function OptimizeResultPage() {
           )}
         </div>
       </Modal>
+
+      {/* Email Report Modal */}
+      <EmailReportModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        defaultEmail={profile?.email || 'designer@atelier.com'}
+        recipientName={profile?.name || 'Designer'}
+        projectName={project?.name || 'Fabric Cut Plan'}
+        reportType="Cutting & Marker Plan Report"
+        reportContent={project ? generatePrintableCuttingPlanHTML(project) : ''}
+        metrics={{
+          utilization: project?.markerUtilization || project?.utilization || 88,
+          fabricSaved: project?.fabricSavedMeters ? `${project.fabricSavedMeters} m` : undefined,
+          wasteReduced: project?.wastePercentage ? `${project.wastePercentage}%` : undefined,
+          co2Saved: project?.co2SavedKg ? `${project.co2SavedKg} kg` : undefined
+        }}
+        fileName={`${project?.name || 'Cutting_Plan'}_Report`}
+      />
 
     </div>
   );
