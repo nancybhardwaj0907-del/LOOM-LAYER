@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Scissors, 
@@ -8,6 +8,8 @@ import {
   Search, 
   Bell,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ArrowRight,
   Maximize2, 
   MoveHorizontal,
@@ -35,6 +37,41 @@ export function ReThreadPage() {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
+  const sliderRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const dragDistanceRef = useRef(0);
+
+  const scrollSlider = useCallback((direction) => {
+    if (!sliderRef.current) return;
+    const cardWidth = sliderRef.current.querySelector('[data-product-card]')?.offsetWidth || 300;
+    const scrollAmount = cardWidth + 16; // card width + gap
+    sliderRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+  }, []);
+
+  const handleMouseDown = (e) => {
+    if (!sliderRef.current) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - sliderRef.current.offsetLeft;
+    scrollLeftRef.current = sliderRef.current.scrollLeft;
+    dragDistanceRef.current = 0;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !sliderRef.current) return;
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 1.3;
+    dragDistanceRef.current = Math.abs(x - startXRef.current);
+    sliderRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+  };
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [savedPlans, setSavedPlans] = useState(() => {
     try {
@@ -397,11 +434,11 @@ export function ReThreadPage() {
       </div>
 
       {/* ========================================================
-          4. PRODUCT RECOMMENDATIONS — FULL WIDTH GRID
+          4. PRODUCT RECOMMENDATIONS — HORIZONTAL SLIDER
           ======================================================== */}
       <div id="recommendations-section" className="space-y-4">
         
-        {/* Section Header */}
+        {/* Section Header with Slider Arrows */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
@@ -417,23 +454,50 @@ export function ReThreadPage() {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSearchQuery('')}
-            className="text-xs font-semibold text-[#783751] hover:underline flex items-center gap-1 cursor-pointer transition-colors shrink-0"
-          >
-            <span>View All</span>
-            <ArrowRight className="w-3 h-3" />
-          </button>
+          {/* Slider Navigation Arrows */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => scrollSlider('left')}
+              className="w-8 h-8 rounded-full border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] hover:border-[#783751]/50 shadow-2xs transition-all cursor-pointer"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollSlider('right')}
+              className="w-8 h-8 rounded-full border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] hover:border-[#783751]/50 shadow-2xs transition-all cursor-pointer"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Product Cards Grid — 3 columns on md+, 2 on sm */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Horizontal Scrollable Slider */}
+        <div
+          ref={sliderRef}
+          data-slider-track
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-3 -mb-3 cursor-grab active:cursor-grabbing select-none"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {/* Hide webkit scrollbar */}
+          <style>{`[data-slider-track]::-webkit-scrollbar { display: none; }`}</style>
           {primaryDisplayProducts.map((prod) => (
             <div
               key={prod.id}
-              onClick={() => setSelectedProductModal(prod)}
-              className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group"
+              data-product-card
+              onClick={() => {
+                if (dragDistanceRef.current > 5) return;
+                setSelectedProductModal(prod);
+              }}
+              className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group snap-start shrink-0"
+              style={{ width: 'calc(33.333% - 11px)', minWidth: '260px' }}
             >
               {/* Product Photo */}
               <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
