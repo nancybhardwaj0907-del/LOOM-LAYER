@@ -11,7 +11,8 @@ import {
   Settings, 
   Menu, 
   X,
-  Sparkles
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import { useProjects } from '../../context/useProjects';
 
@@ -134,11 +135,11 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Bottom Promotional Panel with Botanical Line Art */}
-      <div className="mt-8 rounded-2xl bg-[#143823] p-4 text-white relative overflow-hidden shadow-xs border border-[#0F2D1C]">
+      {/* Bottom Circular Atelier Card with Botanical Art (Reference Image 2) */}
+      <div className="mt-8 rounded-2xl bg-white border border-[#E8E2D6] p-4 text-stone-900 relative overflow-hidden shadow-2xs group">
         {/* Subtle Botanical Leaf Line Art SVG Background */}
         <svg
-          className="absolute -right-3 -bottom-4 w-28 h-28 text-[#285A3B] opacity-50 pointer-events-none"
+          className="absolute -right-3 -bottom-3 w-24 h-24 text-[#CCDCCD]/30 pointer-events-none transition-transform duration-300 group-hover:scale-105"
           viewBox="0 0 100 100"
           fill="none"
           stroke="currentColor"
@@ -150,20 +151,22 @@ export function Sidebar() {
           <path d="M45 45 C 50 40, 60 38, 70 42" />
         </svg>
 
-        <div className="relative z-10 space-y-2">
-          <div className="w-6 h-6 rounded-md bg-[#204E32] flex items-center justify-center text-[#A6C5AE]">
-            <Leaf className="w-3.5 h-3.5" />
+        <div className="relative z-10 space-y-2.5">
+          <div className="w-8 h-8 rounded-full bg-[#E5EFE6] text-[#143823] flex items-center justify-center shadow-2xs">
+            <Leaf className="w-4 h-4 text-[#143823]" />
           </div>
-          <p className="text-xs font-serif leading-tight text-cream-100 font-medium">
-            Turn <br />
-            <span className="font-bold text-sm text-white">Fabric Waste</span> <br />
-            into <br />
-            <span className="font-bold text-sm text-white">New Possibilities</span>
+          <p className="text-xs font-serif leading-snug text-stone-800 font-medium">
+            Turning <br />
+            <span className="font-bold text-stone-950">fabric waste</span> <br />
+            into a better tomorrow.
           </p>
-          <div className="pt-2 border-t border-[#235336]">
-            <span className="text-[10px] font-sans text-[#A6C5AE] tracking-wide block">
-              Reduce. Reuse. Reimagine.
-            </span>
+          <div className="pt-1">
+            <Link
+              to="/sustainability"
+              className="w-7 h-7 rounded-full bg-[#FAF8F5] border border-[#DDD5C7] flex items-center justify-center text-stone-700 hover:text-[#143823] hover:bg-[#E5EFE6] hover:border-[#CCDCCD] transition-all shadow-2xs cursor-pointer inline-flex"
+            >
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>

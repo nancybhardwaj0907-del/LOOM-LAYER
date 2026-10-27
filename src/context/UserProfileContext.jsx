@@ -51,21 +51,30 @@ const DEFAULT_PROFILE = {
 
 const UserProfileContext = createContext(null);
 
+const USER_AVATAR_STORAGE_KEY = 'loom_layer_user_avatar_v1';
+
 export function UserProfileProvider({ children }) {
   const [profile, setProfile] = useState(() => {
     try {
       const stored = localStorage.getItem(USER_PROFILE_STORAGE_KEY);
+      const savedAvatar = localStorage.getItem(USER_AVATAR_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
         return {
           ...DEFAULT_PROFILE,
           ...parsed,
+          avatar: savedAvatar || parsed.avatar || DEFAULT_PROFILE.avatar,
           preferences: { ...DEFAULT_PROFILE.preferences, ...(parsed.preferences || {}) },
           units: { ...DEFAULT_PROFILE.units, ...(parsed.units || {}) },
           notifications: { ...DEFAULT_PROFILE.notifications, ...(parsed.notifications || {}) },
           dataStorage: { ...DEFAULT_PROFILE.dataStorage, ...(parsed.dataStorage || {}) },
           integrations: { ...DEFAULT_PROFILE.integrations, ...(parsed.integrations || {}) },
           appearance: { ...DEFAULT_PROFILE.appearance, ...(parsed.appearance || {}) }
+        };
+      } else if (savedAvatar) {
+        return {
+          ...DEFAULT_PROFILE,
+          avatar: savedAvatar
         };
       }
     } catch (e) {
@@ -74,12 +83,18 @@ export function UserProfileProvider({ children }) {
     return DEFAULT_PROFILE;
   });
 
-  // Save to localStorage whenever profile changes
+  // Save to localStorage whenever profile changes with quota protection
   useEffect(() => {
     try {
       localStorage.setItem(USER_PROFILE_STORAGE_KEY, JSON.stringify(profile));
     } catch (e) {
-      console.warn('Failed to save profile to localStorage:', e);
+      console.warn('Quota exceeded when saving full profile. Saving lightweight profile without heavy avatar:', e);
+      try {
+        const lightweight = { ...profile, avatar: DEFAULT_PROFILE.avatar };
+        localStorage.setItem(USER_PROFILE_STORAGE_KEY, JSON.stringify(lightweight));
+      } catch (innerErr) {
+        console.error('Failed to save profile fallback:', innerErr);
+      }
     }
   }, [profile]);
 
@@ -91,6 +106,11 @@ export function UserProfileProvider({ children }) {
   };
 
   const updateAvatar = (newAvatarUrl) => {
+    try {
+      localStorage.setItem(USER_AVATAR_STORAGE_KEY, newAvatarUrl);
+    } catch (e) {
+      console.warn('Failed to persist avatar to localStorage:', e);
+    }
     setProfile((prev) => ({
       ...prev,
       avatar: newAvatarUrl
@@ -98,6 +118,11 @@ export function UserProfileProvider({ children }) {
   };
 
   const resetAvatar = () => {
+    try {
+      localStorage.removeItem(USER_AVATAR_STORAGE_KEY);
+    } catch (e) {
+      console.warn(e);
+    }
     setProfile((prev) => ({
       ...prev,
       avatar: DEFAULT_PROFILE.avatar

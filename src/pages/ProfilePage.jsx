@@ -50,8 +50,42 @@ export function ProfilePage() {
   const [localNotifs, setLocalNotifs] = useState({ ...profile.notifications });
   const [localAppearance, setLocalAppearance] = useState({ ...profile.appearance });
 
+  // Helper function to compress image into a lightweight data URL
+  const compressImage = (file, maxWidth = 320, maxHeight = 320, quality = 0.85) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   // Handle Photo Upload
-  const handlePhotoFileChange = (e) => {
+  const handlePhotoFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -60,21 +94,24 @@ export function ProfilePage() {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image file size must be less than 5MB.');
-      return;
+    try {
+      const compressedDataUrl = await compressImage(file, 320, 320, 0.85);
+      updateAvatar(compressedDataUrl);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.warn('Canvas compression error, falling back to direct reader:', err);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target?.result;
+        if (dataUrl) {
+          updateAvatar(dataUrl);
+          setSaveSuccess(true);
+          setTimeout(() => setSaveSuccess(false), 3000);
+        }
+      };
+      reader.readAsDataURL(file);
     }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result;
-      if (dataUrl) {
-        updateAvatar(dataUrl);
-        setSaveSuccess(true);
-        setTimeout(() => setSaveSuccess(false), 3000);
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleRemovePhoto = () => {
