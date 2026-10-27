@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
 import { 
   FileText, 
   Download, 
+  Mail,
   FolderPlus, 
   Leaf, 
   Recycle, 
   ShoppingBag, 
   Calendar, 
-  TrendingUp,
-  BarChart3,
-  Layers,
-  ChevronDown
+  TrendingUp, 
+  BarChart3, 
+  Layers, 
+  ChevronDown 
 } from 'lucide-react';
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
+import { EmailReportModal } from '../components/common/EmailReportModal';
+import { generatePrintableSustainabilityReportHTML } from '../utils/cuttingPlanGenerator';
 
 export function ReportsPage() {
   const { projects } = useProjects();
   const { profile } = useUserProfile();
   const [activeTab, setActiveTab] = useState('Overview');
   const [dateRange, setDateRange] = useState('6months');
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   const tabs = ['Overview', 'Projects', 'Fabric Usage', 'Waste Reduction', 'Product Upcycling'];
 
@@ -94,6 +97,15 @@ export function ReportsPage() {
               <option value="1year">Last Year</option>
             </select>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsEmailModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#EAE2DE] text-[#783751] hover:bg-[#F3E6E4]/40 transition-colors shadow-2xs cursor-pointer"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Email Report</span>
+          </button>
 
           <button
             type="button"
@@ -279,6 +291,23 @@ export function ReportsPage() {
         </div>
 
       </div>
+
+      {/* Email Report Modal */}
+      <EmailReportModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        defaultEmail={profile?.email || 'designer@atelier.com'}
+        recipientName={profile?.name || 'Designer'}
+        projectName={projects?.[0]?.name || 'Loom & Layer Production Overview'}
+        reportType="Atelier Production & ESG Report"
+        reportContent={projects?.[0] ? generatePrintableSustainabilityReportHTML(projects[0]) : ''}
+        metrics={{
+          utilization: 88,
+          fabricSaved: `${totalFabricUsed} m`,
+          wasteReduced: `${totalWasteReduced} m²`
+        }}
+        fileName="Loom_Layer_Production_Overview_Report"
+      />
 
     </div>
   );

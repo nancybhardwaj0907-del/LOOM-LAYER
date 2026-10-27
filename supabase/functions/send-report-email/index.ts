@@ -1,0 +1,144 @@
+// Supabase Edge Function: send-report-email
+// Runtime: Deno / TypeScript
+// Invocation: supabase functions deploy send-report-email
+
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req: Request) => {
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    const { to, projectName, reportType, downloadUrl, metrics, recipientName } = await req.json();
+
+    if (!to || !downloadUrl) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields: to, downloadUrl" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (!RESEND_API_KEY) {
+      return new Response(
+        JSON.stringify({ 
+          error: "RESEND_API_KEY is not configured in Supabase Secrets. Please add it via: supabase secrets set RESEND_API_KEY=re_..." 
+        }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const title = reportType || "Fabric Cutting & ESG Report";
+    const name = recipientName || "Designer";
+    const proj = projectName || "Fabric Cutting Project";
+
+    // Build metric pills HTML if provided
+    let metricsHtml = "";
+    if (metrics) {
+      metricsHtml = `
+        <div style="background-color: #FBF7F5; border: 1px solid #EAE2DE; border-radius: 12px; padding: 16px; margin: 24px 0;">
+          <h4 style="margin: 0 0 12px 0; color: #4A252B; font-family: serif; font-size: 15px;">Report Highlights</h4>
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            ${metrics.utilization ? `<tr><td style="padding: 6px 0; color: #81777B;">Marker Utilization</td><td style="text-align: right; font-weight: bold; color: #4A252B;">${metrics.utilization}%</td></tr>` : ""}
+            ${metrics.fabricSaved ? `<tr><td style="padding: 6px 0; color: #81777B;">Fabric Saved</td><td style="text-align: right; font-weight: bold; color: #2E6F40;">${metrics.fabricSaved}</td></tr>` : ""}
+            ${metrics.wasteReduced ? `<tr><td style="padding: 6px 0; color: #81777B;">Waste Reduced</td><td style="text-align: right; font-weight: bold; color: #4A252B;">${metrics.wasteReduced}</td></tr>` : ""}
+            ${metrics.co2Saved ? `<tr><td style="padding: 6px 0; color: #81777B;">CO₂ Avoided</td><td style="text-align: right; font-weight: bold; color: #2E6F40;">${metrics.co2Saved}</td></tr>` : ""}
+          </table>
+        </div>
+      `;
+    }
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #F8F5F2; margin: 0; padding: 24px; color: #39343A; }
+          .container { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid #EAE2DE; overflow: hidden; }
+          .header { background-color: #783751; padding: 28px 24px; text-align: center; }
+          .header h1 { color: #ffffff; font-family: Georgia, serif; margin: 0; font-size: 24px; font-weight: normal; }
+          .header p { color: #F3E6E4; margin: 6px 0 0 0; font-size: 13px; }
+          .body-content { padding: 32px 28px; }
+          .btn-download { display: inline-block; background-color: #783751; color: #ffffff !important; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 16px; }
+          .footer { padding: 20px 28px; background-color: #FBF7F5; border-top: 1px solid #EAE2DE; text-align: center; font-size: 12px; color: #81777B; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Loom & Layer</h1>
+            <p>Atelier Circular Cutting & Sustainability Engine</p>
+          </div>
+          <div class="body-content">
+            <h2 style="color: #4A252B; font-family: Georgia, serif; font-size: 20px; margin-top: 0;">${title}</h2>
+            <p style="font-size: 14px; line-height: 1.6; color: #5B5257;">
+              Hello ${name},<br/><br/>
+              Your requested downloadable report for <strong>${proj}</strong> is ready. You can inspect the complete cutting geometry, marker layout, and sustainability analytics using the link below.
+            </p>
+
+            ${metricsHtml}
+
+            <div style="text-align: center; margin: 32px 0 24px 0;">
+              <a href="${downloadUrl}" class="btn-download" target="_blank" rel="noopener noreferrer">
+                📥 Download Report File
+              </a>
+            </div>
+
+            <p style="font-size: 12px; color: #81777B; line-height: 1.5; text-align: center;">
+              This download link is securely stored on your atelier cloud storage.
+            </p>
+          </div>
+          <div class="footer">
+            © ${new Date().getFullYear()} Loom & Layer Atelier. Zero-waste circular pattern engineering.
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Dispatch request to Resend API
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Loom & Layer <onboarding@resend.dev>",
+        to: [to],
+        subject: `[Loom & Layer] ${title} — ${proj}`,
+        html: emailHtml,
+      }),
+    });
+
+    const resendData = await resendResponse.json();
+
+    if (!resendResponse.ok) {
+      console.error("Resend API error:", resendData);
+      return new Response(
+        JSON.stringify({ error: resendData.message || "Failed to send email via Resend" }),
+        { status: resendResponse.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ success: true, emailId: resendData.id, downloadUrl }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  } catch (err: any) {
+    console.error("Unexpected Edge Function error:", err);
+    return new Response(
+      JSON.stringify({ error: err.message || "Internal server error" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+});

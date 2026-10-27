@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Leaf, 
   Download, 
+  Mail,
   Recycle, 
   ShoppingBag, 
   CloudRain, 
@@ -15,6 +16,7 @@ import {
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
 import { generatePrintableSustainabilityReportHTML, openPrintableDocument } from '../utils/cuttingPlanGenerator';
+import { EmailReportModal } from '../components/common/EmailReportModal';
 
 export function SustainabilityReportPage() {
   const { id } = useParams();
@@ -23,6 +25,7 @@ export function SustainabilityReportPage() {
   const { profile } = useUserProfile();
   const [selectedProjectId, setSelectedProjectId] = useState(id || 'all');
   const [downloading, setDownloading] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   const activeProject = selectedProjectId !== 'all' ? getProject(selectedProjectId) : projects[0];
 
@@ -111,6 +114,15 @@ export function SustainabilityReportPage() {
               ))}
             </select>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsEmailModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#EAE2DE] text-[#783751] hover:bg-[#F3E6E4]/40 transition-colors shadow-2xs cursor-pointer"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Email Report</span>
+          </button>
 
           <button
             type="button"
@@ -331,6 +343,24 @@ export function SustainabilityReportPage() {
 
         </div>
       </div>
+
+      {/* Email Report Modal */}
+      <EmailReportModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        defaultEmail={profile?.email || 'designer@atelier.com'}
+        recipientName={profile?.name || 'Designer'}
+        projectName={activeProject?.name || 'Sustainable Fabric Project'}
+        reportType="ESG Sustainability Report"
+        reportContent={activeProject ? generatePrintableSustainabilityReportHTML(activeProject) : ''}
+        metrics={{
+          utilization: activeProject?.markerUtilization || activeProject?.utilization || 85.2,
+          fabricSaved: `${activeProject?.fabricSavedMeters || totalFabricSaved} m`,
+          wasteReduced: `${totalWasteReduced} m²`,
+          co2Saved: `${activeProject?.co2SavedKg || co2Impact} kg`
+        }}
+        fileName={`${activeProject?.name || 'ESG'}_Sustainability_Report`}
+      />
 
     </div>
   );
