@@ -37,8 +37,6 @@ export function ProfilePage() {
   const { projects } = useProjects();
   const [activeTab, setActiveTab] = useState('profile');
   const [saveSuccess, setSaveSuccess] = useState(false);
-  const [copiedKey, setCopiedKey] = useState(false);
-  const [cacheClearSuccess, setCacheClearSuccess] = useState(false);
   const fileInputRef = useRef(null);
 
   // Local state initialized from profile context
@@ -53,7 +51,6 @@ export function ProfilePage() {
   const [localPrefs, setLocalPrefs] = useState({ ...profile.preferences });
   const [localUnits, setLocalUnits] = useState({ ...profile.units });
   const [localNotifs, setLocalNotifs] = useState({ ...profile.notifications });
-  const [localIntegrations, setLocalIntegrations] = useState({ ...profile.integrations });
   const [localAppearance, setLocalAppearance] = useState({ ...profile.appearance });
 
   // Handle Photo Upload
@@ -118,13 +115,6 @@ export function ProfilePage() {
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  const handleSaveIntegrations = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    updateSection('integrations', localIntegrations);
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3000);
-  };
-
   const handleSaveAppearance = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     updateSection('appearance', localAppearance);
@@ -132,52 +122,11 @@ export function ProfilePage() {
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  // Export all projects and configuration to a JSON backup
-  const handleExportAllData = () => {
-    try {
-      const backupData = {
-        exportedAt: new Date().toISOString(),
-        profile,
-        projects: projects || [],
-        savedReThreadPlans: JSON.parse(localStorage.getItem('rethread_saved_plans_v1') || '[]')
-      };
-      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `loom_and_layer_backup_${new Date().toISOString().slice(0, 10)}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (e) {
-      console.error('Failed to export data', e);
-    }
-  };
-
-  const handleClearCache = () => {
-    if (window.confirm('Are you sure you want to clear saved ReThread scrap plans and cached simulation states? Your main projects will be preserved.')) {
-      localStorage.removeItem('rethread_saved_plans_v1');
-      setCacheClearSuccess(true);
-      setTimeout(() => setCacheClearSuccess(false), 3000);
-    }
-  };
-
-  const handleCopyApiKey = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(localIntegrations.apiKey || 'll_live_948271038472');
-      setCopiedKey(true);
-      setTimeout(() => setCopiedKey(false), 2500);
-    }
-  };
-
   const menuItems = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'preferences', label: 'Preferences', icon: SettingsIcon },
     { id: 'units', label: 'Units & Measurements', icon: Ruler },
     { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'data', label: 'Data & Storage', icon: Database },
-    { id: 'integrations', label: 'Integrations', icon: Layers },
     { id: 'appearance', label: 'Appearance', icon: Palette }
   ];
 
@@ -797,183 +746,7 @@ export function ProfilePage() {
             </div>
           )}
 
-          {/* ========================================================
-              TAB 5: DATA & STORAGE
-              ======================================================== */}
-          {activeTab === 'data' && (
-            <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
-                Data Management & Storage
-              </h2>
 
-              <div className="space-y-5 max-w-xl relative z-10">
-                
-                {/* Storage Meter Card */}
-                <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-stone-800">Browser Cache Usage</span>
-                    <span className="font-mono text-[#143823] font-bold">1.2 MB / 5.0 MB</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-stone-200 overflow-hidden">
-                    <div className="h-full bg-[#143823] rounded-full" style={{ width: '24%' }} />
-                  </div>
-                  <p className="text-[11px] text-[#7C857E]">
-                    Stores your active pattern coordinates, fabric swatches, and saved ReThread tickets locally.
-                  </p>
-                </div>
-
-                {/* Action Cards */}
-                <div className="space-y-3">
-                  {/* Export All Data */}
-                  <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#DDD5C7] hover:border-[#143823] transition-colors">
-                    <div>
-                      <span className="text-xs font-bold text-stone-900 block">Export Atelier Backup</span>
-                      <span className="text-[11px] text-[#7C857E]">Download all projects, cutting plans, and profiles as a .json file</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleExportAllData}
-                      className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Export JSON</span>
-                    </button>
-                  </div>
-
-                  {/* Clear ReThread Scraps */}
-                  <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#DDD5C7] hover:border-rose-300 transition-colors">
-                    <div>
-                      <span className="text-xs font-bold text-stone-900 block">Clear Saved Upcycling Tickets</span>
-                      <span className="text-[11px] text-[#7C857E]">Purge saved ReThread plans while preserving core project records</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleClearCache}
-                      className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-rose-300 text-rose-700 bg-rose-50 hover:bg-rose-100 transition-colors flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      <span>Clear Cache</span>
-                    </button>
-                  </div>
-                </div>
-
-                {cacheClearSuccess && (
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Upcycling tickets and cache cleared successfully.</span>
-                  </div>
-                )}
-
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================
-              TAB 6: INTEGRATIONS
-              ======================================================== */}
-          {activeTab === 'integrations' && (
-            <div>
-              <h2 className="text-sm font-semibold text-[#143823] mb-6">
-                Connected CAD & CAM Systems
-              </h2>
-
-              <form onSubmit={handleSaveIntegrations} className="space-y-5 max-w-xl relative z-10">
-                
-                {/* CAM Cutting Bed Toggles */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-stone-900">DXF-AAMA / ASTM CAD Export</span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                          Active
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-[#7C857E]">Standard universal nesting vectors for apparel plotters</span>
-                    </div>
-                    <span className="text-xs font-mono font-bold text-[#143823]">Default</span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-stone-900">Gerber Technology CAM Automation</span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E5EFE6] text-[#143823]">
-                          Compatible
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-[#7C857E]">Direct format export for multi-ply automated cutter machines</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setLocalIntegrations({ ...localIntegrations, gerber: !localIntegrations.gerber })}
-                      className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localIntegrations.gerber ? 'bg-[#143823]' : 'bg-stone-300'
-                      }`}
-                    >
-                      <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localIntegrations.gerber ? 'left-5' : 'left-1'}`} />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-stone-900">Lectra Vector Cutting Systems</span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E5EFE6] text-[#143823]">
-                          Compatible
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-[#7C857E]">Continuous contour toolpath optimization for Lectra cutters</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setLocalIntegrations({ ...localIntegrations, lectra: !localIntegrations.lectra })}
-                      className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer ${
-                        localIntegrations.lectra ? 'bg-[#143823]' : 'bg-stone-300'
-                      }`}
-                    >
-                      <span className={`w-4 h-4 rounded-full bg-white shadow-xs block transition-transform absolute top-1 ${localIntegrations.lectra ? 'left-5' : 'left-1'}`} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* API Key Box */}
-                <div className="p-4 rounded-xl border border-[#DDD5C7] bg-[#FAF8F5] space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-stone-800">Atelier REST API Key</span>
-                    <span className="text-[10px] text-stone-400 font-mono">Live Factory Production</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="password"
-                      readOnly
-                      value={localIntegrations.apiKey || 'll_live_948271038472'}
-                      className="w-full px-3 py-1.5 text-xs font-mono rounded-lg border border-[#DDD5C7] bg-white text-stone-800 select-all"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleCopyApiKey}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#DDD5C7] bg-white text-stone-700 hover:bg-[#FAF8F5] transition-colors flex items-center gap-1 cursor-pointer shrink-0"
-                    >
-                      {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copiedKey ? 'Copied' : 'Copy'}</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Save Button */}
-                <div className="pt-2 flex justify-end">
-                  <button
-                    type="submit"
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
-                  >
-                    Save Integrations
-                  </button>
-                </div>
-
-              </form>
-            </div>
-          )}
 
           {/* ========================================================
               TAB 7: APPEARANCE
