@@ -73,42 +73,49 @@ export async function sendReportEmail({
   metrics,
   recipientName
 }) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'Supabase is not configured' };
-  }
+  const payload = {
+    to,
+    projectName,
+    reportType,
+    downloadUrl,
+    metrics,
+    recipientName
+  };
 
+  // 1. Try local dev server API route first
   try {
-    const { data, error } = await supabase.functions.invoke('send-report-email', {
-      body: {
-        to,
-        projectName,
-        reportType,
-        downloadUrl,
-        metrics,
-        recipientName
-      }
+    const apiRes = await fetch('/api/send-report-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
 
-    if (error) {
-      console.warn('[emailReportService] Edge Function error:', error);
-      return {
-        success: false,
-        error: error.message || 'Failed to dispatch email via Edge Function',
-        downloadUrl
-      };
+    if (apiRes.ok) {
+      const data = await apiRes.json();
+      return { success: true, emailId: data.id, downloadUrl };
     }
-
-    return {
-      success: true,
-      downloadUrl,
-      emailId: data?.emailId
-    };
   } catch (err) {
-    console.error('[emailReportService] Failed to invoke send-report-email:', err);
-    return {
-      success: false,
-      error: err.message || 'Network error invoking Edge Function',
-      downloadUrl
-    };
+    console.log('[emailReportService] Local endpoint not active, trying Supabase Edge Function...', err);
   }
+
+  // 2. Try Supabase Edge Function
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-report-email', {
+        body: payload
+      });
+
+      if (!error && data?.success) {
+        return { success: true, emailId: data.emailId, downloadUrl };
+      }
+    } catch (err) {
+      console.warn('[emailReportService] Supabase Edge Function error:', err);
+    }
+  }
+
+  return {
+    success: false,
+    error: 'Email service could not reach recipient. Please ensure your email is authorized in Resend or check your connection.',
+    downloadUrl
+  };
 }
