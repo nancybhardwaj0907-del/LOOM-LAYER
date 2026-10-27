@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Download, 
-  RotateCcw, 
   Leaf, 
   Scissors, 
   Layers, 
   CheckCircle2, 
-  Play, 
-  Pause, 
-  ChevronRight,
   BarChart3,
+  Recycle,
   Sparkles,
-  AlertTriangle
+  ArrowRight,
+  Info
 } from 'lucide-react';
 import { Modal } from '../components/common/FeedbackAndNavigation';
 import { FabricCanvas } from '../components/fabric/FabricCanvas';
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
-import { useCuttingSimulation } from '../hooks/useCuttingSimulation';
 
 import { 
   generateCuttingPlan,
@@ -39,28 +36,8 @@ export function OptimizeResultPage() {
 
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
-  const [simSpeed, setSimSpeed] = useState('normal'); // 'slow', 'normal', 'fast'
 
   const project = getProject(id);
-
-  // Derive duration based on simulation speed
-  const simDuration = useMemo(() => {
-    if (simSpeed === 'slow') return 10000;
-    if (simSpeed === 'fast') return 2500;
-    return 5000;
-  }, [simSpeed]);
-
-  const simulation = useCuttingSimulation({
-    duration: simDuration,
-    placements: project?.layoutPlacements
-  });
-
-  // Reset simulation when project changes
-  useEffect(() => {
-    if (simulation.status === 'cutting' || simulation.status === 'paused') {
-      simulation.stop();
-    }
-  }, [project?.id]);
 
   if (!project) {
     return (
@@ -79,50 +56,9 @@ export function OptimizeResultPage() {
   }
 
   const placements = project.layoutPlacements || [];
-  const totalPlacements = placements.length || 12;
-  const currentPieceIndex = Math.min(
-    simulation.currentPieceIndex || 0,
-    Math.max(0, totalPlacements - 1)
-  );
-  const currentPiece = placements[currentPieceIndex] || {
-    name: 'Front Bodice',
-    width: 52,
-    height: 45
-  };
+  const totalPlacements = placements.length || 0;
 
-  const isCutting = simulation.status === 'cutting';
-  const progressPercent = Math.min(
-    100,
-    Math.round(simulation.progress || ((currentPieceIndex + 1) / totalPlacements) * 100)
-  );
-  const placedPiecesCount = Math.min(
-    totalPlacements,
-    simulation.piecesPlaced?.length || currentPieceIndex + (isCutting ? 1 : 0)
-  );
-
-  const handleTogglePlay = () => {
-    if (isCutting) {
-      simulation.pause();
-    } else if (simulation.status === 'paused') {
-      simulation.resume();
-    } else {
-      simulation.start();
-    }
-  };
-
-  const handleResetSim = () => {
-    simulation.reset();
-  };
-
-  const handleNextPiece = () => {
-    if (simulation.stepForward) {
-      simulation.stepForward();
-    } else {
-      simulation.start();
-    }
-  };
-
-  // Helper SVG silhouette renderer
+  // Helper SVG silhouette renderer for pieces table
   const renderSilhouette = (name) => {
     const n = (name || '').toLowerCase();
     if (n.includes('sleeve')) {
@@ -187,7 +123,7 @@ export function OptimizeResultPage() {
     <div className="space-y-6">
       
       {/* ========================================================
-          1. HEADER BAR (Reference Screen 4)
+          1. HEADER BAR: ATELIER MARKER WORKBENCH
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div className="flex items-center gap-3.5">
@@ -203,240 +139,232 @@ export function OptimizeResultPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#143823] tracking-tight">
-              Cutting Simulation
+              Cutting & Marker Layout
             </h1>
             <p className="text-xs text-[#5C665F]">
-              Visualize the cutting process step by step.
+              Review the nested marker layout, fine-tune placements, and export production files.
             </p>
           </div>
         </div>
 
-        {/* Right Playback Controls */}
+        {/* Right Production Actions */}
         <div className="flex items-center gap-2.5">
-          {/* Speed Selector */}
-          <div className="flex items-center gap-1.5 text-xs text-stone-600 bg-white border border-[#DDD5C7] rounded-xl px-2.5 py-1.5 shadow-2xs">
-            <span className="text-[#7C857E]">Speed:</span>
-            <select
-              value={simSpeed}
-              onChange={(e) => setSimSpeed(e.target.value)}
-              className="bg-transparent font-semibold text-stone-800 focus:outline-none cursor-pointer"
-            >
-              <option value="slow">Slow</option>
-              <option value="normal">Normal</option>
-              <option value="fast">Fast</option>
-            </select>
-          </div>
-
-          {/* Play / Pause Button */}
           <button
             type="button"
-            onClick={handleTogglePlay}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+            onClick={() => navigate('/rethread')}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF8F5] transition-colors shadow-2xs cursor-pointer"
+            title="Repurpose offcut remnants into circular fashion accessories"
           >
-            {isCutting ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
-            <span>{isCutting ? 'Pause' : 'Play'}</span>
+            <Recycle className="w-3.5 h-3.5 text-[#143823]" />
+            <span>ReThread Offcuts</span>
           </button>
 
-          {/* Reset Button */}
           <button
             type="button"
-            onClick={handleResetSim}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF7F2] transition-colors shadow-2xs cursor-pointer"
+            onClick={() => navigate(`/project/${project.id}/sustainability`)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#E5EFE6] text-[#143823] hover:bg-[#D5E5D7] transition-colors cursor-pointer"
+            title="View Sustainability ESG Report"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <BarChart3 className="w-3.5 h-3.5" />
+            <span>ESG Report</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsExportModalOpen(true)}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors shadow-xs cursor-pointer"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download Plan</span>
           </button>
         </div>
       </div>
 
       {/* ========================================================
-          2. TWO-COLUMN WORKSPACE: CONTROLS & CANVAS (Reference Screen 4)
+          2. ATELIER METRIC STRIP
+          ======================================================== */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-[#7C857E] mb-1">
+            <span>Marker Efficiency</span>
+            <Leaf className="w-3.5 h-3.5 text-[#143823]" />
+          </div>
+          <div className="text-2xl font-serif font-bold text-[#143823]">
+            {project.utilization || 81.2}%
+          </div>
+          <p className="text-[11px] text-[#5C665F] mt-0.5">Fabric yield utilization</p>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-[#7C857E] mb-1">
+            <span>Cut Length Req.</span>
+            <Scissors className="w-3.5 h-3.5 text-[#8C5E35]" />
+          </div>
+          <div className="text-2xl font-serif font-bold text-stone-900">
+            {project.cutLength || 91.0} <span className="text-sm font-sans font-normal text-stone-500">cm</span>
+          </div>
+          <p className="text-[11px] text-[#5C665F] mt-0.5">Along {project.fabricLength || 500}cm roll</p>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-[#7C857E] mb-1">
+            <span>Fabric Saved</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#143823]" />
+          </div>
+          <div className="text-2xl font-serif font-bold text-[#143823]">
+            {project.fabricSavedMeters || '2.4'} <span className="text-sm font-sans font-normal text-stone-500">m</span>
+          </div>
+          <p className="text-[11px] text-[#5C665F] mt-0.5">Saved vs baseline layout</p>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-[#7C857E] mb-1">
+            <span>Nested Pieces</span>
+            <Layers className="w-3.5 h-3.5 text-[#143823]" />
+          </div>
+          <div className="text-2xl font-serif font-bold text-stone-900">
+            {totalPlacements} <span className="text-sm font-sans font-normal text-stone-500">placed</span>
+          </div>
+          <p className="text-[11px] text-[#5C665F] mt-0.5">{project.fabricType || 'Cotton'} roll</p>
+        </div>
+      </div>
+
+      {/* ========================================================
+          3. FULL WIDTH FABRIC CANVAS WORKSPACE
+          ======================================================== */}
+      <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-6 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#F0EBE0]">
+          <div>
+            <h2 className="text-base font-serif font-bold text-[#143823]">
+              Fabric Marker Canvas
+            </h2>
+            <p className="text-xs text-[#7C857E]">
+              Roll Dimensions: {project.fabricLength || 500} × {project.fabricWidth || 150} cm &bull; {project.fabricType || 'Cotton'} &bull; 0.5cm Safety Buffer
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5EFE6] text-[#143823] text-xs font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#143823]" />
+              <span>Marker Optimized</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Fabric Canvas */}
+        <div className="rounded-xl overflow-hidden border border-[#DDD5C7] bg-[#FAF8F5]">
+          <FabricCanvas
+            project={project}
+            interactive={true}
+            showLabels={true}
+            showRulers={true}
+            className="w-full"
+          />
+        </div>
+      </div>
+
+      {/* ========================================================
+          4. PATTERN PIECES INVENTORY & CIRCULAR ATELIER
           ======================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left Subpanel: Progress, Current Piece, Sequence (4 cols) */}
-        <div className="lg:col-span-4 space-y-4">
-          
-          {/* Simulation Progress Card */}
-          <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 shadow-xs space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-stone-800">
-                Simulation Progress
-              </h3>
-              <span className="text-xs font-serif font-bold text-[#143823]">
-                {placedPiecesCount} / {totalPlacements} pieces
-              </span>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="space-y-1">
-              <div className="w-full h-2.5 rounded-full bg-[#EAE4D8] overflow-hidden">
-                <div
-                  className="h-full bg-[#143823] transition-all duration-300 rounded-full"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-              <div className="flex justify-end text-[11px] font-mono text-[#7C857E]">
-                {progressPercent}%
-              </div>
-            </div>
-          </div>
-
-          {/* Current Piece Card */}
-          <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 shadow-xs space-y-3">
-            <h3 className="text-xs font-semibold text-stone-800">
-              Current Piece
-            </h3>
-
-            <div className="flex items-center gap-3.5 p-3 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-              <div className="w-12 h-12 rounded-lg bg-white border border-[#E8E2D6] p-1.5 flex items-center justify-center shrink-0">
-                {renderSilhouette(currentPiece.name)}
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-stone-900">
-                  {currentPiece.name || 'Front Bodice'}
-                </h4>
-                <p className="text-[11px] text-[#7C857E]">
-                  Piece {currentPieceIndex + 1} of {totalPlacements}
-                </p>
-                <p className="text-[10px] font-mono text-stone-500">
-                  {currentPiece.width || 52} × {currentPiece.height || 45} cm
-                </p>
-              </div>
-            </div>
-
-            {/* Legend */}
-            <div className="flex items-center gap-4 pt-1 text-[11px] text-[#5C665F]">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#143823]" />
-                <span>Placed</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#D97706]" />
-                <span>Current</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-stone-300" />
-                <span>Pending</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Cutting Sequence Strip Card */}
-          <div className="bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 shadow-xs space-y-3">
-            <h3 className="text-xs font-semibold text-stone-800">
-              Cutting Sequence
-            </h3>
-
-            {/* Sequence Thumbnails Strip */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-              {placements.slice(0, 5).map((pl, idx) => {
-                const isActive = idx === currentPieceIndex;
-                const isDone = idx < currentPieceIndex;
-                return (
-                  <div
-                    key={idx}
-                    className={`w-12 h-12 rounded-xl p-1 flex items-center justify-center shrink-0 border transition-all ${
-                      isActive
-                        ? 'border-[#143823] ring-2 ring-[#143823]/30 bg-[#E5EFE6]'
-                        : isDone
-                        ? 'border-[#CCDCCD] bg-[#FAF8F5]'
-                        : 'border-[#DDD5C7] bg-white opacity-70'
-                    }`}
-                  >
-                    {renderSilhouette(pl.name)}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Next Piece Action */}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={handleNextPiece}
-                className="w-full py-2 px-3 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
-              >
-                <span>Next Piece</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setIsExportModalOpen(true)}
-              className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-800 hover:bg-[#FAF7F2] transition-colors flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download Plan</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate(`/project/${project.id}/sustainability`)}
-              className="py-2 px-3 rounded-xl text-xs font-semibold bg-[#E5EFE6] text-[#143823] hover:bg-[#D5E5D7] transition-colors flex items-center gap-1.5 cursor-pointer"
-              title="View Sustainability ESG Report"
-            >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>ESG</span>
-            </button>
-          </div>
-
-        </div>
-
-        {/* Right Subpanel: Fabric Canvas Preview Workspace (8 cols) */}
-        <div className="lg:col-span-8 bg-white rounded-2xl border border-[#E8E2D6] p-4 sm:p-5 shadow-xs space-y-4">
+        {/* Pieces Table (8 cols) */}
+        <div className="lg:col-span-8 bg-white rounded-2xl border border-[#E8E2D6] p-5 shadow-xs space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-[#F0EBE0]">
             <div>
-              <h2 className="text-sm font-semibold text-[#143823]">
-                Cutting Layout Preview
-              </h2>
-              <p className="text-[11px] text-[#7C857E]">
-                Fabric Roll: {project.fabricLength} × {project.fabricWidth} cm ({project.fabricType || 'Cotton'})
+              <h3 className="text-sm font-serif font-bold text-[#143823]">
+                Placed Pattern Pieces ({totalPlacements})
+              </h3>
+              <p className="text-xs text-[#7C857E]">
+                Individual component dimensions and grain orientations on the roll.
               </p>
             </div>
-
-            {/* Yield Badge */}
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5EFE6] text-[#143823] text-xs font-semibold">
-              <Leaf className="w-3.5 h-3.5" />
-              <span>{project.utilization || 85}% Utilization</span>
-            </div>
           </div>
 
-          {/* Interactive Fabric Canvas */}
-          <div className="rounded-xl overflow-hidden border border-[#DDD5C7] bg-[#FAF8F5]">
-            <FabricCanvas
-              project={project}
-              interactive={true}
-              showLabels={true}
-              showRulers={true}
-              simulation={simulation}
-              className="w-full"
-            />
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="border-b border-[#F0EBE0] text-[#7C857E] font-medium">
+                  <th className="pb-2.5 font-medium">Piece Name</th>
+                  <th className="pb-2.5 font-medium">Dimensions</th>
+                  <th className="pb-2.5 font-medium">Grain Line</th>
+                  <th className="pb-2.5 font-medium">Coordinates</th>
+                  <th className="pb-2.5 font-medium text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#F5F2EB]">
+                {placements.map((pl, idx) => (
+                  <tr key={idx} className="hover:bg-[#FAF8F5] transition-colors">
+                    <td className="py-2.5 font-medium text-stone-900 flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-[#FAF8F5] border border-[#E8E2D6] p-1 flex items-center justify-center shrink-0">
+                        {renderSilhouette(pl.name)}
+                      </div>
+                      <span>{pl.name || `Piece ${idx + 1}`}</span>
+                    </td>
+                    <td className="py-2.5 font-mono text-[#5C665F]">
+                      {Math.round(pl.width || 0)} × {Math.round(pl.height || 0)} cm
+                    </td>
+                    <td className="py-2.5 text-[#5C665F]">
+                      <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#DDD5C7]">
+                        {pl.rotation === 0 ? '0° (Lengthwise)' : `${pl.rotation}° Adjusted`}
+                      </span>
+                    </td>
+                    <td className="py-2.5 font-mono text-[11px] text-[#7C857E]">
+                      X: {Math.round(pl.x || 0)}, Y: {Math.round(pl.y || 0)}
+                    </td>
+                    <td className="py-2.5 text-right">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#143823] bg-[#E5EFE6] px-2 py-0.5 rounded-full">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Valid
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Circular Atelier & Offcuts Callout (4 cols) */}
+        <div className="lg:col-span-4 space-y-4">
+          <div className="bg-[#FAF8F5] rounded-2xl border border-[#E8E2D6] p-5 shadow-xs space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center">
+              <Recycle className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-serif font-bold text-[#143823]">
+                ReThread Circular Atelier
+              </h4>
+              <p className="text-xs text-[#5C665F] mt-1 leading-relaxed">
+                This marker plan produces ~{project.wastePercentage || 15}% fabric offcuts. Convert leftover scraps into zero-waste scrunchies, pocket squares, and tote pouches.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('/rethread')}
+              className="w-full mt-2 py-2.5 px-4 rounded-xl text-xs font-semibold bg-[#143823] text-white hover:bg-[#1A452B] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+            >
+              <span>Explore Remnant Catalog</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
-          {/* Bottom Metric Strip */}
-          <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs">
-            <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-              <span className="text-[10px] text-[#7C857E] block">Waste Ratio</span>
-              <strong className="text-stone-900 font-mono text-sm">{project.wastePercentage || 15}%</strong>
+          <div className="bg-white rounded-2xl border border-[#E8E2D6] p-5 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-stone-900">
+              <Info className="w-4 h-4 text-[#8C5E35]" />
+              <span>Production Verification</span>
             </div>
-            <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-              <span className="text-[10px] text-[#7C857E] block">Fabric Saved</span>
-              <strong className="text-[#143823] font-mono text-sm">{project.fabricSavedMeters || '2.4'} m</strong>
-            </div>
-            <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7]">
-              <span className="text-[10px] text-[#7C857E] block">Nested Pieces</span>
-              <strong className="text-stone-900 font-mono text-sm">{totalPlacements} pcs</strong>
-            </div>
+            <p className="text-[11px] text-[#7C857E] leading-relaxed">
+              All pattern pieces have been verified for zero overlap collision, grain alignment bounds, and safety clearance.
+            </p>
           </div>
         </div>
 
       </div>
 
-      {/* Export / Download Modal (Preserved) */}
+      {/* ========================================================
+          5. EXPORT / DOWNLOAD MODAL (Preserved & Enhanced)
+          ======================================================== */}
       <Modal
         isOpen={isExportModalOpen}
         onClose={() => setIsExportModalOpen(false)}

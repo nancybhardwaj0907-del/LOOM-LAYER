@@ -48,8 +48,8 @@ export function Sidebar() {
       isActive: location.pathname.includes('/optimize') || location.pathname.includes('/patterns') || location.pathname === '/optimizer'
     },
     {
-      id: 'cutting-simulation',
-      label: 'Cutting Simulation',
+      id: 'cutting-layout',
+      label: 'Cutting Layout',
       path: location.pathname.includes('/result') 
         ? location.pathname 
         : `/project/${activeProjectId}/result`,

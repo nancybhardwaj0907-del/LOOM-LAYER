@@ -440,52 +440,7 @@ export function FabricCanvas({
               </button>
             )}
 
-            {/* Simulation Play/Pause/Resume button */}
-            <button
-              onClick={handleToggleSimulateCut}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-medium transition-all cursor-pointer text-xs ${
-                sim.isCutting
-                  ? 'bg-[#143823] text-white shadow-xs ring-2 ring-[#143823]/20'
-                  : sim.isPaused
-                  ? 'bg-[#A87C39] text-white shadow-xs'
-                  : sim.isCompleted
-                  ? 'bg-[#E5EFE6] border border-[#CDE0D0] text-[#143823] hover:bg-[#D5E5D7]'
-                  : 'bg-white border border-[#DDD5C7] text-stone-700 hover:bg-[#FAF8F5]'
-              }`}
-              title={
-                sim.isCutting
-                  ? "Pause Cutting Simulation"
-                  : sim.isPaused
-                  ? "Resume Cutting Simulation"
-                  : sim.isCompleted
-                  ? "Re-simulate Cutting Process"
-                  : "Simulate Visual Cutting Process"
-              }
-            >
-              {sim.isCutting ? (
-                <>
-                  <Pause className="w-3.5 h-3.5" />
-                  <span>
-                    Cutting {sim.currentPieceIndex >= 0 ? `${sim.currentPieceIndex + 1}/${sim.totalPieces || placements.length}` : ''} ({sim.progressPercent}%)
-                  </span>
-                </>
-              ) : sim.isPaused ? (
-                <>
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>Resume ({sim.progressPercent}%)</span>
-                </>
-              ) : sim.isCompleted ? (
-                <>
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Re-Simulate</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>Simulate Cut</span>
-                </>
-              )}
-            </button>
+
 
             {/* Defect / Flaw Pinning Tool */}
             <button

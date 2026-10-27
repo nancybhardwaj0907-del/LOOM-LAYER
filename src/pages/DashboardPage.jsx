@@ -295,8 +295,8 @@ export function DashboardPage() {
             <div className="w-9 h-9 rounded-xl bg-[#E5EFE6] text-[#143823] flex items-center justify-center mb-3 group-hover:bg-[#143823] group-hover:text-white transition-colors">
               <Scissors className="w-4 h-4" />
             </div>
-            <p className="text-xs font-bold text-stone-900 group-hover:text-[#143823]">Cutting Simulation</p>
-            <p className="text-[11px] text-[#7C857E] mt-0.5">Visualize the cutting process</p>
+            <p className="text-xs font-bold text-stone-900 group-hover:text-[#143823]">Cutting Layout</p>
+            <p className="text-[11px] text-[#7C857E] mt-0.5">View marker plan & nesting layout</p>
           </button>
 
           {/* ReThread */}
