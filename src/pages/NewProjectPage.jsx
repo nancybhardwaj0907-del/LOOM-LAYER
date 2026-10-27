@@ -413,7 +413,7 @@ export function NewProjectPage() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#4A252B] leading-tight">{type.label}</p>
-                      <p className="text-[10px] text-[#81777B] leading-tight mt-1 truncate max-w-[100px]">
+                      <p className="text-[10px] text-[#81777B] leading-tight mt-1">
                         {type.description}
                       </p>
                     </div>
@@ -615,25 +615,27 @@ export function NewProjectPage() {
         <div className="lg:col-span-4 space-y-4">
           
           {/* Top Inspiration Photo Card: Folded Fabrics with Script Note */}
-          <div className="rounded-3xl overflow-hidden border border-[#EAE2DE] bg-white shadow-2xs relative aspect-16/10">
+          <div className="rounded-3xl overflow-hidden border border-[#EAE2DE] shadow-2xs relative" style={{ minHeight: '220px' }}>
+            {/* Background image */}
             <img
               src="/atelier/rose_fabrics_stack.jpg"
               alt="Artisanal stacked fabrics in dusty rose and mauve"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.src = "/atelier/dashboard_hero_linen.jpg";
               }}
             />
-            {/* Script Text Overlay matching mockup */}
-            <div className="absolute top-4 left-4 z-10 text-[#4A252B] select-none bg-white/40 backdrop-blur-xs p-2.5 rounded-2xl">
-              <p className="font-serif italic text-base sm:text-lg font-bold leading-tight text-[#4A252B]">
+            {/* Gradient overlay from left for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#F0DCD2]/95 via-[#F0DCD2]/70 to-transparent" />
+            {/* Script Text - positioned on the left over the gradient */}
+            <div className="relative z-10 p-5 sm:p-6 flex flex-col justify-center h-full" style={{ minHeight: '220px' }}>
+              <p className="font-serif text-2xl sm:text-3xl font-bold leading-tight text-[#4A252B]">
                 Same <br />
                 Fabric. <br />
-                <span className="font-normal text-[#783751]">New Stories.</span>
+                <span className="italic text-[#783751]">New Stories.</span>
               </p>
-              <p className="text-[10px] text-[#81777B] mt-2 font-sans font-medium">
-                Plan. Optimize. Create <br />
-                a more sustainable future.
+              <p className="text-[11px] text-[#4A252B]/70 mt-3 font-sans font-medium max-w-[180px] leading-relaxed">
+                Plan. Optimize. Create a more sustainable future.
               </p>
             </div>
           </div>
