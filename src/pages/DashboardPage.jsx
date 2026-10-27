@@ -22,6 +22,7 @@ import {
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
 import { Modal } from '../components/common/FeedbackAndNavigation';
+import { AuthButton } from '../components/common/AuthButton';
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -153,6 +154,9 @@ export function DashboardPage() {
               className="pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-[#E8E2D6] focus:outline-none focus:border-[#143823] text-stone-800 placeholder-stone-400 w-44 sm:w-56 transition-all"
             />
           </div>
+
+          {/* Google Sign In / Account Status */}
+          <AuthButton />
 
           {/* New Project Button */}
           <button

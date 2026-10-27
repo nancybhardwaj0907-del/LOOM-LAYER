@@ -32,7 +32,7 @@ import { useProjects } from '../context/useProjects';
 
 export function ProfilePage() {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, signInWithGoogle, isConfigured } = useAuth();
   const { profile, updateProfile, updateAvatar, resetAvatar, updateSection } = useUserProfile();
   const { projects } = useProjects();
   const [activeTab, setActiveTab] = useState('profile');
@@ -418,6 +418,67 @@ export function ProfilePage() {
                     Save Changes
                   </button>
                 </div>
+
+                {/* Google Authentication & Cloud Sync Section */}
+                {isConfigured && (
+                  <div className="pt-6 mt-6 border-t border-[#F0EBE0] space-y-3">
+                    <h3 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
+                      Google Account & Cloud Synchronization
+                    </h3>
+                    {user ? (
+                      <div className="p-4 rounded-2xl bg-[#E5EFE6] border border-[#CCDCCD] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                        <div className="flex items-center gap-3">
+                          {user.user_metadata?.avatar_url ? (
+                            <img
+                              src={user.user_metadata.avatar_url}
+                              alt="Google User"
+                              className="w-10 h-10 rounded-full object-cover border border-[#DDD5C7]"
+                              referrerPolicy="no-referrer"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-[#143823] text-white flex items-center justify-center text-sm font-bold font-serif">
+                              {(user.user_metadata?.full_name || user.email || 'A').charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-[#143823]">Connected with Google</span>
+                              <span className="text-[10px] font-semibold text-[#143823] bg-white px-1.5 py-0.5 rounded border border-[#CDE0D0]">Active</span>
+                            </div>
+                            <p className="text-[11px] text-[#5C665F] font-mono">{user.email}</p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={signOut}
+                          className="px-3.5 py-2 rounded-xl text-xs font-medium text-rose-700 bg-white border border-rose-200 hover:bg-rose-50 transition-colors cursor-pointer self-start sm:self-auto shadow-2xs"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#DDD5C7] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                        <div>
+                          <p className="text-xs font-bold text-stone-900">Sign in with Google</p>
+                          <p className="text-[11px] text-[#7C857E] mt-0.5">Connect your Google account to backup and synchronize your cutting projects across devices.</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={signInWithGoogle}
+                          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-[#DDD5C7] text-stone-800 hover:bg-[#F2ECE1] hover:border-[#143823]/40 transition-colors shadow-2xs cursor-pointer shrink-0"
+                        >
+                          <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.27-2.09 3.665-5.17 3.665-9.14z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.13C3.29 21.43 7.37 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.28c-.24-.72-.38-1.49-.38-2.28s.14-1.56.38-2.28V6.59H1.26C.46 8.18 0 9.99 0 12s.46 3.82 1.26 5.41l4.02-3.13z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.29 2.57 1.26 6.59l4.02 3.13c.95-2.83 3.6-4.97 6.72-4.97z"/>
+                          </svg>
+                          <span>Connect Google</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
 
               </form>
             </div>
