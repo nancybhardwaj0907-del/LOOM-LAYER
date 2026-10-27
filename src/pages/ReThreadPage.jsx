@@ -27,6 +27,7 @@ import {
   Scale
 } from 'lucide-react';
 import { useUserProfile } from '../context/useUserProfile';
+import { TopNavbar } from '../components/common/TopNavbar';
 import { evaluateScrapRecommendations, RETHREAD_PRODUCTS } from '../utils/rethreadCatalog';
 
 const SAVED_PLANS_KEY = 'rethread_saved_plans_v1';
@@ -199,54 +200,12 @@ export function ReThreadPage() {
   return (
     <div className="space-y-6">
       
-      {/* ========================================================
-          1. TOP HEADER BAR (Wine & Porcelain Palette)
-          ======================================================== */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-1">
-        {/* Search Bar */}
-        <div className="relative w-full max-w-sm sm:max-w-md">
-          <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products, fabrics, accessories..."
-            className="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-white border border-[#EAE2DE] focus:outline-none focus:border-[#783751] text-[#4A252B] placeholder-stone-400 shadow-2xs transition-all"
-          />
-        </div>
-
-        {/* Right Header Actions */}
-        <div className="flex items-center gap-2.5 sm:gap-3 self-end sm:self-auto">
-          {/* Notification Bell with indicator dot */}
-          <button
-            type="button"
-            onClick={() => navigate('/settings')}
-            className="w-9 h-9 rounded-xl border border-[#EAE2DE] bg-white flex items-center justify-center text-stone-600 hover:text-[#783751] shadow-2xs transition-all cursor-pointer relative"
-          >
-            <Bell className="w-4 h-4" />
-            <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2 ring-2 ring-white" />
-          </button>
-
-          {/* User Account Capsule Pill */}
-          <button
-            type="button"
-            onClick={() => navigate('/settings')}
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-[#EAE2DE] bg-white hover:border-[#783751]/40 shadow-2xs cursor-pointer transition-colors"
-          >
-            <div className="w-6 h-6 rounded-full overflow-hidden bg-[#783751] text-white flex items-center justify-center font-medium text-xs shrink-0">
-              {profile?.avatar && profile.avatar !== '/atelier/user_avatar.jpg' ? (
-                <img src={profile.avatar} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <span>{profile?.name ? profile.name.charAt(0).toUpperCase() : 'N'}</span>
-              )}
-            </div>
-            <span className="text-xs font-semibold text-[#4A252B] max-w-[130px] truncate">
-              {profile?.name || 'Nancy Bhardwaj'}
-            </span>
-            <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
-          </button>
-        </div>
-      </div>
+      {/* 1. TOP HEADER BAR */}
+      <TopNavbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        placeholder="Search products, fabrics, accessories..."
+      />
 
       {/* ========================================================
           2. RETHREAD COMPACT HEADER

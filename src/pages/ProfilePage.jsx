@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   AlertTriangle
 } from 'lucide-react';
+import { TopNavbar } from '../components/common/TopNavbar';
 import { useUserProfile } from '../context/useUserProfile';
 import { useProjects } from '../context/useProjects';
 
@@ -167,27 +168,21 @@ export function ProfilePage() {
   return (
     <div className="space-y-6">
       
-      {/* ========================================================
-          1. HEADER BAR
-          ======================================================== */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#EAE2DE] shadow-xs bg-[#F3E6E4] shrink-0">
-            <img
-              src={profile.avatar || "/atelier/user_avatar.jpg"}
-              alt="Designer Profile"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "/atelier/user_avatar.jpg";
-              }}
-            />
+      {/* 1. TOP HEADER BAR */}
+      <TopNavbar placeholder="Search profile, settings, units..." />
+
+      {/* 2. ATELIER SETTINGS HEADER */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#EAE2DE]">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center shadow-2xs shrink-0 border border-[#C08274]/30">
+            <SettingsIcon className="w-5 h-5" />
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#4A252B] tracking-tight">
-              Settings
+              Settings & Atelier Preferences
             </h1>
             <p className="text-xs text-[#81777B]">
-              Manage your account preferences and application settings.
+              Manage your designer profile, default fabric tolerances, units, and notifications.
             </p>
           </div>
         </div>

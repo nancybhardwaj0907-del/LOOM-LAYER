@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { TopNavbar } from '../components/common/TopNavbar';
 import { 
   ArrowLeft, 
   Cpu, 
@@ -165,18 +166,14 @@ export function OptimizeSettingsPage() {
   return (
     <div className="space-y-6">
       
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#EAE2DE] shadow-xs bg-[#F3E6E4] shrink-0">
-            <img
-              src={profile?.avatar || "/atelier/user_avatar.jpg"}
-              alt={profile?.name || "Designer"}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "/atelier/user_avatar.jpg";
-              }}
-            />
+      {/* 1. TOP HEADER BAR */}
+      <TopNavbar placeholder="Search settings, constraints..." />
+
+      {/* 2. PAGE TITLE & STEPPER */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#EAE2DE]">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center shadow-2xs shrink-0 border border-[#C08274]/30">
+            <SlidersHorizontal className="w-5 h-5" />
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#4A252B] tracking-tight">
@@ -188,34 +185,30 @@ export function OptimizeSettingsPage() {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsCopModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#EAE2DE] text-[#39343A] hover:bg-[#F3E6E4]/40 transition-colors shadow-2xs cursor-pointer self-start sm:self-auto"
-        >
-          <Layers className="w-3.5 h-3.5 text-[#783751]" />
-          <span>Stage 1: COP Schedule</span>
-        </button>
-      </div>
+        {/* 4-Step Indicator Bar */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto pb-1 text-xs font-medium">
+          <div 
+            onClick={() => navigate(`/project/${project.id}/patterns`)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] hover:text-[#39343A] hover:bg-[#F3E6E4]/40 transition-colors shrink-0 cursor-pointer"
+          >
+            <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">1</span>
+            <span>Upload Patterns</span>
+          </div>
 
-      {/* Step Indicator Bar */}
-      <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 overflow-x-auto pb-1 text-xs font-medium">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">1</span>
-          <span>Upload Patterns</span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">2</span>
-          <span>Fabric Settings</span>
-        </div>
-        {/* Step 3: Active */}
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#783751] text-white shadow-xs shrink-0">
-          <span className="w-4 h-4 rounded-full bg-white text-[#783751] flex items-center justify-center font-bold text-[10px]">3</span>
-          <span className="font-semibold">Optimize</span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] shrink-0">
-          <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">4</span>
-          <span>Results</span>
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#783751] text-white shadow-xs shrink-0">
+            <span className="w-4 h-4 rounded-full bg-white text-[#783751] flex items-center justify-center font-bold text-[10px]">2</span>
+            <span className="font-semibold">Fabric Settings</span>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] shrink-0 opacity-75">
+            <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">3</span>
+            <span>Optimize</span>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#81777B] shrink-0 opacity-75">
+            <span className="w-4 h-4 rounded-full bg-[#EAE2DE] text-[#39343A] flex items-center justify-center text-[10px]">4</span>
+            <span>Results</span>
+          </div>
         </div>
       </div>
 
