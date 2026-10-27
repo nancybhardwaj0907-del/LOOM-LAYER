@@ -135,39 +135,37 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Bottom Circular Atelier Card with Botanical Art (Reference Image 2) */}
-      <div className="mt-8 rounded-2xl bg-white border border-[#E8E2D6] p-4 text-stone-900 relative overflow-hidden shadow-2xs group">
-        {/* Subtle Botanical Leaf Line Art SVG Background */}
-        <svg
-          className="absolute -right-3 -bottom-3 w-24 h-24 text-[#CCDCCD]/30 pointer-events-none transition-transform duration-300 group-hover:scale-105"
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path d="M10 90 C 20 50, 60 20, 90 10 C 80 50, 50 80, 10 90 Z" />
-          <path d="M10 90 L 75 25" />
-          <path d="M35 65 C 45 60, 55 58, 65 60" />
-          <path d="M45 45 C 50 40, 60 38, 70 42" />
-        </svg>
+      {/* Bottom Circular Atelier Card with Botanical Art (Reference User Mockup) */}
+      <div className="mt-8 rounded-2xl border border-[#E8E2D6] p-4 text-stone-900 relative overflow-hidden shadow-2xs group min-h-[160px] flex flex-col justify-between">
+        {/* Photographic Background of Draped Linen and Eucalyptus */}
+        <img
+          src="/atelier/sidebar_card_bg.jpg"
+          alt="Linen and eucalyptus background"
+          className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
+        />
+        {/* Soft gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/70 to-transparent pointer-events-none" />
 
-        <div className="relative z-10 space-y-2.5">
-          <div className="w-8 h-8 rounded-full bg-[#E5EFE6] text-[#143823] flex items-center justify-center shadow-2xs">
+        <div className="relative z-10 space-y-2">
+          <div className="w-8 h-8 rounded-full bg-white/95 text-[#143823] flex items-center justify-center shadow-xs border border-[#CCDCCD]">
             <Leaf className="w-4 h-4 text-[#143823]" />
           </div>
-          <p className="text-xs font-serif leading-snug text-stone-800 font-medium">
-            Turning <br />
-            <span className="font-bold text-stone-950">fabric waste</span> <br />
-            into a better tomorrow.
+          <p className="text-xs font-serif leading-snug text-stone-900 font-bold">
+            Turn <br />
+            fabric waste <br />
+            into <br />
+            new possibilities.
           </p>
-          <div className="pt-1">
-            <Link
-              to="/sustainability"
-              className="w-7 h-7 rounded-full bg-[#FAF8F5] border border-[#DDD5C7] flex items-center justify-center text-stone-700 hover:text-[#143823] hover:bg-[#E5EFE6] hover:border-[#CCDCCD] transition-all shadow-2xs cursor-pointer inline-flex"
-            >
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+        </div>
+
+        <div className="relative z-10 pt-2">
+          <Link
+            to="/sustainability"
+            className="w-7 h-7 rounded-full bg-white text-stone-800 border border-stone-200/90 shadow-xs flex items-center justify-center hover:text-[#143823] hover:scale-110 transition-all cursor-pointer inline-flex"
+            title="Sustainability"
+          >
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </div>
