@@ -104,7 +104,7 @@ export function AuthProvider({ children }) {
 
     setError(null);
     try {
-      const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined;
+      const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/` : undefined;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

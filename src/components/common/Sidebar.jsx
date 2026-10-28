@@ -113,7 +113,7 @@ export function Sidebar() {
     <>
       {/* Mobile Sticky Bar */}
       <div className="lg:hidden sticky top-0 z-40 w-full shrink-0 bg-[#FAF8F5]/95 dark:bg-[#141219]/95 backdrop-blur-md border-b border-cream-200 dark:border-[#24212D] px-4 py-2.5 flex items-center justify-between shadow-2xs">
-        <Link to="/dashboard" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8E2B45] to-[#5C1B2C] text-white flex items-center justify-center shadow-xs">
             <Leaf className="w-4 h-4 text-[#F8D7E0]" />
           </div>
@@ -251,7 +251,7 @@ export function Sidebar() {
       >
         <div className="flex flex-col p-3.5 space-y-4">
           {/* Brand Logo Header */}
-          <Link to="/dashboard" className="flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-cream-100 dark:hover:bg-[#1D1A25] transition-colors group">
+          <Link to="/" className="flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-cream-100 dark:hover:bg-[#1D1A25] transition-colors group">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8E2B45] to-[#5C1B2C] text-white flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 transition-transform">
               <Leaf className="w-4 h-4 text-[#F8D7E0]" />
             </div>

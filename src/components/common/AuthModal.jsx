@@ -28,7 +28,7 @@ export function AuthModal({ isOpen, onClose }) {
         // If local demo fallback triggers, navigate to /dashboard.
         if (!res.data?.url) {
           onClose();
-          navigate('/dashboard');
+          navigate('/');
         }
       } else {
         setError(res?.error || 'Google sign-in could not be completed.');
