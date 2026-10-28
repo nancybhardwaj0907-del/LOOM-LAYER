@@ -50,10 +50,10 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono transition-all duration-200 ${
                     isCompleted
-                      ? 'bg-[#783751] text-white ring-4 ring-[#F3E6E4]'
+                      ? 'bg-[#8E2B45] text-white ring-4 ring-[#8E2B45]/20'
                       : isCurrent
-                      ? 'bg-[#783751] text-white ring-4 ring-[#F3E6E4]'
-                      : 'bg-white text-stone-400 border border-stone-300 group-hover:border-stone-400'
+                      ? 'bg-[#8E2B45] text-white ring-4 ring-[#8E2B45]/20'
+                      : 'bg-[#1E1B27] text-[#9E97A9] border border-[#272332] group-hover:border-[#8E2B45]'
                   }`}
                 >
                   {isCompleted ? <Check className="w-4 h-4 stroke-[2.5]" /> : step.number}
@@ -61,14 +61,14 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
                 <div className="hidden sm:block text-left">
                   <p
                     className={`text-xs font-mono font-medium ${
-                      isCurrent ? 'text-[#783751] font-bold' : isCompleted ? 'text-stone-800' : 'text-stone-400'
+                      isCurrent ? 'text-[#E2A97E] font-bold' : isCompleted ? 'text-[#F5F3F8]' : 'text-[#9E97A9]'
                     }`}
                   >
                     Step 0{step.number}
                   </p>
                   <p
                     className={`text-xs font-semibold ${
-                      isCurrent ? 'text-[#4A252B]' : isCompleted ? 'text-stone-700' : 'text-stone-400'
+                      isCurrent ? 'text-[#F5F3F8]' : isCompleted ? 'text-[#9E97A9]' : 'text-[#9E97A9]/60'
                     }`}
                   >
                     {step.name}
@@ -77,10 +77,10 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
               </div>
 
               {index < STEPS.length - 1 && (
-                <div className="flex-1 mx-2 sm:mx-4 h-0.5 bg-[#EAE2DE]">
+                <div className="flex-1 mx-2 sm:mx-4 h-0.5 bg-[#272332]">
                   <div
                     className={`h-full transition-all duration-300 ${
-                      step.number < currentStep ? 'bg-[#783751]' : 'bg-transparent'
+                      step.number < currentStep ? 'bg-[#8E2B45]' : 'bg-transparent'
                     }`}
                   />
                 </div>
@@ -95,11 +95,11 @@ export function StepIndicator({ currentStep = 1, projectId = null, onStepClick }
 
 export function StatusBadge({ status = 'Draft', className = '' }) {
   const styles = {
-    Completed: 'bg-[#F3E6E4] text-[#783751] border-[#C08274]',
-    'In-Progress': 'bg-stone-100 text-stone-800 border-stone-300 animate-pulse',
-    Optimizing: 'bg-amber-50 text-amber-800 border-amber-200',
-    Draft: 'bg-cream-100 text-stone-600 border-stone-200',
-    Pending: 'bg-amber-50 text-amber-700 border-amber-200',
+    Completed: 'bg-emerald-950/40 text-emerald-400 border-emerald-800/40',
+    'In-Progress': 'bg-[#1E1B27] text-[#E2A97E] border-[#272332] animate-pulse',
+    Optimizing: 'bg-amber-950/40 text-amber-400 border-amber-800/40',
+    Draft: 'bg-[#1E1B27] text-[#9E97A9] border-[#272332]',
+    Pending: 'bg-amber-950/40 text-amber-300 border-amber-800/40',
   };
 
   const currentStyle = styles[status] || styles.Draft;
@@ -111,12 +111,12 @@ export function StatusBadge({ status = 'Draft', className = '' }) {
       <span
         className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
           status === 'Completed'
-            ? 'bg-[#783751]'
+            ? 'bg-emerald-400'
             : status === 'Optimizing' || status === 'In-Progress'
-            ? 'bg-amber-600'
+            ? 'bg-[#E2A97E]'
             : status === 'Pending'
-            ? 'bg-amber-500'
-            : 'bg-stone-400'
+            ? 'bg-amber-400'
+            : 'bg-stone-500'
         }`}
       />
       {status}
@@ -132,14 +132,14 @@ export function EmptyState({
   className = '',
 }) {
   return (
-    <div className={`text-center py-12 px-4 rounded-xl border border-dashed border-cream-400 bg-cream-50/60 ${className}`}>
+    <div className={`text-center py-12 px-4 rounded-xl border border-dashed border-[#272332] bg-[#1E1B27]/40 ${className}`}>
       {Icon && (
-        <div className="mx-auto w-12 h-12 rounded-lg bg-cream-200/70 border border-cream-300 flex items-center justify-center text-stone-600 mb-4">
+        <div className="mx-auto w-12 h-12 rounded-lg bg-[#16141D] border border-[#272332] flex items-center justify-center text-[#E2A97E] mb-4">
           <Icon className="w-6 h-6" />
         </div>
       )}
-      <h3 className="text-sm font-semibold text-stone-800">{title}</h3>
-      {description && <p className="mt-1 text-xs text-stone-500 max-w-sm mx-auto">{description}</p>}
+      <h3 className="text-sm font-semibold text-[#F5F3F8]">{title}</h3>
+      {description && <p className="mt-1 text-xs text-[#9E97A9] max-w-sm mx-auto">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
   );
@@ -156,21 +156,21 @@ export function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-atelier-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className={`relative w-full ${maxWidth} bg-cream-25 rounded-2xl border border-cream-300 shadow-xl overflow-hidden animate-in fade-in zoom-in-95`}>
-        <div className="flex items-start justify-between p-5 border-b border-cream-200 bg-cream-100/60">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className={`relative w-full ${maxWidth} bg-[#16141D] rounded-2xl border border-[#272332] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95`}>
+        <div className="flex items-start justify-between p-5 border-b border-[#272332] bg-[#1E1B27]/90">
           <div>
-            <h3 className="text-lg font-bold text-atelier-950 font-sans">{title}</h3>
-            {subtitle && <p className="text-xs text-stone-500 mt-0.5">{subtitle}</p>}
+            <h3 className="text-lg font-bold text-[#F5F3F8] font-serif">{title}</h3>
+            {subtitle && <p className="text-xs text-[#9E97A9] mt-0.5">{subtitle}</p>}
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-stone-400 hover:text-crimson-800 hover:bg-cream-200 transition-colors cursor-pointer"
+            className="p-1 rounded-lg text-[#9E97A9] hover:text-[#F5F3F8] hover:bg-[#272332] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-5 sm:p-6 bg-white">
+        <div className="p-5 sm:p-6 bg-[#16141D] text-[#F5F3F8]">
           {children}
         </div>
       </div>

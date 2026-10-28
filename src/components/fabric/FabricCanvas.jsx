@@ -9,14 +9,10 @@ import {
   Maximize2, 
   Layers, 
   Compass, 
-  Play, 
-  Pause, 
   RotateCcw,
   RotateCw,
   CheckCircle2, 
   AlertOctagon, 
-  ShieldAlert,
-  Trophy,
   AlertTriangle,
   Check,
   Save,
@@ -76,9 +72,9 @@ export function FabricCanvas({
 
   // AI baseline benchmark
   const aiBaseline = useMemo(() => {
-    const origPlacements = project?.layoutPlacements || [];
+    const origPlacements = Array.isArray(project?.layoutPlacements) ? project.layoutPlacements : [];
     const origLength = origPlacements.length > 0
-      ? Math.max(...origPlacements.map((p) => p.x + p.width))
+      ? Math.max(0, ...origPlacements.map((p) => (Number(p?.x) || 0) + (Number(p?.width) || 0)))
       : 0;
     return {
       markerUtilization: project?.markerUtilization || project?.utilization || 0,
@@ -104,7 +100,7 @@ export function FabricCanvas({
     ? evaluation.cutLengthCm
     : (project?.actualLengthUsedCm !== undefined && project.actualLengthUsedCm > 0
       ? Number(project.actualLengthUsedCm)
-      : (activePlacements.length > 0 ? Math.max(...activePlacements.map((p) => p.x + p.width)) : 0));
+      : (activePlacements.length > 0 ? Math.max(0, ...activePlacements.map((p) => (Number(p?.x) || 0) + (Number(p?.width) || 0))) : 0));
 
   const hasPartialRollCut = actualLengthUsedCm > 0 && actualLengthUsedCm < (fabricLength - 1);
   const markerYield = isHumanMode || hasManualChanges ? evaluation.markerYield : (
@@ -352,54 +348,48 @@ export function FabricCanvas({
   const activeInspection = hoveredPiece || selectedPiece;
 
   return (
-    <div className={`flex flex-col bg-cream-25 rounded-2xl border border-cream-300 shadow-sm overflow-hidden ${className}`}>
+    <div className={`flex flex-col bg-[#16141D] rounded-2xl border border-[#272332] shadow-sm overflow-hidden ${className}`}>
       {/* Top Canvas Toolbar */}
       {!compact && (
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-cream-100/90 border-b border-cream-200 text-xs text-stone-600">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-[#1A1723] border-b border-[#272332] text-xs text-[#A8A1B4]">
           {/* Left: Fabric Specs & Utilization Tag */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 font-mono font-semibold text-stone-900 bg-white px-3 py-1.5 rounded-lg border border-cream-300 shadow-2xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-crimson-700" />
-              <span>{fabricLength}cm (L) × {fabricWidth}cm (W)</span>
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2 font-mono font-semibold text-[#F5F3F8] bg-[#1E1B27] px-3 py-1.5 rounded-xl border border-[#2E293B]">
+              <span className="w-2 h-2 rounded-full bg-[#8E2B45]" />
+              <span>{fabricLength}×{fabricWidth}cm</span>
               {hasPartialRollCut && (
                 <>
-                  <span className="text-stone-400">|</span>
-                  <span className="text-stone-700 font-medium" title={`Minimum linear roll cut required: ${actualLengthUsedCm.toFixed(1)} cm`}>
-                    Cut Req: <strong className="text-stone-900">{actualLengthUsedCm.toFixed(1)}cm</strong>
+                  <span className="text-[#4E475C]">|</span>
+                  <span className="text-[#A8A1B4] font-medium" title={`Linear cut required: ${actualLengthUsedCm.toFixed(1)} cm`}>
+                    Cut: <strong className="text-[#F5F3F8]">{actualLengthUsedCm.toFixed(1)}cm</strong>
                   </span>
                 </>
               )}
-              <span className="text-stone-400">|</span>
+              <span className="text-[#4E475C]">|</span>
               <span
-                className="text-crimson-800 font-bold"
-                title={hasPartialRollCut ? `Active marker cut yield: ${markerYield}% • Full roll stock capacity: ${project?.utilization}%` : undefined}
+                className="text-emerald-400 font-bold"
+                title={hasPartialRollCut ? `Marker yield: ${markerYield}% • Roll capacity: ${project?.utilization}%` : undefined}
               >
-                {hasPartialRollCut ? `${markerYield}% Marker (${project?.utilization !== undefined ? project.utilization : 0}% Roll)` : `${project?.utilization !== undefined ? project.utilization : 0}% Yield`}
+                {markerYield}% Yield
               </span>
-              <span className="text-stone-400">|</span>
-              <span className="text-stone-700 font-normal">
+              <span className="text-[#4E475C]">|</span>
+              <span className="text-[#A8A1B4] font-normal">
                 {project?.placedCount !== undefined ? project.placedCount : placements.length}
                 {project?.totalPieces && project.totalPieces > (project.placedCount || placements.length)
-                  ? ` / ${project.totalPieces} placed`
+                  ? `/${project.totalPieces} placed`
                   : ' placed'}
               </span>
             </div>
 
             {project?.unplacedCount > 0 && (
-              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200" title={`${project.unplacedCount} pattern pieces could not fit on fabric roll`}>
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-xl border border-amber-500/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                 {project.unplacedCount} unplaced
               </span>
             )}
-
-            <div className="hidden lg:flex items-center gap-1.5 text-stone-600 font-medium font-mono text-[11px]">
-              <span>Grain: <strong className="text-stone-900">{project?.grainDirection || 'Vertical'}</strong></span>
-              <span>•</span>
-              <span>Type: <strong className="text-stone-900">{project?.fabricType || 'Cotton'}</strong></span>
-            </div>
           </div>
 
-          {/* Right: View Controls & Animation Toggle */}
+          {/* Right: View Controls */}
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             {/* Try Another Layout Button */}
             {onTryAnotherLayout && (
@@ -412,7 +402,7 @@ export function FabricCanvas({
                 disabled={isSwitchingLayout}
                 id="try-another-layout-btn"
                 title="Cycle through distinct valid candidate layouts"
-                className="font-mono text-xs rounded-lg"
+                className="font-mono text-xs rounded-xl bg-[#1E1B27] border-[#2E293B] text-[#D8D2E1] hover:bg-[#252230]"
               >
                 Try Another Layout
               </Button>
@@ -428,29 +418,27 @@ export function FabricCanvas({
                     setHasManualChanges(true);
                   }
                 }}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   isHumanMode
-                    ? 'bg-[#783751] text-white shadow-xs font-semibold ring-2 ring-[#783751]/20'
-                    : 'bg-white border border-[#EAE2DE] text-stone-700 hover:bg-[#FBF7F5]'
+                    ? 'bg-[#8E2B45] text-white shadow-xs ring-1 ring-[#8E2B45]'
+                    : 'bg-[#1E1B27] border border-[#2E293B] text-[#D8D2E1] hover:bg-[#252230]'
                 }`}
-                title="Toggle interactive manual arrangement — drag, rotate, and fine-tune pattern layout"
+                title="Toggle manual arrangement"
               >
                 <Sliders className="w-3.5 h-3.5" />
                 <span>{isHumanMode ? 'Manual Adjust: Active' : 'Manual Adjust'}</span>
               </button>
             )}
 
-
-
             {/* Defect / Flaw Pinning Tool */}
             <button
               onClick={() => setIsDefectMode(!isDefectMode)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                 isDefectMode
-                  ? 'bg-[#C08274] text-white shadow-xs ring-2 ring-[#C08274]/20'
+                  ? 'bg-rose-600 text-white shadow-xs'
                   : defects.length > 0
-                  ? 'bg-[#F3E6E4] text-[#783751] border border-[#C08274] hover:bg-[#ECD8D5]'
-                  : 'bg-white border border-[#EAE2DE] text-stone-700 hover:bg-[#FBF7F5]'
+                  ? 'bg-[#1E1B27] text-rose-300 border border-rose-500/30'
+                  : 'bg-[#1E1B27] border border-[#2E293B] text-[#D8D2E1] hover:bg-[#252230]'
               }`}
               title={isDefectMode ? 'Click anywhere on fabric canvas to drop a flaw pin' : 'Activate flaw pin tool to mark defective fabric zones'}
             >
@@ -461,8 +449,8 @@ export function FabricCanvas({
             {/* Grid toggle */}
             <button
               onClick={() => setShowGrid(!showGrid)}
-              className={`p-1.5 rounded-lg border transition-colors ${
-                showGrid ? 'bg-stone-200 border-stone-300 text-stone-900' : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-100'
+              className={`p-1.5 rounded-xl border transition-colors ${
+                showGrid ? 'bg-[#2E293B] border-[#3E384D] text-[#F5F3F8]' : 'bg-[#1E1B27] border-[#2E293B] text-[#8C8499] hover:text-[#D8D2E1]'
               }`}
               title="Toggle 10cm Grid"
             >
@@ -472,8 +460,8 @@ export function FabricCanvas({
             {/* Grain toggle */}
             <button
               onClick={() => setShowGrain(!showGrain)}
-              className={`p-1.5 rounded-lg border transition-colors ${
-                showGrain ? 'bg-stone-200 border-stone-300 text-stone-900' : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-100'
+              className={`p-1.5 rounded-xl border transition-colors ${
+                showGrain ? 'bg-[#2E293B] border-[#3E384D] text-[#F5F3F8]' : 'bg-[#1E1B27] border-[#2E293B] text-[#8C8499] hover:text-[#D8D2E1]'
               }`}
               title="Toggle Grain Lines"
             >
@@ -481,27 +469,27 @@ export function FabricCanvas({
             </button>
 
             {/* Zoom Controls */}
-            <div className="flex items-center bg-white rounded-lg border border-stone-200 p-0.5 shadow-2xs">
+            <div className="flex items-center bg-[#1E1B27] rounded-xl border border-[#2E293B] p-0.5">
               <button
                 onClick={handleZoomOut}
-                className="p-1 rounded text-stone-600 hover:bg-stone-100 transition-colors"
+                className="p-1 rounded text-[#8C8499] hover:text-[#F5F3F8] hover:bg-[#252230] transition-colors"
                 title="Zoom Out"
               >
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
-              <span className="px-2 font-mono text-[11px] text-stone-600 select-none">
+              <span className="px-2 font-mono text-[11px] text-[#A8A1B4] select-none">
                 {Math.round(zoom * 100)}%
               </span>
               <button
                 onClick={handleZoomIn}
-                className="p-1 rounded text-stone-600 hover:bg-stone-100 transition-colors"
+                className="p-1 rounded text-[#8C8499] hover:text-[#F5F3F8] hover:bg-[#252230] transition-colors"
                 title="Zoom In"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={handleResetZoom}
-                className="p-1 rounded text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors ml-0.5 border-l border-stone-200"
+                className="p-1 rounded text-[#8C8499] hover:text-[#F5F3F8] hover:bg-[#252230] transition-colors ml-0.5 border-l border-[#2E293B]"
                 title="Reset Zoom"
               >
                 <Maximize2 className="w-3 h-3" />
@@ -511,179 +499,83 @@ export function FabricCanvas({
         </div>
       )}
 
-      {/* Interactive Manual Arrangement Workbench (Warm Atelier Redesign) */}
+      {/* Interactive Manual Arrangement Workbench (Sleek Dark Minimal) */}
       {isHumanMode && (
-        <div className="mx-4 sm:mx-6 mt-3 p-4 sm:p-5 rounded-2xl bg-[#FBF7F5] border border-[#EAE2DE] text-stone-900 shadow-xs space-y-3.5 animate-in fade-in slide-in-from-top-2">
-          {/* Header Row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#EAE2DE]">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-[#F3E6E4] text-[#783751] border border-[#C08274] shadow-2xs">
-                <Sliders className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h4 className="font-serif font-bold text-sm text-[#4A252B]">
-                    Interactive Marker Adjustment
-                  </h4>
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-semibold bg-[#F3E6E4] text-[#783751] border border-[#C08274]">
-                    Live Placement Mode
-                  </span>
-                </div>
-                <p className="text-xs text-[#81777B]">
-                  Drag pieces directly to pack closely. Press <strong className="text-stone-800">R</strong> or click ↻ to rotate. Smart edge-snap aligns borders automatically.
-                </p>
-              </div>
+        <div className="mx-3 sm:mx-4 my-2 px-3.5 py-2 rounded-xl bg-[#1A1723] border border-[#2E293B] text-white flex flex-wrap items-center justify-between gap-2.5 animate-in fade-in">
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#8E2B45]/20 text-[#ECA7B8] border border-[#8E2B45]/30 text-xs font-semibold">
+              <Sliders className="w-3.5 h-3.5" />
+              <span>Live Placement</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleResetToAi}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white hover:bg-[#FBF7F5] text-stone-700 border border-[#EAE2DE] transition-colors cursor-pointer shadow-2xs"
-                title="Discard manual changes and restore AI optimal nesting"
-              >
-                <RotateCcw className="w-3.5 h-3.5 text-stone-500" />
-                <span>Reset to Optimal</span>
-              </button>
-
-              {selectedPiece && (
-                <button
-                  type="button"
-                  onClick={() => handleRotatePiece(selectedPiece)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F3E6E4] hover:bg-[#ECD8D5] text-[#783751] border border-[#C08274] transition-colors cursor-pointer shadow-2xs"
-                  title="Rotate selected piece 90° clockwise (Shortcut: R)"
-                >
-                  <RotateCw className="w-3.5 h-3.5" />
-                  <span>Rotate (R)</span>
-                </button>
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <span className="font-bold text-emerald-400">{evaluation.markerYield}% Yield</span>
+              <span className={`text-[11px] font-semibold ${evaluation.comparison?.yieldDelta >= 0 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                ({evaluation.comparison?.yieldDelta > 0 ? `+${evaluation.comparison.yieldDelta}` : evaluation.comparison?.yieldDelta} pp vs AI)
+              </span>
+              <span className="text-[#4E475C]">•</span>
+              <span className="text-[#A8A1B4]">Cut: <strong className="text-[#F5F3F8]">{evaluation.cutLengthCm}cm</strong></span>
+              <span className="text-[#4E475C]">•</span>
+              {evaluation.overlaps.length > 0 ? (
+                <span className="text-rose-400 flex items-center gap-1 font-semibold">
+                  <AlertTriangle className="w-3 h-3" /> {evaluation.overlaps.length} Collisions
+                </span>
+              ) : (
+                <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+                  <CheckCircle2 className="w-3 h-3" /> Clean
+                </span>
               )}
-
-              <button
-                type="button"
-                onClick={handleApplyManualLayout}
-                disabled={!evaluation.isValid}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  saveSuccess
-                    ? 'bg-[#783751] text-white shadow-xs'
-                    : evaluation.isValid
-                    ? 'bg-[#783751] hover:bg-[#642C43] text-white cursor-pointer shadow-xs'
-                    : 'bg-stone-200 text-stone-400 cursor-not-allowed border border-stone-300'
-                }`}
-                title={evaluation.isValid ? 'Save manual arrangement to project' : 'Resolve overlapping collisions before saving'}
-              >
-                {saveSuccess ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-[#A8E6CF]" />
-                    <span>Saved to Project</span>
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-3.5 h-3.5" />
-                    <span>Save Layout</span>
-                  </>
-                )}
-              </button>
             </div>
           </div>
 
-          {/* Metric Comparison Cards Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 text-xs">
-            {/* AI Benchmark */}
-            <div className="p-3 rounded-xl bg-white border border-[#EAE2DE] space-y-1 shadow-2xs">
-              <div className="text-[10px] text-stone-500 font-medium flex items-center justify-between">
-                <span>AI Benchmark Layout</span>
-                <span className="text-[#783751] font-semibold bg-[#F3E6E4] px-1.5 py-0.2 rounded text-[9px]">100% Clean</span>
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-serif font-bold text-[#783751]">
-                  {evaluation.comparison?.aiYield || markerYield}%
-                </span>
-                <span className="text-stone-500 text-[11px]">yield</span>
-              </div>
-              <div className="text-[11px] text-stone-500 font-mono">
-                Cut: <strong className="text-stone-800">{evaluation.comparison?.aiLengthCm || actualLengthUsedCm.toFixed(1)} cm</strong>
-              </div>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleResetToAi}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[#24202E] hover:bg-[#2C2738] text-stone-300 border border-[#383346] transition-colors cursor-pointer"
+              title="Reset to AI optimal nesting"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>Reset to Optimal</span>
+            </button>
 
-            {/* Current Manual Layout */}
-            <div className={`p-3 rounded-xl border space-y-1 shadow-2xs ${
-              !evaluation.isValid
-                ? 'bg-[#FDF4F2] border-[#F3D5CF]'
-                : evaluation.comparison?.humanWins
-                ? 'bg-[#F0F7F2] border-[#C08274]'
-                : 'bg-white border-[#EAE2DE]'
-            }`}>
-              <div className="text-[10px] font-medium flex items-center justify-between">
-                <span className="text-stone-700">Current Arrangement</span>
-                {!evaluation.isValid ? (
-                  <span className="text-[#C08274] font-semibold bg-[#FAEAE7] px-1.5 py-0.2 rounded text-[9px]">⚠️ Overlap</span>
-                ) : (
-                  <span className="text-[#783751] font-semibold bg-[#F3E6E4] px-1.5 py-0.2 rounded text-[9px]">✓ 0 Collisions</span>
-                )}
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className={`text-lg font-serif font-bold ${
-                  !evaluation.isValid
-                    ? 'text-[#C08274]'
-                    : evaluation.comparison?.humanWins
-                    ? 'text-[#783751]'
-                    : 'text-[#783751]'
-                }`}>
-                  {evaluation.markerYield}%
-                </span>
-                <span className="text-stone-500 text-[11px]">yield</span>
-              </div>
-              <div className="text-[11px] text-stone-500 font-mono">
-                Cut: <strong className="text-stone-800">{evaluation.cutLengthCm} cm</strong>
-              </div>
-            </div>
+            {selectedPiece && (
+              <button
+                type="button"
+                onClick={() => handleRotatePiece(selectedPiece)}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#2E273A] hover:bg-[#3B324B] text-[#ECA7B8] border border-[#4D384E] transition-colors cursor-pointer"
+                title="Rotate 90° (R)"
+              >
+                <RotateCw className="w-3 h-3" />
+                <span>Rotate (R)</span>
+              </button>
+            )}
 
-            {/* Yield Variance */}
-            <div className="p-3 rounded-xl bg-white border border-[#EAE2DE] space-y-1 shadow-2xs">
-              <div className="text-[10px] text-stone-500 font-medium">
-                Yield Variance
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className={`text-lg font-serif font-bold ${
-                  evaluation.comparison?.yieldDelta > 0
-                    ? 'text-[#2D5A3D]'
-                    : evaluation.comparison?.yieldDelta < 0
-                    ? 'text-[#9E533F]'
-                    : 'text-stone-700'
-                }`}>
-                  {evaluation.comparison?.yieldDelta > 0 ? `+${evaluation.comparison.yieldDelta}` : evaluation.comparison?.yieldDelta} pp
-                </span>
-                <span className="text-stone-500 text-[11px]">vs AI</span>
-              </div>
-              <div className="text-[11px] text-stone-500 font-mono">
-                Bolt delta: <strong className={evaluation.comparison?.lengthDelta > 0 ? 'text-[#9E533F]' : 'text-[#2D5A3D]'}>
-                  {evaluation.comparison?.lengthDelta > 0 ? `+${evaluation.comparison.lengthDelta} cm` : `${evaluation.comparison?.lengthDelta} cm`}
-                </strong>
-              </div>
-            </div>
-
-            {/* Clearance & Buffer Status */}
-            <div className={`p-3 rounded-xl border space-y-1 shadow-2xs ${
-              evaluation.overlaps.length > 0
-                ? 'bg-[#FDF4F2] border-[#F3D5CF]'
-                : 'bg-white border-[#EAE2DE]'
-            }`}>
-              <div className="text-[10px] text-stone-500 font-medium">Clearance & Safety Buffer</div>
-              <div className="text-sm font-semibold">
-                {evaluation.overlaps.length > 0 ? (
-                  <span className="text-[#9E533F] flex items-center gap-1">
-                    <AlertTriangle className="w-3.5 h-3.5" /> {evaluation.overlaps.length} Collisions
-                  </span>
-                ) : (
-                  <span className="text-[#2D5A3D] flex items-center gap-1 font-serif text-base font-bold">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A3D]" /> 100% Cleared
-                  </span>
-                )}
-              </div>
-              <div className="text-[10px] text-stone-500 truncate">
-                {evaluation.comparison?.verdictText || 'Drag pieces to fine-tune'}
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={handleApplyManualLayout}
+              disabled={!evaluation.isValid}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                saveSuccess
+                  ? 'bg-emerald-600 text-white'
+                  : evaluation.isValid
+                  ? 'bg-[#8E2B45] hover:bg-[#A13350] text-white cursor-pointer shadow-xs'
+                  : 'bg-[#24202E] text-stone-500 cursor-not-allowed border border-[#383346]'
+              }`}
+              title={evaluation.isValid ? 'Save manual arrangement' : 'Resolve overlapping collisions before saving'}
+            >
+              {saveSuccess ? (
+                <>
+                  <Check className="w-3 h-3 text-[#A8E6CF]" />
+                  <span>Saved</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-3 h-3" />
+                  <span>Save Layout</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       )}
@@ -691,21 +583,20 @@ export function FabricCanvas({
       {/* Main Fabric Visual Area */}
       <div
         ref={canvasContainerRef}
-        className="relative flex-1 overflow-auto bg-stone-900/5 p-4 sm:p-6 min-h-[380px] max-h-[620px] select-none"
+        className="relative flex-1 overflow-auto bg-[#0D0C10] p-4 sm:p-6 min-h-[380px] max-h-[620px] select-none"
       >
         {/* Fabric Roll Sheet Container */}
-        <div className="relative mx-auto inline-block bg-white rounded-lg shadow-md border-2 border-stone-300 overflow-hidden transition-all duration-200">
+        <div className="relative mx-auto inline-block bg-[#141219] rounded-xl shadow-xl border border-[#2E293B] overflow-hidden transition-all duration-200">
           
           {/* Top X-Axis Ruler */}
           <div
-            className="h-6 bg-stone-100 border-b border-stone-300 relative flex items-end text-[9px] font-mono text-stone-500 select-none"
+            className="h-6 bg-[#181520] border-b border-[#2E293B] relative flex items-end text-[9px] font-mono text-[#8C8499] select-none"
             style={{ width: `${svgWidth}px` }}
           >
             {xTicks.map((x) => {
               const isMajor = x % rulerMajorInterval === 0;
               const posX = x * currentScale;
               const cutPosX = actualLengthUsedCm * currentScale;
-              // Suppress any tick mark label within 32px of the cut marker to eliminate visual collisions
               const isNearCutLine = hasPartialRollCut && Math.abs(posX - cutPosX) < 32;
 
               return (
@@ -715,10 +606,10 @@ export function FabricCanvas({
                   style={{ left: `${posX}px` }}
                 >
                   {isMajor && !isNearCutLine && (
-                    <span className="mb-0.5 transform -translate-x-1/2 text-stone-500 font-mono text-[9px]">{x}cm</span>
+                    <span className="mb-0.5 transform -translate-x-1/2 text-[#8C8499] font-mono text-[9px]">{x}cm</span>
                   )}
                   <div
-                    className={`w-[1px] bg-stone-300 ${isMajor ? 'h-2.5 bg-stone-500' : 'h-1.5'}`}
+                    className={`w-[1px] ${isMajor ? 'h-2.5 bg-[#4A435B]' : 'h-1.5 bg-[#2E293B]'}`}
                   />
                 </div>
               );
@@ -731,10 +622,10 @@ export function FabricCanvas({
                 style={{ left: `${actualLengthUsedCm * currentScale}px` }}
                 title={`Marker cut line: ${actualLengthUsedCm.toFixed(1)} cm`}
               >
-                <span className="mb-0.5 transform -translate-x-1/2 text-white font-semibold text-[9px] bg-[#783751] px-1.5 py-0.5 rounded shadow-2xs whitespace-nowrap">
+                <span className="mb-0.5 transform -translate-x-1/2 text-white font-semibold text-[9px] bg-[#8E2B45] px-1.5 py-0.5 rounded shadow-2xs whitespace-nowrap">
                   ✂ {actualLengthUsedCm.toFixed(0)}cm
                 </span>
-                <div className="w-[2px] h-3 bg-[#783751]" />
+                <div className="w-[2px] h-3 bg-[#8E2B45]" />
               </div>
             )}
           </div>
@@ -742,7 +633,7 @@ export function FabricCanvas({
           <div className="flex">
             {/* Left Y-Axis Ruler */}
             <div
-              className="w-8 bg-stone-100 border-r border-stone-300 relative flex flex-col justify-start text-[9px] font-mono text-stone-500 select-none shrink-0"
+              className="w-8 bg-[#181520] border-r border-[#2E293B] relative flex flex-col justify-start text-[9px] font-mono text-[#8C8499] select-none shrink-0"
               style={{ height: `${svgHeight}px` }}
             >
               {yTicks.map((y) => {
@@ -754,9 +645,9 @@ export function FabricCanvas({
                     className="absolute right-0 flex items-center justify-end pr-1"
                     style={{ top: `${posY}px` }}
                   >
-                    {isMajor && <span className="mr-1 transform -translate-y-1/2">{y}</span>}
+                    {isMajor && <span className="mr-1 transform -translate-y-1/2 text-[#8C8499]">{y}</span>}
                     <div
-                      className={`h-[1px] bg-stone-400 ${isMajor ? 'w-2.5 bg-stone-700' : 'w-1.5'}`}
+                      className={`h-[1px] ${isMajor ? 'w-2.5 bg-[#4A435B]' : 'w-1.5 bg-[#2E293B]'}`}
                     />
                   </div>
                 );
@@ -805,7 +696,7 @@ export function FabricCanvas({
                     <path
                       d={`M ${10 * currentScale} 0 L 0 0 0 ${10 * currentScale}`}
                       fill="none"
-                      stroke="rgba(203, 213, 225, 0.45)"
+                      stroke="rgba(255, 255, 255, 0.08)"
                       strokeWidth="1"
                     />
                   </pattern>
@@ -818,7 +709,7 @@ export function FabricCanvas({
                 </defs>
 
                 {/* Fabric Bed Background */}
-                <rect width={svgWidth} height={svgHeight} fill="#fcfbf9" />
+                <rect width={svgWidth} height={svgHeight} fill="#16141D" />
 
                 {/* Grid Overlay */}
                 {showGrid && (
@@ -827,7 +718,7 @@ export function FabricCanvas({
 
                 {/* Fabric Weave Grain Indicator Lines */}
                 {showGrain && (
-                  <g opacity={0.15}>
+                  <g opacity={0.12}>
                     {xTicks.filter((x) => x % 20 === 0).map((x) => (
                       <line
                         key={`grain-${x}`}
@@ -835,7 +726,7 @@ export function FabricCanvas({
                         y1={0}
                         x2={x * currentScale}
                         y2={svgHeight}
-                        stroke="#0f172a"
+                        stroke="#E2A97E"
                         strokeWidth="1"
                         strokeDasharray="4,8"
                       />
@@ -850,7 +741,7 @@ export function FabricCanvas({
                   width={(fabricLength - 4) * currentScale}
                   height={(fabricWidth - 4) * currentScale}
                   fill="none"
-                  stroke="#cbd5e1"
+                  stroke="#383246"
                   strokeWidth="1.5"
                   strokeDasharray="6,4"
                 />
@@ -864,8 +755,8 @@ export function FabricCanvas({
                       y={0}
                       width={Math.max(0, svgWidth - (actualLengthUsedCm * currentScale))}
                       height={svgHeight}
-                      fill="#f8fafc"
-                      fillOpacity={0.65}
+                      fill="#0E0D13"
+                      fillOpacity={0.78}
                     />
                     {/* Cut-off vertical dividing line */}
                     <line
@@ -873,7 +764,7 @@ export function FabricCanvas({
                       y1={0}
                       x2={actualLengthUsedCm * currentScale}
                       y2={svgHeight}
-                      stroke="#783751"
+                      stroke="#8E2B45"
                       strokeWidth="1.5"
                       strokeDasharray="6,4"
                     />
@@ -1029,16 +920,16 @@ export function FabricCanvas({
                         width={145}
                         height={22}
                         rx={6}
-                        fill="#FBF7F5"
-                        stroke="#EAE2DE"
+                        fill="#1E1B27"
+                        stroke="#2E293B"
                         strokeWidth="1"
                       />
                       <text
                         x={8}
                         y={15}
-                        fill="#783751"
+                        fill="#E2A97E"
                         fontSize="10"
-                        fontFamily="system-ui, -apple-system, sans-serif"
+                        fontFamily="monospace"
                         fontWeight="600"
                       >
                         ✂ Cut Req: {actualLengthUsedCm.toFixed(1)} cm
@@ -1054,16 +945,16 @@ export function FabricCanvas({
                           width={175}
                           height={20}
                           rx={5}
-                          fill="#FBF7F5"
-                          stroke="#EAE2DE"
+                          fill="#1E1B27"
+                          stroke="#2E293B"
                           strokeWidth="1"
                         />
                         <text
                           x={8}
                           y={-3}
-                          fill="#81777B"
+                          fill="#A8A1B4"
                           fontSize="10"
-                          fontFamily="system-ui, -apple-system, sans-serif"
+                          fontFamily="monospace"
                           fontWeight="500"
                         >
                           Uncut Roll: {((fabricLength - actualLengthUsedCm) / 100).toFixed(2)} m Preserved
@@ -1079,43 +970,43 @@ export function FabricCanvas({
 
         {/* Floating Tooltip / Piece Inspector Card */}
         {activeInspection && interactive && (
-          <div className="fixed bottom-6 right-6 z-30 bg-stone-900/95 backdrop-blur-md text-white p-4 rounded-xl shadow-2xl border border-stone-700 w-72 text-xs transition-all duration-150 animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-center justify-between pb-2 border-b border-stone-800">
+          <div className="fixed bottom-6 right-6 z-30 bg-[#16141D]/95 backdrop-blur-md text-white p-4 rounded-xl shadow-2xl border border-[#2E293B] w-72 text-xs transition-all duration-150 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between pb-2 border-b border-[#24212D]">
               <div className="flex items-center gap-2">
                 <span
                   className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: activeInspection.color || '#0284c7' }}
+                  style={{ backgroundColor: activeInspection.color || '#8E2B45' }}
                 />
                 <span className="font-bold text-sm tracking-wide text-white">
                   {activeInspection.category}
                 </span>
               </div>
-              <span className="text-[10px] font-mono bg-stone-800 text-stone-300 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-mono bg-[#1E1B27] text-stone-300 px-2 py-0.5 rounded border border-[#2E293B]">
                 ID: {activeInspection.id.slice(0, 10)}
               </span>
             </div>
 
             <div className="mt-3 space-y-1.5 font-mono text-stone-300">
               <div className="flex justify-between">
-                <span className="text-stone-400">Piece Name:</span>
+                <span className="text-[#8C8499]">Piece Name:</span>
                 <span className="text-stone-100 font-sans font-medium">{activeInspection.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-stone-400">Dimensions:</span>
+                <span className="text-[#8C8499]">Dimensions:</span>
                 <span className="text-stone-100">{activeInspection.width} × {activeInspection.height} cm</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-stone-400">Orientation:</span>
-                <span className="text-[#F3E6E4]">{activeInspection.rotation}° Rotation</span>
+                <span className="text-[#8C8499]">Orientation:</span>
+                <span className="text-[#ECA7B8]">{activeInspection.rotation}° Rotation</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-stone-400">Coordinates:</span>
+                <span className="text-[#8C8499]">Coordinates:</span>
                 <span className="text-stone-100">X: {activeInspection.x}cm, Y: {activeInspection.y}cm</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-stone-400">Grain Match:</span>
-                <span className="text-[#F3E6E4] flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C08274]" /> Aligned
+                <span className="text-[#8C8499]">Grain Match:</span>
+                <span className="text-emerald-400 flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Aligned
                 </span>
               </div>
             </div>
@@ -1124,60 +1015,57 @@ export function FabricCanvas({
       </div>
 
       {/* Bottom Status Bar / Legend */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-stone-50 border-t border-stone-200 text-xs text-stone-600">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2 bg-[#141219] border-t border-[#272332] text-xs text-[#8C8499]">
         <div className="flex items-center gap-4 flex-wrap">
-          <span className="font-semibold text-stone-700">Pattern Legend:</span>
+          <span className="font-semibold text-[#D8D2E1] font-mono text-[11px]">Pattern Legend:</span>
           {project?.patterns && project.patterns.length > 0 ? (
             Array.from(
               new Map(
                 project.patterns.map((pat) => [
                   (pat.category || pat.name).toUpperCase(),
-                  { label: (pat.category || pat.name).toUpperCase(), color: pat.color || '#0284c7' }
+                  { label: (pat.category || pat.name).toUpperCase(), color: pat.color || '#8E2B45' }
                 ])
               ).values()
             ).map((item) => (
               <div key={item.label} className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-xs" style={{ backgroundColor: item.color }} />
-                <span className="text-stone-600 font-mono text-[11px]">{item.label}</span>
+                <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: item.color }} />
+                <span className="text-[#A8A1B4] font-mono text-[11px]">{item.label}</span>
               </div>
             ))
           ) : (
             <>
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-xs bg-[#0284c7]" />
-                <span className="text-stone-600">FRONT</span>
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#3A5A6D]" />
+                <span className="text-[#A8A1B4] font-mono text-[11px]">FRONT</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-xs bg-[#059669]" />
-                <span className="text-stone-600">BACK</span>
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#8C3D4A]" />
+                <span className="text-[#A8A1B4] font-mono text-[11px]">BACK</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-xs bg-[#d97706]" />
-                <span className="text-stone-600">SLEEVE</span>
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#A2593C]" />
+                <span className="text-[#A8A1B4] font-mono text-[11px]">SLEEVE</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-xs bg-[#7c3aed]" />
-                <span className="text-stone-600">COLLAR</span>
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#68455B]" />
+                <span className="text-[#A8A1B4] font-mono text-[11px]">COLLAR</span>
               </div>
             </>
           )}
 
           {defects.length > 0 && (
-            <div className="flex items-center gap-1.5 font-mono text-[11px] text-rose-700 font-semibold bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-600 border border-amber-400" />
-              <span>{defects.length} Defect Zones (Avoidance Active)</span>
+            <div className="flex items-center gap-1.5 font-mono text-[11px] text-rose-300 font-semibold bg-rose-500/10 px-2 py-0.5 rounded-lg border border-rose-500/20">
+              <span className="w-2 h-2 rounded-full bg-rose-500" />
+              <span>{defects.length} Defect Zones</span>
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-2 text-[11px] text-stone-500 font-mono">
-          {isHumanMode ? (
-            <span className="text-[#4A252B] font-sans font-medium">
-              Drag pieces to reposition with smart edge-snap. Press <strong className="font-semibold text-[#783751]">'R'</strong> to rotate.
-            </span>
-          ) : (
-            <span className="font-sans text-[#81777B]">Click <strong className="font-semibold text-[#783751]">'Manual Adjust'</strong> in the toolbar above to reposition pattern pieces on the fabric.</span>
-          )}
+        <div className="flex items-center gap-2 text-[11px] text-[#8C8499] font-mono">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>Gerber Vector Engine Ready</span>
+          </span>
         </div>
       </div>
     </div>

@@ -21,7 +21,20 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem(LOCAL_AUTH_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : null;
+      if (stored) return JSON.parse(stored);
+      const defaultUser = {
+        id: 'atelier-director-1',
+        email: 'director@loomandlayer.atelier',
+        user_metadata: {
+          name: 'Elena Rostova',
+          full_name: 'Elena Rostova',
+          avatar_url: '/atelier/user_avatar.jpg'
+        }
+      };
+      try {
+        localStorage.setItem(LOCAL_AUTH_STORAGE_KEY, JSON.stringify(defaultUser));
+      } catch (_) {}
+      return defaultUser;
     } catch {
       return null;
     }

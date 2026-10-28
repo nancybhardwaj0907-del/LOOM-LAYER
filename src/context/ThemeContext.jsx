@@ -13,7 +13,7 @@ export function ThemeProvider({ children }) {
     } catch (e) {
       console.warn('Failed to access theme from localStorage', e);
     }
-    return 'light';
+    return 'dark';
   });
 
   useEffect(() => {

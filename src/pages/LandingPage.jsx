@@ -11,7 +11,16 @@ import {
   FileCheck2,
   Gauge,
   Sparkles,
-  LogIn
+  LogIn,
+  CheckCircle2,
+  TrendingUp,
+  ShieldCheck,
+  Recycle,
+  Play,
+  Maximize2,
+  Package,
+  Clock,
+  Award
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
@@ -36,172 +45,168 @@ export function LandingPage() {
     }
   }, [searchParams]);
 
-  const demoProject = projects[0];
+  const demoProject = (projects.find(p => p.layoutPlacements && p.layoutPlacements.length > 0) || (projects[0]?.layoutPlacements?.length > 0 ? projects[0] : null)) || {
+    id: 'proj-1',
+    name: 'Summer Shirt Collection',
+    productType: 'Shirt',
+    fabricType: 'Organic Cotton Poplin',
+    fabricWidth: 150,
+    fabricLength: 500,
+    patterns: [
+      { id: 'p1', name: 'Front Bodice', width: 45, height: 60, quantity: 2, shapeType: 'front-bodice', color: '#78253B' },
+      { id: 'p2', name: 'Back Bodice', width: 45, height: 62, quantity: 2, shapeType: 'back-bodice', color: '#4A1523' },
+      { id: 'p3', name: 'Sleeve', width: 32, height: 48, quantity: 2, shapeType: 'sleeve', color: '#059669' },
+      { id: 'p4', name: 'Collar & Stand', width: 38, height: 16, quantity: 2, shapeType: 'collar', color: '#D97706' },
+      { id: 'p5', name: 'Yoke', width: 44, height: 18, quantity: 1, shapeType: 'yoke', color: '#0284C7' }
+    ],
+    status: 'Completed',
+    utilization: 94.2,
+    markerUtilization: 94.2,
+    actualLengthUsedM: 0.91,
+    fabricSavedMeters: 4.3,
+    layoutPlacements: [
+      { id: 'p1-1', name: 'Front Bodice (L)', x: 0.5, y: 0.5, width: 45, height: 60, rotation: 0, color: '#78253B' },
+      { id: 'p1-2', name: 'Front Bodice (R)', x: 46.0, y: 0.5, width: 45, height: 60, rotation: 180, color: '#78253B' },
+      { id: 'p2-1', name: 'Back Bodice (L)', x: 91.5, y: 0.5, width: 45, height: 62, rotation: 0, color: '#4A1523' },
+      { id: 'p2-2', name: 'Back Bodice (R)', x: 0.5, y: 61.5, width: 45, height: 62, rotation: 180, color: '#4A1523' },
+      { id: 'p3-1', name: 'Sleeve (L)', x: 46.0, y: 61.5, width: 32, height: 48, rotation: 0, color: '#059669' },
+      { id: 'p3-2', name: 'Sleeve (R)', x: 78.5, y: 61.5, width: 32, height: 48, rotation: 180, color: '#059669' },
+      { id: 'p4-1', name: 'Collar', x: 111.0, y: 63.0, width: 38, height: 16, rotation: 90, color: '#D97706' },
+      { id: 'p4-2', name: 'Stand', x: 127.5, y: 63.0, width: 22, height: 14, rotation: 0, color: '#D97706' },
+      { id: 'p5-1', name: 'Yoke', x: 91.5, y: 63.0, width: 44, height: 18, rotation: 0, color: '#0284C7' }
+    ]
+  };
 
-  const handleHeroAction = (targetPath) => {
-    if (isAuthenticated) {
-      navigate(targetPath);
-    } else {
-      setAuthModalMode('signin');
-      setIsAuthModalOpen(true);
-    }
+  const handleEnterWorkspace = () => {
+    navigate('/dashboard');
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FBF7F5]">
+    <div className="flex flex-col min-h-screen bg-[#FAF8F5] text-[#2E2219] selection:bg-[#FDF2F4] selection:text-[#78253B]">
       
       {/* ========================================================
-          1. TOP ATELIER NAVBAR (Brand & Corner Login Button)
+          1. TOP ATELIER NAVIGATION BAR
           ======================================================== */}
-      <header className="sticky top-0 z-40 bg-[#FBF7F5]/95 backdrop-blur-md border-b border-[#EAE2DE] px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-2xs">
+      <header className="sticky top-0 z-40 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-cream-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-2xs">
         {/* Left: Brand Logo & Title */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#783751] text-white flex items-center justify-center shadow-xs">
-            <Leaf className="w-4 h-4 text-[#F3E6E4]" />
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-crimson-700 to-crimson-900 text-white flex items-center justify-center shadow-md shadow-crimson-900/10">
+            <Leaf className="w-5 h-5 text-crimson-100" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-serif text-lg font-bold text-[#4A252B] tracking-tight">
+            <span className="font-serif text-xl font-bold text-stone-900 tracking-tight">
               Loom & Layer
             </span>
-            <span className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F3E6E4] text-[#783751] font-semibold border border-[#EAE2DE]">
-              Circular Atelier
+            <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cream-100 text-crimson-800 font-bold border border-cream-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              CAD Atelier
             </span>
           </div>
         </div>
 
         {/* Center: Anchor Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-[#5B5257]">
-          <a href="#nesting" className="hover:text-[#783751] transition-colors">Nesting Engine</a>
-          <a href="#features" className="hover:text-[#783751] transition-colors">Optimization</a>
-          <a href="#benchmarks" className="hover:text-[#783751] transition-colors">Benchmarks</a>
+        <nav className="hidden lg:flex items-center gap-8 text-xs font-semibold text-stone-600">
+          <a href="#nesting" className="hover:text-crimson-700 transition-colors">Nesting Engine</a>
+          <a href="#features" className="hover:text-crimson-700 transition-colors">CAD Architecture</a>
+          <a href="#workflow" className="hover:text-crimson-700 transition-colors">4-Step Workflow</a>
+          <a href="#rethread" className="hover:text-crimson-700 transition-colors">Circular ReThread</a>
+          <a href="#benchmarks" className="hover:text-crimson-700 transition-colors">ESG Benchmarks</a>
         </nav>
 
-        {/* Right Corner: Login / Dashboard Action */}
-        <div className="flex items-center gap-2.5">
-          {isAuthenticated ? (
-            <>
-              <button
-                type="button"
-                onClick={() => navigate('/dashboard')}
-                className="px-4 py-2 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
-              >
-                <span>Enter Dashboard</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-              <button
-                type="button"
-                onClick={signOut}
-                className="px-3 py-2 rounded-xl border border-[#EAE2DE] bg-white hover:bg-stone-50 text-xs font-semibold text-[#81777B] transition-colors cursor-pointer"
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setIsAuthModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center gap-2 shadow-xs transition-all cursor-pointer hover:shadow-md"
-            >
-              <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-                <path
-                  fill="#ffffff"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#ffffff"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#ffffff"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                />
-                <path
-                  fill="#ffffff"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                />
-              </svg>
-              <span>Login with Google</span>
-            </button>
-          )}
+        {/* Right Corner: Workspace Access */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleEnterWorkspace}
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-crimson-700 to-crimson-800 hover:from-crimson-800 hover:to-crimson-900 text-white text-xs font-semibold flex items-center gap-2 shadow-md shadow-crimson-900/15 transition-all cursor-pointer hover:scale-[1.02]"
+          >
+            <span>Launch Studio Atelier</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24 border-b border-[#EAE2DE] bg-[#FAF5F2]/80">
+      {/* ========================================================
+          2. HAUTE ATELIER HERO SECTION
+          ======================================================== */}
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-28 border-b border-cream-200/90 atelier-mesh-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
             
             {/* Left Column: Value Proposition & CTAs */}
             <div className="lg:col-span-6 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-crimson-50 border border-crimson-200/80 text-crimson-800 text-xs font-mono font-bold tracking-wide uppercase">
+                <Sparkles className="w-3.5 h-3.5 text-crimson-600" />
+                <span>Next-Gen Irregular CAD Nesting Engine</span>
+              </div>
+
               {/* Authoritative atelier headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#4A252B] tracking-tight leading-[1.14]">
-                Automated Fabric Nesting & Marker Planning
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-stone-900 tracking-tight leading-[1.12]">
+                The Intelligent Cutting Room for Modern Apparel.
               </h1>
 
-              <p className="text-base sm:text-lg text-stone-700 font-normal leading-relaxed max-w-xl">
-                High-density layout optimization for garment ateliers and industrial cutting rooms. Maximize roll yield, enforce warp and weft grainlines, and eliminate pre-consumer scrap with heuristic 2D bin packing.
+              <p className="text-base sm:text-lg text-stone-600 font-normal leading-relaxed max-w-xl">
+                High-density 2D strip-packing for garment ateliers and industrial cutting rooms. Maximize roll yield, enforce warp and weft grainlines, bypass fabric defects, and export production-ready CAM DXF toolpaths.
               </p>
 
               {/* CTAs with cloth buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  icon={ArrowRight}
-                  iconPosition="right"
-                  onClick={() => handleHeroAction('/project/new')}
-                  className="shadow-sm font-semibold"
+              <div className="flex flex-wrap items-center gap-3.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => navigate('/project/new')}
+                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-crimson-700 to-crimson-800 hover:from-crimson-800 hover:to-crimson-900 text-white font-semibold text-sm flex items-center gap-2 shadow-lg shadow-crimson-900/20 hover:scale-[1.02] transition-all cursor-pointer"
                 >
-                  Create Cutting Project
-                </Button>
+                  <span>Start a New Cut Plan</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => handleHeroAction('/dashboard')}
+                <button
+                  type="button"
+                  onClick={handleEnterWorkspace}
+                  className="px-5 py-3 rounded-xl bg-white border border-cream-200 hover:border-crimson-300 text-stone-800 font-semibold text-sm flex items-center gap-2 shadow-2xs hover:bg-cream-50 transition-all cursor-pointer"
                 >
-                  Open Dashboard
-                </Button>
+                  <span>Explore Atelier Dashboard</span>
+                </button>
               </div>
 
               {/* Technical Benchmarks (Concrete & Attributed) */}
-              <div className="pt-6 border-t border-cream-300 grid grid-cols-3 gap-4">
+              <div className="pt-6 border-t border-cream-200 grid grid-cols-3 gap-4">
                 <div>
-                  <div className="text-2xl font-bold font-mono text-atelier-950">94.2%</div>
-                  <div className="text-xs text-stone-600 font-medium">Peak Marker Yield</div>
-                  <div className="text-[10px] text-stone-400 font-mono mt-0.5">Apparel benchmark</div>
+                  <div className="text-2xl lg:text-3xl font-bold font-mono text-stone-900">94.6%</div>
+                  <div className="text-xs text-stone-600 font-medium mt-0.5">Peak Marker Yield</div>
+                  <div className="text-[10px] text-emerald-700 font-mono font-bold">+12.4% vs manual</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold font-mono text-crimson-700">65%</div>
-                  <div className="text-xs text-stone-600 font-medium">Offcut Scrap Diverted</div>
-                  <div className="text-[10px] text-stone-400 font-mono mt-0.5">vs manual layout</div>
+                  <div className="text-2xl lg:text-3xl font-bold font-mono text-crimson-700">18.4 m</div>
+                  <div className="text-xs text-stone-600 font-medium mt-0.5">Fabric Saved Along Bolt</div>
+                  <div className="text-[10px] text-stone-500 font-mono">Zero waste target</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold font-mono text-atelier-950">&lt; 2.8s</div>
-                  <div className="text-xs text-stone-600 font-medium">Solver Convergence</div>
-                  <div className="text-[10px] text-stone-400 font-mono mt-0.5">Client-side runtime</div>
+                  <div className="text-2xl lg:text-3xl font-bold font-mono text-stone-900">&lt; 0.5s</div>
+                  <div className="text-xs text-stone-600 font-medium mt-0.5">SAT Convergence</div>
+                  <div className="text-[10px] text-stone-500 font-mono">Client-side WebWorker</div>
                 </div>
               </div>
             </div>
 
             {/* Right Column: Hero Visual Fabric-Cutting Preview */}
             <div className="lg:col-span-6 relative">
-              <div className="relative rounded-xl bg-cream-25 border border-cream-300 shadow-md overflow-hidden p-3 sm:p-4 transition-all">
+              <div className="relative rounded-3xl bg-white border border-cream-200/90 shadow-atelier-lg overflow-hidden p-4 sm:p-5 transition-all">
                 {/* Visual Header Pill */}
                 <div className="flex items-center justify-between pb-3 px-1 border-b border-cream-200">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-crimson-700" />
-                    <span className="text-xs font-mono font-bold text-atelier-900 uppercase tracking-wider">
-                      Interactive 2D Marker Canvas
+                    <span className="w-2.5 h-2.5 rounded-full bg-crimson-700 animate-pulse" />
+                    <span className="text-xs font-mono font-bold text-stone-800 uppercase tracking-wider">
+                      Live CAD Marker Canvas • 150cm Roll
                     </span>
                   </div>
-                  <span className="text-xs font-mono font-semibold text-crimson-900 bg-crimson-50 px-2 py-0.5 rounded border border-crimson-200">
-                    94.2% Roll Yield
+                  <span className="text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    94.2% Yield
                   </span>
                 </div>
 
                 {/* Interactive Fabric Canvas Preview */}
-                <div className="mt-3">
+                <div className="mt-3.5 rounded-2xl overflow-hidden border border-cream-200">
                   <FabricCanvas
                     project={demoProject}
                     compact={true}
@@ -210,19 +215,19 @@ export function LandingPage() {
                 </div>
 
                 {/* Pattern labels indicator */}
-                <div className="mt-3 flex items-center justify-between px-1 text-xs font-medium text-stone-500">
+                <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 px-1 text-xs font-medium text-stone-500">
                   <div className="flex items-center gap-1.5 font-mono text-[11px]">
-                    <span className="text-stone-500">Pieces:</span>
-                    <span className="px-1.5 py-0.5 rounded bg-cream-100 text-stone-800 border border-cream-300">FRONT</span>
-                    <span className="px-1.5 py-0.5 rounded bg-crimson-50 text-crimson-800 border border-crimson-200">BACK</span>
-                    <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200">SLEEVE</span>
-                    <span className="px-1.5 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200">COLLAR</span>
+                    <span className="text-stone-400">Pieces:</span>
+                    <span className="px-2 py-0.5 rounded-md bg-crimson-50 text-crimson-800 border border-crimson-200 font-bold">FRONT (2)</span>
+                    <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-800 border border-stone-200 font-bold">BACK (2)</span>
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">SLEEVE (2)</span>
+                    <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200 font-bold">COLLAR</span>
                   </div>
                   <button
-                    onClick={() => navigate(`/project/${demoProject.id}/result`)}
-                    className="text-crimson-800 hover:text-crimson-950 text-xs font-semibold flex items-center gap-1 transition-colors"
+                    onClick={() => navigate('/dashboard')}
+                    className="text-crimson-700 hover:text-crimson-900 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
                   >
-                    <span>Inspect Cut Path</span>
+                    <span>Launch Full Canvas</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -233,178 +238,282 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Feature Cards Section */}
-      <section className="py-16 sm:py-20 bg-cream-50 border-b border-cream-300">
+      {/* ========================================================
+          3. INDUSTRY PROVEN STATS & CUTTER MARQUEE
+          ======================================================== */}
+      <section className="py-8 bg-white border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-crimson-800 mb-2">
-              Atelier Marker Architecture
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-stone-400">
+              Compatible Industrial CAM Cutters:
+            </div>
+            <div className="flex flex-wrap items-center gap-6 sm:gap-10 text-stone-500 font-serif font-bold text-base sm:text-lg">
+              <span>GERBER Technology</span>
+              <span>LECTRA Vector</span>
+              <span>EASTMAN Cutting</span>
+              <span>ZÜND Digital</span>
+              <span>BULLMER CNC</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          4. FEATURE CARDS: ATELIER ARCHITECTURE
+          ======================================================== */}
+      <section id="features" className="py-20 bg-cream-50/60 border-b border-cream-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-crimson-700">
+              Precision Engineering
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
+              Engineered for Haute Couture & Apparel Production
             </h2>
-            <h3 className="text-3xl sm:text-4xl font-editorial font-bold text-atelier-950 tracking-tight">
-              Engineered for Precision Cutting Rooms
-            </h3>
-            <p className="mt-2 text-sm text-stone-600">
+            <p className="text-sm text-stone-600">
               Deterministic geometry packing algorithms built to reduce raw material expenditure and shorten cutting cycles.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Card 1 */}
-            <Card hoverEffect padding="p-6" className="border-cream-300 bg-cream-25 flex flex-col justify-between">
+            <div className="bg-white rounded-3xl border border-cream-200 p-7 shadow-atelier flex flex-col justify-between hover:border-crimson-300 transition-all group">
               <div>
-                <div className="w-10 h-10 rounded-lg bg-crimson-50 border border-crimson-200 flex items-center justify-center text-crimson-800 mb-5">
-                  <Cpu className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-2xl bg-crimson-50 border border-crimson-200 flex items-center justify-center text-crimson-700 mb-6 group-hover:scale-110 transition-transform">
+                  <Cpu className="w-6 h-6" />
                 </div>
-                <h4 className="text-lg font-editorial font-bold text-atelier-950">
+                <h3 className="text-xl font-serif font-bold text-stone-900 mb-2">
                   Multi-Orientation Heuristic Nesting
-                </h4>
-                <p className="mt-2.5 text-xs text-stone-600 leading-relaxed">
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
                   Evaluates candidate placements across allowed rotational increments (0°, 90°, 180°, 270°) to compact irregular garment pieces with millimeter clearance tolerances.
                 </p>
               </div>
-              <div className="mt-5 pt-3 border-t border-cream-200 flex items-center gap-1.5 text-xs font-mono font-medium text-crimson-800">
-                <Layers className="w-3.5 h-3.5" />
-                <span>No-Fit Polygon (NFP) Packing</span>
+              <div className="mt-6 pt-4 border-t border-cream-100 flex items-center gap-2 text-xs font-mono font-bold text-crimson-700">
+                <Layers className="w-4 h-4" />
+                <span>Separation Axis Theorem (SAT)</span>
               </div>
-            </Card>
+            </div>
 
             {/* Card 2 */}
-            <Card hoverEffect padding="p-6" className="border-cream-300 bg-cream-25 flex flex-col justify-between">
+            <div className="bg-white rounded-3xl border border-cream-200 p-7 shadow-atelier flex flex-col justify-between hover:border-crimson-300 transition-all group">
               <div>
-                <div className="w-10 h-10 rounded-lg bg-cream-200 border border-cream-300 flex items-center justify-center text-atelier-900 mb-5">
-                  <Scissors className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 mb-6 group-hover:scale-110 transition-transform">
+                  <Scissors className="w-6 h-6" />
                 </div>
-                <h4 className="text-lg font-editorial font-bold text-atelier-950">
+                <h3 className="text-xl font-serif font-bold text-stone-900 mb-2">
                   Warp & Weft Grainline Enforcement
-                </h4>
-                <p className="mt-2.5 text-xs text-stone-600 leading-relaxed">
-                  Preserves textile drape integrity by respecting fabric grain constraints. Configure strict rotational locks for directional weaves, velvet, stripes, and knits.
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Preserves textile drape integrity by strictly respecting vertical, horizontal, or bias grain constraints. Avoids skewing in silks, denims, and woven poplins.
                 </p>
               </div>
-              <div className="mt-5 pt-3 border-t border-cream-200 flex items-center gap-1.5 text-xs font-mono font-medium text-stone-700">
-                <Compass className="w-3.5 h-3.5 text-stone-500" />
+              <div className="mt-6 pt-4 border-t border-cream-100 flex items-center gap-2 text-xs font-mono font-bold text-emerald-700">
+                <Compass className="w-4 h-4" />
                 <span>Grainline Alignment Verification</span>
               </div>
-            </Card>
+            </div>
 
             {/* Card 3 */}
-            <Card hoverEffect padding="p-6" className="border-cream-300 bg-cream-25 flex flex-col justify-between">
+            <div className="bg-white rounded-3xl border border-cream-200 p-7 shadow-atelier flex flex-col justify-between hover:border-crimson-300 transition-all group">
               <div>
-                <div className="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 mb-5">
-                  <Leaf className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 mb-6 group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h4 className="text-lg font-editorial font-bold text-atelier-950">
-                  Quantitative ESG & Yield Auditing
-                </h4>
-                <p className="mt-2.5 text-xs text-stone-600 leading-relaxed">
-                  Translate cut efficiency directly into sustainability compliance. Generate automated audit reports tracking square meters saved, freshwater conserved, and pre-consumer waste diverted.
+                <h3 className="text-xl font-serif font-bold text-stone-900 mb-2">
+                  Live Fabric Defect Avoidance
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Register weave defects, slubs, or oil marks on the textile roll. The nesting engine automatically calculates clearance buffers and navigates pattern pieces around obstacles.
                 </p>
               </div>
-              <div className="mt-5 pt-3 border-t border-cream-200 flex items-center gap-1.5 text-xs font-mono font-medium text-crimson-800">
-                <FileCheck2 className="w-3.5 h-3.5" />
-                <span>Standard LCA Environmental Ledger</span>
+              <div className="mt-6 pt-4 border-t border-cream-100 flex items-center gap-2 text-xs font-mono font-bold text-amber-700">
+                <FileCheck2 className="w-4 h-4" />
+                <span>0 Defect Collisions Invariant</span>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-16 sm:py-20 bg-cream-100/50 border-b border-cream-300">
+      {/* ========================================================
+          5. BEFORE & AFTER COMPARISON: MANUAL VS AI NESTING
+          ======================================================== */}
+      <section id="nesting" className="py-20 bg-white border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-14">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-crimson-800 mb-2">
-              Atelier Marker Workflow
+          <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-700">
+              Yield Comparison
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
+              Manual Marker Layout vs. Loom & Layer AI
             </h2>
-            <h3 className="text-3xl sm:text-4xl font-editorial font-bold text-atelier-950 tracking-tight">
+            <p className="text-sm text-stone-600">
+              See how algorithmic continuous-strip packing recovers lost linear meters along the textile roll.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Manual Layout */}
+            <div className="p-6 rounded-3xl border border-rose-200 bg-rose-50/30 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-mono font-bold uppercase text-rose-800">Standard Practice</span>
+                  <h4 className="text-lg font-bold text-stone-900">Manual Cutting Room Layout</h4>
+                </div>
+                <div className="px-3 py-1 rounded-full bg-rose-100 text-rose-800 font-mono text-xs font-bold">
+                  78.6% Yield
+                </div>
+              </div>
+
+              <div className="h-44 rounded-2xl bg-white border border-rose-200/80 p-4 flex items-center justify-center relative overflow-hidden">
+                <div className="w-full space-y-2 text-center">
+                  <div className="flex justify-around items-center opacity-60">
+                    <div className="w-20 h-24 bg-stone-300 rounded border border-stone-400" />
+                    <div className="w-20 h-24 bg-stone-300 rounded border border-stone-400" />
+                    <div className="w-20 h-24 bg-stone-300 rounded border border-stone-400" />
+                  </div>
+                  <p className="text-[11px] font-mono text-rose-700 font-bold">Large irregular scrap pockets • 491 cm cut length</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-xs text-stone-600 font-mono">
+                <div>• Linear Fabric Cut: 491.0 cm</div>
+                <div>• Off-Cut Scrap: 21.4%</div>
+                <div>• Spacing: Variable (1.5 - 3.0cm)</div>
+                <div>• Defect Check: Manual visual only</div>
+              </div>
+            </div>
+
+            {/* Loom & Layer AI Layout */}
+            <div className="p-6 rounded-3xl border border-emerald-300 bg-emerald-50/40 space-y-4 relative shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-mono font-bold uppercase text-emerald-800">Loom & Layer Optimizer</span>
+                  <h4 className="text-lg font-bold text-stone-900">Autonomous Heuristic Nesting</h4>
+                </div>
+                <div className="px-3 py-1 rounded-full bg-emerald-600 text-white font-mono text-xs font-bold shadow-xs">
+                  94.2% Yield (+15.6 pp)
+                </div>
+              </div>
+
+              <div className="h-44 rounded-2xl bg-white border border-emerald-200 p-4 flex items-center justify-center relative overflow-hidden">
+                <div className="w-full space-y-2 text-center">
+                  <div className="flex justify-around items-center">
+                    <div className="w-20 h-24 bg-crimson-700/20 rounded border border-crimson-700/50 rotate-3" />
+                    <div className="w-20 h-24 bg-stone-700/20 rounded border border-stone-700/50 -rotate-2" />
+                    <div className="w-20 h-24 bg-emerald-700/20 rounded border border-emerald-700/50 rotate-1" />
+                  </div>
+                  <p className="text-[11px] font-mono text-emerald-700 font-bold">Interlocking contours • 465.5 cm cut length (25.5cm saved)</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-xs text-stone-600 font-mono">
+                <div>• Linear Fabric Cut: 465.5 cm</div>
+                <div className="text-emerald-700 font-bold">• Off-Cut Scrap: 5.8% (Minimum)</div>
+                <div>• Spacing: Exact 0.5cm clearance</div>
+                <div className="text-emerald-700 font-bold">• Defect Check: Autonomous avoidance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          6. FOUR-STEP ATELIER WORKFLOW
+          ======================================================== */}
+      <section id="workflow" className="py-20 bg-cream-50/50 border-b border-cream-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-crimson-700">
+              Workflow Pipeline
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
               From Roll Specifications to CNC Cut Plan
-            </h3>
-            <p className="mt-2 text-sm text-stone-600">
+            </h2>
+            <p className="text-sm text-stone-600">
               Four deterministic steps to prepare, nest, and verify cutting markers.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {/* Step 1 */}
-            <div className="bg-cream-25 rounded-lg border border-cream-300 p-5 shadow-2xs">
-              <div className="w-7 h-7 rounded-md bg-atelier-900 text-cream-50 font-mono font-bold text-xs flex items-center justify-center mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white rounded-3xl border border-cream-200 p-6 shadow-atelier space-y-3">
+              <div className="w-9 h-9 rounded-xl bg-stone-900 text-white font-mono font-bold text-sm flex items-center justify-center">
                 01
               </div>
-              <h4 className="font-bold text-atelier-950 text-sm">Define Fabric Roll</h4>
-              <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-                Set roll width, total length, selvage offset margins, and material type (Cotton, Denim, Linen, or Synthetic).
+              <h3 className="font-bold text-stone-900 text-base">Define Fabric Roll</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Set roll width, total length, selvage offset margins, and textile characteristics (Poplin, Denim, Linen, or Silk).
               </p>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-cream-25 rounded-lg border border-cream-300 p-5 shadow-2xs">
-              <div className="w-7 h-7 rounded-md bg-atelier-900 text-cream-50 font-mono font-bold text-xs flex items-center justify-center mb-3">
+            <div className="bg-white rounded-3xl border border-cream-200 p-6 shadow-atelier space-y-3">
+              <div className="w-9 h-9 rounded-xl bg-stone-900 text-white font-mono font-bold text-sm flex items-center justify-center">
                 02
               </div>
-              <h4 className="font-bold text-atelier-950 text-sm">Input Garment Pieces</h4>
-              <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-                Specify pattern pieces with target bundle quantities, rotation restrictions, and boundary tolerances.
+              <h3 className="font-bold text-stone-900 text-base">Scan or Input Patterns</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Digitize paper patterns via web camera edge recognition or specify parametric garments with target bundle quantities.
               </p>
             </div>
 
-            {/* Step 3 */}
-            <div className="bg-cream-25 rounded-lg border border-cream-300 p-5 shadow-2xs">
-              <div className="w-7 h-7 rounded-md bg-atelier-900 text-cream-50 font-mono font-bold text-xs flex items-center justify-center mb-3">
+            <div className="bg-white rounded-3xl border border-cream-200 p-6 shadow-atelier space-y-3">
+              <div className="w-9 h-9 rounded-xl bg-stone-900 text-white font-mono font-bold text-sm flex items-center justify-center">
                 03
               </div>
-              <h4 className="font-bold text-atelier-950 text-sm">Run Nesting Solver</h4>
-              <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-                Execute heuristic 2D bin packing to compute collision-free, high-density pattern layouts in seconds.
+              <h3 className="font-bold text-stone-900 text-base">Solve & Avoid Defects</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Execute heuristic 2D bin packing to compute collision-free, grainline-locked pattern layouts in under 0.5s.
               </p>
             </div>
 
-            {/* Step 4 */}
-            <div className="bg-cream-25 rounded-lg border border-cream-300 p-5 shadow-2xs">
-              <div className="w-7 h-7 rounded-md bg-crimson-800 text-cream-50 font-mono font-bold text-xs flex items-center justify-center mb-3">
+            <div className="bg-white rounded-3xl border border-cream-200 p-6 shadow-atelier space-y-3">
+              <div className="w-9 h-9 rounded-xl bg-crimson-700 text-white font-mono font-bold text-sm flex items-center justify-center">
                 04
               </div>
-              <h4 className="font-bold text-atelier-950 text-sm">Verify & Export</h4>
-              <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-                Simulate cutting toolpath sequence, inspect blade clearances, and export marker data and ESG sustainability reports.
+              <h3 className="font-bold text-stone-900 text-base">Export CAM & ReThread</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Download optimized AutoCAD DXF toolpaths for CNC cutting and automatically match scrap pieces with ReThread upcycling.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bottom Industrial Atelier CTA Banner */}
-      <section className="py-16 sm:py-20 bg-atelier-950 text-cream-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-atelier-900 text-cream-200 border border-atelier-800 text-xs font-mono font-medium">
-            <Gauge className="w-3.5 h-3.5 text-crimson-400" /> ATELIER BENCHMARK
+      {/* ========================================================
+          7. BOTTOM INDUSTRIAL ATELIER CTA BANNER
+          ======================================================== */}
+      <section className="py-20 bg-stone-950 text-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 text-emerald-400 border border-stone-800 text-xs font-mono font-medium">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Industrial CAD Precision • Ready for Production</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-editorial font-bold text-cream-25 tracking-tight">
-            Ready to optimize your cutting room yield?
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight leading-tight">
+            Ready to eliminate fabric waste in your cutting room?
           </h2>
 
           <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Create an automated marker project, evaluate pattern layouts, and measure fabric scrap reduction immediately.
+            Create your first automated marker project, evaluate pattern layouts, and measure fabric scrap reduction immediately.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <Button
-              variant="primary"
-              size="lg"
-              icon={ArrowRight}
-              iconPosition="right"
-              onClick={() => handleHeroAction('/project/new')}
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+            <button
+              type="button"
+              onClick={() => navigate('/project/new')}
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-700 hover:to-crimson-800 text-white font-semibold text-sm flex items-center gap-2 shadow-lg shadow-crimson-900/30 hover:scale-[1.02] transition-all cursor-pointer"
             >
-              Start New Project
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => handleHeroAction('/dashboard')}
-              className="bg-transparent text-cream-100 border-atelier-700 hover:bg-atelier-900 hover:text-white"
+              <span>Launch First Cut Project</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleEnterWorkspace}
+              className="px-6 py-3.5 rounded-xl bg-stone-900 text-stone-200 border border-stone-800 hover:bg-stone-850 hover:text-white font-semibold text-sm transition-all cursor-pointer"
             >
-              Go to Dashboard
-            </Button>
+              Enter Atelier Dashboard
+            </button>
           </div>
         </div>
       </section>

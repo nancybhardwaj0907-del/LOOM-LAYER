@@ -14,6 +14,7 @@ import {
   Inbox
 } from 'lucide-react';
 import { sendReportEmail } from '../../services/emailReportService';
+import { downloadHTMLAsPDF } from '../../utils/pdfExportService';
 
 export function EmailReportModal({
   isOpen,
@@ -31,6 +32,7 @@ export function EmailReportModal({
   const [errorMessage, setErrorMessage] = useState('');
   const [downloadUrl, setDownloadUrl] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   if (!isOpen) return null;
 
@@ -82,27 +84,20 @@ export function EmailReportModal({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Instant local file download
-  const handleLocalDownload = () => {
+  // Direct high-resolution PDF file download
+  const handleLocalDownload = async () => {
     try {
-      let blob;
-      if (typeof reportContent === 'string') {
-        blob = new Blob([reportContent], { type: 'text/html;charset=utf-8' });
-      } else if (reportContent instanceof Blob) {
-        blob = reportContent;
-      } else {
-        blob = new Blob(['<html><body><h1>Report</h1></body></html>'], { type: 'text/html' });
-      }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${(projectName || 'Fabric_Report').replace(/[^a-zA-Z0-9_-]/g, '_')}_Report.html`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      setIsDownloadingPdf(true);
+      const safeName = (projectName || 'Fabric_Report').replace(/[^a-zA-Z0-9_-]/g, '_');
+      await downloadHTMLAsPDF(
+        typeof reportContent === 'string' ? reportContent : '<div>Report</div>',
+        `${safeName}_Executive_Report.pdf`,
+        { orientation: 'portrait' }
+      );
     } catch (err) {
       console.error('Download error:', err);
+    } finally {
+      setIsDownloadingPdf(false);
     }
   };
 
@@ -151,7 +146,7 @@ export function EmailReportModal({
               )}
             </div>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#F3E6E4] text-[#783751] shrink-0 border border-[#C08274]/30">
-              Interactive HTML
+              Executive PDF Report
             </span>
           </div>
 
@@ -198,10 +193,20 @@ export function EmailReportModal({
                   <button
                     type="button"
                     onClick={handleLocalDownload}
-                    className="px-3 py-2.5 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                    disabled={isDownloadingPdf}
+                    className="px-3 py-2.5 rounded-xl bg-[#783751] hover:bg-[#642C43] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer disabled:opacity-50"
                   >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download File Now</span>
+                    {isDownloadingPdf ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Exporting PDF...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Download PDF Now</span>
+                      </>
+                    )}
                   </button>
 
                   {downloadUrl ? (

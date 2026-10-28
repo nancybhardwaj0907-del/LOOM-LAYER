@@ -5,39 +5,39 @@
 @layer base {
   :root {
     /* Backgrounds */
-    --color-background: #FBF7F5;
+    --color-background: #FAF8F5;
     --color-card: #FFFFFF;
-    --color-sidebar: #FBF7F5;
+    --color-sidebar: #FAF8F5;
 
     /* Brand */
-    --color-primary: #783751;
-    --color-primary-hover: #642C43;
-    --color-secondary: #C08274;
+    --color-primary: #78253B;
+    --color-primary-hover: #5E1D2E;
+    --color-secondary: #C5735D;
 
     /* Accent */
-    --color-blush: #F3E6E4;
-    --color-peach: #F0DCD2;
+    --color-blush: #FDF2F4;
+    --color-peach: #FBEFEB;
 
     /* Typography */
-    --color-heading: #4A252B;
-    --color-text: #39343A;
-    --color-muted: #81777B;
+    --color-heading: #1C140E;
+    --color-text: #2E2219;
+    --color-muted: #7F6754;
 
     /* Borders */
-    --color-border: #EAE2DE;
+    --color-border: #EBE3DA;
 
     /* States */
-    --color-selected: #F3E6E4;
-    --color-success: #783751;
+    --color-selected: #FDF2F4;
+    --color-success: #059669;
 
-    --color-fabric-grid: rgba(217, 212, 214, 0.55);
-    --color-fabric-bg: #FBF7F5;
-    --color-stitch: #783751;
+    --color-fabric-grid: rgba(221, 210, 197, 0.6);
+    --color-fabric-bg: #FAF8F5;
+    --color-stitch: #78253B;
   }
 
   body {
-    background-color: #FBF7F5;
-    color: #39343A;
+    background-color: #FAF8F5;
+    color: #2E2219;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     transition: background-color 0.2s ease, color 0.2s ease;
   }
@@ -252,40 +252,40 @@
 
 html.dark,
 html.dark body {
-  background-color: #140f0d !important;
-  color: #fbf7f0 !important;
+  background-color: #0D0C12 !important;
+  color: #F5F3F8 !important;
 }
 
-/* Background layers */
+/* Background layers in High-End Obsidian Atelier Palette */
 html.dark .bg-cream-25,
 html.dark .bg-cream-50,
 html.dark .min-h-screen.bg-cream-50,
 html.dark div[class*="bg-cream-50"] {
-  background-color: #140f0d !important;
+  background-color: #0D0C12 !important;
 }
 
 html.dark .bg-cream-50\/60 {
-  background-color: rgba(20, 15, 13, 0.6) !important;
+  background-color: rgba(13, 12, 18, 0.6) !important;
 }
 
 html.dark .bg-cream-50\/70 {
-  background-color: rgba(20, 15, 13, 0.7) !important;
+  background-color: rgba(13, 12, 18, 0.7) !important;
 }
 
 html.dark .bg-cream-50\/95 {
-  background-color: rgba(20, 15, 13, 0.95) !important;
+  background-color: rgba(13, 12, 18, 0.95) !important;
 }
 
 html.dark .bg-white {
-  background-color: #1e1613 !important;
+  background-color: #16141E !important;
 }
 
 html.dark .bg-white\/80 {
-  background-color: rgba(30, 22, 19, 0.8) !important;
+  background-color: rgba(22, 20, 30, 0.8) !important;
 }
 
 html.dark .bg-white\/90 {
-  background-color: rgba(30, 22, 19, 0.9) !important;
+  background-color: rgba(22, 20, 30, 0.9) !important;
 }
 
 html.dark .bg-cream-100,
@@ -293,17 +293,17 @@ html.dark .bg-cream-100\/60,
 html.dark .bg-cream-100\/70,
 html.dark .bg-cream-100\/80,
 html.dark .bg-cream-100\/90 {
-  background-color: #1d1512 !important;
+  background-color: #1A1724 !important;
 }
 
 html.dark .bg-cream-200,
 html.dark .bg-cream-200\/70,
 html.dark .bg-cream-200\/80 {
-  background-color: #271d18 !important;
+  background-color: #221E30 !important;
 }
 
 html.dark .bg-cream-300 {
-  background-color: #342620 !important;
+  background-color: #2D273E !important;
 }
 
 html.dark .bg-stone-50,
@@ -311,26 +311,26 @@ html.dark .bg-stone-50\/50,
 html.dark .bg-stone-50\/70,
 html.dark .bg-stone-50\/80,
 html.dark .bg-stone-50\/90 {
-  background-color: #1a1310 !important;
+  background-color: #14121B !important;
 }
 
 html.dark .bg-stone-100,
 html.dark .bg-stone-100\/70,
 html.dark .bg-stone-100\/80 {
-  background-color: #241b17 !important;
+  background-color: #1D1A27 !important;
 }
 
 html.dark .bg-stone-200 {
-  background-color: #332620 !important;
+  background-color: #262234 !important;
 }
 
 /* Fabric weave canvas texture in night mode */
 html.dark .fabric-weave-pattern {
-  background-color: #140f0d !important;
+  background-color: #0D0C12 !important;
   background-image: 
-    radial-gradient(circle at 1px 1px, rgba(163, 141, 116, 0.16) 1px, transparent 0),
-    linear-gradient(rgba(184, 50, 50, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184, 50, 50, 0.08) 1px, transparent 1px) !important;
+    radial-gradient(circle at 1px 1px, rgba(142, 43, 69, 0.2) 1px, transparent 0),
+    linear-gradient(rgba(46, 41, 62, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 41, 62, 0.25) 1px, transparent 1px) !important;
 }
 
 /* Borders & Separators */
@@ -344,13 +344,13 @@ html.dark .border-stone-200\/80,
 html.dark .border-stone-200\/90,
 html.dark .border-stone-300,
 html.dark .border-stone-400 {
-  border-color: #382a23 !important;
+  border-color: #282338 !important;
 }
 
 html.dark .divide-cream-200 > :not([hidden]) ~ :not([hidden]),
 html.dark .divide-stone-200 > :not([hidden]) ~ :not([hidden]),
 html.dark .divide-cream-100 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #382a23 !important;
+  border-color: #282338 !important;
 }
 
 /* Typography with crystal-clear contrast */
@@ -359,27 +359,27 @@ html.dark .text-atelier-900,
 html.dark .text-atelier-800,
 html.dark .text-stone-950,
 html.dark .text-stone-900 {
-  color: #fbf7f0 !important;
+  color: #F5F3F8 !important;
 }
 
 html.dark .text-stone-800,
 html.dark .text-stone-700,
 html.dark .text-atelier-700 {
-  color: #e8ded1 !important;
+  color: #DDD6E5 !important;
 }
 
 html.dark .text-stone-600,
 html.dark .text-atelier-600 {
-  color: #d2c3b1 !important;
+  color: #A8A1B4 !important;
 }
 
 html.dark .text-stone-500,
 html.dark .text-atelier-500 {
-  color: #b7a492 !important;
+  color: #8C8499 !important;
 }
 
 html.dark .text-stone-400 {
-  color: #9d8a7a !important;
+  color: #736B82 !important;
 }
 
 /* Vibrant, readable crimson / red in dark mode */
@@ -441,7 +441,7 @@ html.dark .hover\:bg-cream-100:hover,
 html.dark .hover\:bg-cream-200:hover,
 html.dark .hover\:bg-stone-50:hover,
 html.dark .hover\:bg-stone-100:hover {
-  background-color: #271e19 !important;
+  background-color: #221E30 !important;
 }
 
 html.dark .hover\:text-atelier-950:hover,
@@ -457,80 +457,80 @@ html.dark .hover\:text-crimson-950:hover {
 
 /* Outline Cloth Button */
 html.dark .cloth-btn-outline {
-  background-color: #221a16 !important;
-  background-image: radial-gradient(rgba(215, 199, 178, 0.08) 1px, transparent 0) !important;
-  color: #fbf7f0 !important;
-  border-color: #4a362c !important;
+  background-color: #1A1724 !important;
+  background-image: radial-gradient(rgba(142, 43, 69, 0.12) 1px, transparent 0) !important;
+  color: #F5F3F8 !important;
+  border-color: #2E283E !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
 }
 
 html.dark .cloth-btn-outline::before {
-  border-color: rgba(210, 72, 72, 0.45) !important;
+  border-color: rgba(224, 98, 128, 0.45) !important;
 }
 
 html.dark .cloth-btn-outline:hover:not(:disabled) {
-  background-color: #2e221d !important;
-  border-color: #634b3e !important;
+  background-color: #252033 !important;
+  border-color: #3F3754 !important;
   color: #ffffff !important;
 }
 
 html.dark .cloth-btn-outline:hover:not(:disabled)::before {
-  border-color: rgba(210, 72, 72, 0.75) !important;
+  border-color: rgba(224, 98, 128, 0.75) !important;
 }
 
 html.dark .cloth-btn-outline:active:not(:disabled) {
-  background-color: #1c1411 !important;
+  background-color: #15121E !important;
 }
 
 /* Secondary Cloth Button */
 html.dark .cloth-btn-secondary {
-  background-color: #241c18 !important;
-  border-color: #3d2d26 !important;
-  color: #fbf7f0 !important;
+  background-color: #1A1724 !important;
+  border-color: #2E283E !important;
+  color: #F5F3F8 !important;
 }
 
 html.dark .cloth-btn-secondary:hover:not(:disabled) {
-  background-color: #30241f !important;
-  border-color: #523e34 !important;
+  background-color: #252033 !important;
+  border-color: #3F3754 !important;
 }
 
 /* Form Inputs, Selects, and Textareas */
 html.dark input:not([type="checkbox"]):not([type="radio"]),
 html.dark select,
 html.dark textarea {
-  background-color: #1e1613 !important;
-  color: #fbf7f0 !important;
-  border-color: #3d2e27 !important;
+  background-color: #1A1724 !important;
+  color: #F5F3F8 !important;
+  border-color: #2D273C !important;
 }
 
 html.dark input::placeholder,
 html.dark textarea::placeholder {
-  color: #9d8a7a !important;
+  color: #736B82 !important;
 }
 
 html.dark input:focus,
 html.dark select:focus,
 html.dark textarea:focus {
-  border-color: #9e2a2b !important;
-  box-shadow: 0 0 0 2px rgba(158, 42, 43, 0.3) !important;
+  border-color: #8E2B45 !important;
+  box-shadow: 0 0 0 2px rgba(142, 43, 69, 0.3) !important;
 }
 
 /* Modal Dialog Surface */
 html.dark .bg-atelier-950\/60 {
-  background-color: rgba(10, 7, 6, 0.75) !important;
+  background-color: rgba(8, 7, 12, 0.8) !important;
 }
 
 /* Rulers and Canvas Scrollbars in Dark Mode */
 html.dark ::-webkit-scrollbar-track {
-  background: #1c1512;
+  background: #100E17;
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: #3d2e27;
+  background: #2D273E;
 }
 
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #523e34;
+  background: #3F3754;
 }
 
 /* Fabric Canvas & Rulers in Night Mode */
@@ -572,4 +572,83 @@ html.dark table tbody tr {
 
 html.dark table tbody td {
   color: #e8ded1 !important;
+}
+
+/* ========================================================================= */
+/* LUXURY ATELIER & GLASSMORPHISM DESIGN SYSTEM                              */
+/* ========================================================================= */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(235, 227, 218, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(42, 34, 27, 0.05), 0 2px 6px -1px rgba(42, 34, 27, 0.02);
+}
+
+html.dark .glass-card {
+  background: rgba(22, 20, 28, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(49, 44, 60, 0.7);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.5);
+}
+
+.glass-panel {
+  background: rgba(250, 248, 245, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 227, 218, 0.75);
+}
+
+html.dark .glass-panel {
+  background: rgba(20, 18, 25, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(49, 44, 60, 0.6);
+}
+
+/* Luxury CAD Drafting Dot Grid */
+.cad-dots-bg {
+  background-image: radial-gradient(rgba(120, 37, 59, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html.dark .cad-dots-bg {
+  background-image: radial-gradient(rgba(166, 56, 87, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Ambient studio mesh glow */
+.atelier-mesh-bg {
+  background: radial-gradient(circle at 15% 10%, rgba(253, 242, 244, 0.9) 0%, transparent 40%),
+              radial-gradient(circle at 85% 20%, rgba(245, 239, 233, 0.8) 0%, transparent 45%),
+              radial-gradient(circle at 50% 90%, rgba(236, 253, 245, 0.6) 0%, transparent 50%),
+              #FAF8F5;
+}
+
+html.dark .atelier-mesh-bg {
+  background: radial-gradient(circle at 12% 8%, rgba(138, 38, 67, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 88% 15%, rgba(226, 169, 126, 0.08) 0%, transparent 48%),
+              radial-gradient(circle at 50% 95%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+              #0D0C10;
+}
+
+/* Micro-animations */
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float-subtle {
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }

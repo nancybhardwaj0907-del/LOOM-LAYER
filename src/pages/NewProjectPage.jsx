@@ -2,9 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
-  Search,
-  Bell,
-  ChevronDown,
   Check, 
   UploadCloud, 
   Camera, 
@@ -13,7 +10,6 @@ import {
 } from 'lucide-react';
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
-import { TopNavbar } from '../components/common/TopNavbar';
 import { CameraCaptureModal } from '../components/fabric/CameraCaptureModal';
 
 export function NewProjectPage() {
@@ -36,7 +32,6 @@ export function NewProjectPage() {
     fabricImage: null
   });
 
-  const [searchQuery, setSearchQuery] = useState('');
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -180,27 +175,20 @@ export function NewProjectPage() {
 
   return (
     <div className="space-y-6">
-      
-      {/* 1. TOP HEADER BAR */}
-      <TopNavbar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        placeholder="Search projects, fabrics, products..."
-      />
 
       {/* ========================================================
-          2. PAGE TITLE & HORIZONTAL STEPPER (Matching Mockup)
+          1. PAGE TITLE & HORIZONTAL STEPPER
           ======================================================== */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-2 border-b border-[#EAE2DE]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-4 border-b border-[#272332]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center shadow-2xs shrink-0 border border-[#C08274]/30">
-            <Leaf className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center shrink-0 border border-[#272332]">
+            <Leaf className="w-5 h-5 text-[#E2A97E]" />
           </div>
           <div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A252B] tracking-tight">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#F5F3F8] tracking-tight">
               Create a New Project
             </h1>
-            <p className="text-xs text-[#81777B] font-sans mt-0.5">
+            <p className="text-xs text-[#9E97A9] font-sans mt-0.5">
               Set up your project details to start optimizing your fabric cutting plan.
             </p>
           </div>
@@ -210,49 +198,49 @@ export function NewProjectPage() {
         <div className="flex items-center gap-1 sm:gap-2 self-start lg:self-auto overflow-x-auto pb-1 sm:pb-0">
           {/* Step 1: Active */}
           <div className="flex flex-col items-center min-w-[75px] sm:min-w-[90px]">
-            <div className="w-7 h-7 rounded-full bg-[#783751] text-white flex items-center justify-center text-xs font-bold shadow-xs">
+            <div className="w-7 h-7 rounded-full bg-[#8E2B45] text-white flex items-center justify-center text-xs font-bold shadow-xs">
               1
             </div>
-            <span className="text-[11px] font-bold text-[#4A252B] mt-1 text-center whitespace-nowrap">
+            <span className="text-[11px] font-bold text-[#F5F3F8] mt-1 text-center whitespace-nowrap">
               Project Details
             </span>
           </div>
 
           {/* Connector 1-2 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#783751] -mt-4" />
+          <div className="w-8 sm:w-14 h-0.5 bg-[#8E2B45] -mt-4" />
 
           {/* Step 2 */}
           <div className="flex flex-col items-center min-w-[75px] sm:min-w-[95px] opacity-75">
-            <div className="w-7 h-7 rounded-full border border-[#D9D4D6] bg-white text-[#81777B] flex items-center justify-center text-xs font-medium">
+            <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               2
             </div>
-            <span className="text-[11px] font-medium text-[#81777B] mt-1 text-center whitespace-nowrap">
+            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Fabric &amp; Patterns
             </span>
           </div>
 
           {/* Connector 2-3 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#EAE2DE] -mt-4" />
+          <div className="w-8 sm:w-14 h-0.5 bg-[#272332] -mt-4" />
 
           {/* Step 3 */}
           <div className="flex flex-col items-center min-w-[65px] sm:min-w-[80px] opacity-60">
-            <div className="w-7 h-7 rounded-full border border-[#D9D4D6] bg-white text-[#81777B] flex items-center justify-center text-xs font-medium">
+            <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               3
             </div>
-            <span className="text-[11px] font-medium text-[#81777B] mt-1 text-center whitespace-nowrap">
+            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Constraints
             </span>
           </div>
 
           {/* Connector 3-4 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#EAE2DE] -mt-4" />
+          <div className="w-8 sm:w-14 h-0.5 bg-[#272332] -mt-4" />
 
           {/* Step 4 */}
           <div className="flex flex-col items-center min-w-[55px] sm:min-w-[70px] opacity-60">
-            <div className="w-7 h-7 rounded-full border border-[#D9D4D6] bg-white text-[#81777B] flex items-center justify-center text-xs font-medium">
+            <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               4
             </div>
-            <span className="text-[11px] font-medium text-[#81777B] mt-1 text-center whitespace-nowrap">
+            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Review
             </span>
           </div>
@@ -266,20 +254,20 @@ export function NewProjectPage() {
           ======================================================== */}
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left Form Column (8 cols on lg) - Form sections inside cohesive white card */}
-        <div className="lg:col-span-8 bg-white rounded-3xl border border-[#EAE2DE] p-5 sm:p-7 space-y-6 shadow-2xs">
+        {/* Left Form Column (8 cols on lg) - Form sections inside cohesive dark card */}
+        <div className="lg:col-span-8 bg-[#16141D] rounded-3xl border border-[#272332] p-5 sm:p-7 space-y-6 shadow-2xs">
           
           {/* Section 1: Basic Information */}
           <div className="space-y-3.5">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 border border-[#C08274]/30">
+              <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
                 1
               </div>
               <div>
-                <h2 className="font-serif text-sm font-bold text-[#4A252B]">
+                <h2 className="font-serif text-sm font-bold text-[#F5F3F8]">
                   Basic Information
                 </h2>
-                <p className="text-[11px] text-[#81777B] font-sans">
+                <p className="text-[11px] text-[#9E97A9] font-sans">
                   Give your project a name and a short description.
                 </p>
               </div>
@@ -287,7 +275,7 @@ export function NewProjectPage() {
 
             {/* Project Name */}
             <div>
-              <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+              <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                 Project Name *
               </label>
               <input
@@ -295,20 +283,20 @@ export function NewProjectPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Summer Collection"
-                className={`w-full px-3.5 py-2 text-xs rounded-xl border bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs ${
-                  errors.name ? 'border-rose-500' : 'border-[#EAE2DE]'
+                className={`w-full px-3.5 py-2 text-xs rounded-xl border bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs ${
+                  errors.name ? 'border-rose-500' : 'border-[#272332]'
                 }`}
               />
-              {errors.name && <p className="text-[11px] text-rose-600 mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-[11px] text-rose-400 mt-1">{errors.name}</p>}
             </div>
 
             {/* Description */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold text-[#39343A] font-sans">
+                <label className="text-xs font-semibold text-[#F5F3F8] font-sans">
                   Description (Optional)
                 </label>
-                <span className="text-[10px] text-[#81777B]">0/200</span>
+                <span className="text-[10px] text-[#9E97A9]">0/200</span>
               </div>
               <textarea
                 rows={2}
@@ -316,30 +304,30 @@ export function NewProjectPage() {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 placeholder="E.g. Summer collection for women's tops and dresses..."
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs resize-none"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs resize-none placeholder:text-[#635B70]"
               />
             </div>
           </div>
 
-          <div className="border-t border-[#EAE2DE]/70 pt-2" />
+          <div className="border-t border-[#272332] pt-2" />
 
           {/* Section 2: Garment Type */}
           <div className="space-y-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 border border-[#C08274]/30">
+                <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
                   2
                 </div>
                 <div>
-                  <h2 className="font-serif text-sm font-bold text-[#4A252B]">
+                  <h2 className="font-serif text-sm font-bold text-[#F5F3F8]">
                     Garment Type
                   </h2>
-                  <p className="text-[11px] text-[#81777B] font-sans">
+                  <p className="text-[11px] text-[#9E97A9] font-sans">
                     Select the type of garments included in this project.
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-semibold text-[#783751] bg-[#F3E6E4] px-2.5 py-0.5 rounded-full border border-[#C08274]/30 cursor-pointer">
+              <span className="text-[11px] font-semibold text-[#E2A97E] bg-[#1E1B27] px-2.5 py-0.5 rounded-full border border-[#272332] cursor-pointer hover:border-[#8E2B45]/50">
                 13 silhouettes &gt;
               </span>
             </div>
@@ -356,23 +344,23 @@ export function NewProjectPage() {
                     onClick={() => setFormData({ ...formData, category: type.id })}
                     className={`p-3 rounded-2xl text-center flex flex-col items-center justify-between transition-all cursor-pointer border relative min-h-[110px] ${
                       isSelected
-                        ? 'border-[#C08274] bg-[#F3E6E4] text-[#783751] shadow-2xs ring-1 ring-[#C08274]'
-                        : 'border-[#EAE2DE] bg-white hover:bg-[#F3E6E4]/30 text-[#39343A]'
+                        ? 'border-[#8E2B45] bg-[#8E2B45]/20 text-[#E2A97E] shadow-2xs ring-1 ring-[#8E2B45]'
+                        : 'border-[#272332] bg-[#1E1B27] hover:bg-[#272332]/60 text-[#9E97A9]'
                     }`}
                   >
                     {isSelected && (
-                      <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#783751] text-white flex items-center justify-center shadow-xs">
+                      <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#8E2B45] text-white flex items-center justify-center shadow-xs">
                         <Check className="w-2.5 h-2.5 stroke-[3]" />
                       </span>
                     )}
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-1.5 ${
-                      isSelected ? 'text-[#783751]' : 'text-[#81777B]'
+                      isSelected ? 'text-[#E2A97E]' : 'text-[#9E97A9]'
                     }`}>
                       <IconComponent />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-[#4A252B] leading-tight">{type.label}</p>
-                      <p className="text-[10px] text-[#81777B] leading-tight mt-1">
+                      <p className="text-xs font-bold text-[#F5F3F8] leading-tight">{type.label}</p>
+                      <p className="text-[10px] text-[#9E97A9] leading-tight mt-1">
                         {type.description}
                       </p>
                     </div>
@@ -387,14 +375,14 @@ export function NewProjectPage() {
           {/* Section 3: Project Specifications */}
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 border border-[#C08274]/30">
+              <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
                 3
               </div>
               <div>
-                <h2 className="font-serif text-sm font-bold text-[#4A252B]">
+                <h2 className="font-serif text-sm font-bold text-[#F5F3F8]">
                   Project Specifications
                 </h2>
-                <p className="text-[11px] text-[#81777B] font-sans">
+                <p className="text-[11px] text-[#9E97A9] font-sans">
                   Add production details and fabric settings.
                 </p>
               </div>
@@ -403,7 +391,7 @@ export function NewProjectPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Target Quantity */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                   Target Quantity *
                 </label>
                 <input
@@ -411,19 +399,19 @@ export function NewProjectPage() {
                   min="1"
                   value={formData.targetQuantity}
                   onChange={(e) => setFormData({ ...formData, targetQuantity: Math.max(1, parseInt(e.target.value, 10) || 1) })}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs"
                 />
               </div>
 
               {/* Units */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                   Units
                 </label>
                 <select
                   value={formData.units}
                   onChange={(e) => setFormData({ ...formData, units: e.target.value })}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs"
                 >
                   <option value="Pieces">Pieces</option>
                   <option value="Bundles">Bundles</option>
@@ -434,13 +422,13 @@ export function NewProjectPage() {
 
               {/* Fabric Type */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                   Fabric Type *
                 </label>
                 <select
                   value={formData.fabricType}
                   onChange={(e) => setFormData({ ...formData, fabricType: e.target.value })}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs"
                 >
                   <option value="Cotton">Cotton</option>
                   <option value="Denim">Denim</option>
@@ -455,7 +443,7 @@ export function NewProjectPage() {
 
               {/* Fabric Width (cm) */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                   Fabric Width (cm) *
                 </label>
                 <input
@@ -464,27 +452,27 @@ export function NewProjectPage() {
                   max="400"
                   value={formData.fabricWidth}
                   onChange={(e) => setFormData({ ...formData, fabricWidth: Number(e.target.value) || 150 })}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs"
                 />
               </div>
 
               {/* Allow Rotation Toggle */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-2 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-2 font-sans">
                   Allow Rotation
                 </label>
                 <label className="flex items-center gap-3 cursor-pointer">
                   <div 
                     onClick={() => setFormData({ ...formData, allowRotation: !formData.allowRotation })}
                     className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
-                      formData.allowRotation ? 'bg-[#783751]' : 'bg-[#D9D4D6]'
+                      formData.allowRotation ? 'bg-[#8E2B45]' : 'bg-[#272332]'
                     }`}
                   >
                     <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
                       formData.allowRotation ? 'translate-x-5' : 'translate-x-0'
                     }`} />
                   </div>
-                  <span className="text-xs text-[#39343A]">
+                  <span className="text-xs text-[#F5F3F8]">
                     {formData.allowRotation ? 'Yes, allow pattern rotation' : 'Restricted (Fixed grainline)'}
                   </span>
                 </label>
@@ -492,13 +480,13 @@ export function NewProjectPage() {
 
               {/* Grain Direction */}
               <div>
-                <label className="block text-xs font-semibold text-[#39343A] mb-1.5 font-sans">
+                <label className="block text-xs font-semibold text-[#F5F3F8] mb-1.5 font-sans">
                   Grain Direction
                 </label>
                 <select
                   value={formData.grainDirection}
                   onChange={(e) => setFormData({ ...formData, grainDirection: e.target.value })}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#EAE2DE] bg-white text-[#39343A] focus:outline-none focus:border-[#783751] transition-all shadow-2xs"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#272332] bg-[#1E1B27] text-[#F5F3F8] focus:outline-none focus:border-[#8E2B45] transition-all shadow-2xs"
                 >
                   <option value="As per pattern">As per pattern</option>
                   <option value="Warp / Lengthwise">Warp / Lengthwise</option>
@@ -509,15 +497,15 @@ export function NewProjectPage() {
             </div>
           </div>
 
-          <div className="border-t border-[#EAE2DE]/70 pt-2" />
+          <div className="border-t border-[#272332] pt-2" />
 
           {/* Section 4: Fabric Reference (Optional) */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0 border border-[#C08274]/30">
+              <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
                 4
               </div>
-              <h2 className="font-serif text-sm font-bold text-[#4A252B]">
+              <h2 className="font-serif text-sm font-bold text-[#F5F3F8]">
                 Fabric Reference (Optional)
               </h2>
             </div>
@@ -534,12 +522,12 @@ export function NewProjectPage() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="p-4 rounded-2xl border border-dashed border-[#C08274]/50 bg-[#F3E6E4]/70 hover:bg-[#F3E6E4] transition-colors flex items-center justify-center gap-2.5 text-xs font-medium text-[#783751] cursor-pointer"
+                className="p-4 rounded-2xl border border-dashed border-[#8E2B45]/50 bg-[#1E1B27] hover:bg-[#272332] transition-colors flex items-center justify-center gap-2.5 text-xs font-medium text-[#E2A97E] cursor-pointer"
               >
-                <UploadCloud className="w-4 h-4 text-[#783751]" />
+                <UploadCloud className="w-4 h-4 text-[#E2A97E]" />
                 <div className="text-left">
-                  <p className="font-bold text-[#783751]">Upload Fabric Image</p>
-                  <p className="text-[10px] text-[#81777B]">JPG, PNG up to 5MB</p>
+                  <p className="font-bold text-[#F5F3F8]">Upload Fabric Image</p>
+                  <p className="text-[10px] text-[#9E97A9]">JPG, PNG up to 5MB</p>
                 </div>
               </button>
 
@@ -547,20 +535,20 @@ export function NewProjectPage() {
               <button
                 type="button"
                 onClick={() => setShowCameraModal(true)}
-                className="p-4 rounded-2xl border border-[#EAE2DE] bg-white hover:bg-[#F3E6E4]/30 transition-colors flex items-center justify-center gap-2.5 text-xs font-medium text-[#39343A] cursor-pointer shadow-2xs"
+                className="p-4 rounded-2xl border border-[#272332] bg-[#1E1B27] hover:bg-[#272332] transition-colors flex items-center justify-center gap-2.5 text-xs font-medium text-[#F5F3F8] cursor-pointer shadow-2xs"
               >
-                <Camera className="w-4 h-4 text-[#783751]" />
-                <span className="font-bold text-[#4A252B]">Take Photo</span>
+                <Camera className="w-4 h-4 text-[#E2A97E]" />
+                <span className="font-bold text-[#F5F3F8]">Take Photo</span>
               </button>
             </div>
 
             {formData.fabricImage && (
-              <div className="p-2.5 rounded-xl bg-[#F3E6E4] border border-[#C08274]/40 text-xs text-[#783751] flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#8E2B45]/20 border border-[#8E2B45]/50 text-xs text-[#E2A97E] flex items-center justify-between">
                 <span>Fabric image attached: {formData.fabricImage.fileName}</span>
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, fabricImage: null })}
-                  className="font-bold hover:underline"
+                  className="font-bold hover:underline text-rose-400"
                 >
                   Remove
                 </button>
@@ -574,85 +562,85 @@ export function NewProjectPage() {
         <div className="lg:col-span-4 space-y-4">
           
           {/* Top Inspiration Photo Card: Folded Fabrics with Script Note */}
-          <div className="rounded-3xl overflow-hidden border border-[#EAE2DE] shadow-2xs relative" style={{ minHeight: '220px' }}>
+          <div className="rounded-3xl overflow-hidden border border-[#272332] shadow-2xs relative bg-[#16141D]" style={{ minHeight: '220px' }}>
             {/* Background image */}
             <img
               src="/atelier/rose_fabrics_stack.jpg"
               alt="Artisanal stacked fabrics in dusty rose and mauve"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover opacity-60"
               onError={(e) => {
                 e.currentTarget.src = "/atelier/dashboard_hero_linen.jpg";
               }}
             />
             {/* Gradient overlay from left for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F0DCD2]/95 via-[#F0DCD2]/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#16141D]/95 via-[#16141D]/80 to-transparent" />
             {/* Script Text - positioned on the left over the gradient */}
             <div className="relative z-10 p-5 sm:p-6 flex flex-col justify-center h-full" style={{ minHeight: '220px' }}>
-              <p className="font-serif text-2xl sm:text-3xl font-bold leading-tight text-[#4A252B]">
+              <p className="font-serif text-2xl sm:text-3xl font-bold leading-tight text-[#F5F3F8]">
                 Same <br />
                 Fabric. <br />
-                <span className="italic text-[#783751]">New Stories.</span>
+                <span className="italic text-[#E2A97E]">New Stories.</span>
               </p>
-              <p className="text-[11px] text-[#4A252B]/70 mt-3 font-sans font-medium max-w-[180px] leading-relaxed">
+              <p className="text-[11px] text-[#9E97A9] mt-3 font-sans font-medium max-w-[180px] leading-relaxed">
                 Plan. Optimize. Create a more sustainable future.
               </p>
             </div>
           </div>
 
           {/* Middle Card: Turn fabric waste into new possibilities */}
-          <div className="rounded-2xl bg-gradient-to-r from-[#F3E6E4] to-[#FBF7F5] border border-[#EAE2DE] p-4 shadow-2xs flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-full bg-white text-[#783751] border border-[#C08274]/30 flex items-center justify-center shrink-0 shadow-2xs">
-              <Leaf className="w-4 h-4" />
+          <div className="rounded-2xl bg-[#1E1B27] border border-[#272332] p-4 shadow-2xs flex items-center gap-3.5">
+            <div className="w-9 h-9 rounded-full bg-[#16141D] text-[#E2A97E] border border-[#272332] flex items-center justify-center shrink-0 shadow-2xs">
+              <Leaf className="w-4 h-4 text-[#E2A97E]" />
             </div>
             <div>
-              <p className="font-serif text-xs sm:text-sm font-bold text-[#4A252B]">
+              <p className="font-serif text-xs sm:text-sm font-bold text-[#F5F3F8]">
                 Turn fabric waste into new possibilities.
               </p>
-              <p className="text-[11px] text-[#81777B] leading-tight mt-0.5 font-sans">
+              <p className="text-[11px] text-[#9E97A9] leading-tight mt-0.5 font-sans">
                 Create optimized cutting plans and give leftover fabric a second life.
               </p>
             </div>
           </div>
 
           {/* Bottom Card: Project Summary */}
-          <div className="bg-white rounded-3xl border border-[#EAE2DE] p-5 shadow-2xs space-y-3.5">
-            <div className="flex items-center gap-2 pb-2.5 border-b border-[#EAE2DE]">
-              <div className="w-6 h-6 rounded-lg bg-[#F3E6E4] text-[#783751] flex items-center justify-center">
-                <FileText className="w-3.5 h-3.5" />
+          <div className="bg-[#16141D] rounded-3xl border border-[#272332] p-5 shadow-2xs space-y-3.5">
+            <div className="flex items-center gap-2 pb-2.5 border-b border-[#272332]">
+              <div className="w-6 h-6 rounded-lg bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center border border-[#272332]">
+                <FileText className="w-3.5 h-3.5 text-[#E2A97E]" />
               </div>
-              <h3 className="font-serif text-sm font-bold text-[#4A252B]">
+              <h3 className="font-serif text-sm font-bold text-[#F5F3F8]">
                 Project Summary
               </h3>
             </div>
 
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Project Name</span>
-                <span className="font-semibold text-[#4A252B] truncate max-w-[150px]">{formData.name || 'Summer Collection'}</span>
+                <span className="text-[#9E97A9]">Project Name</span>
+                <span className="font-semibold text-[#F5F3F8] truncate max-w-[150px]">{formData.name || 'Summer Collection'}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Garment Type</span>
-                <span className="font-semibold text-[#4A252B]">{formData.category}</span>
+                <span className="text-[#9E97A9]">Garment Type</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.category}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Target Quantity</span>
-                <span className="font-semibold text-[#4A252B]">{formData.targetQuantity} {formData.units}</span>
+                <span className="text-[#9E97A9]">Target Quantity</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.targetQuantity} {formData.units}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Fabric Type</span>
-                <span className="font-semibold text-[#4A252B]">{formData.fabricType}</span>
+                <span className="text-[#9E97A9]">Fabric Type</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.fabricType}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Fabric Width</span>
-                <span className="font-semibold text-[#4A252B]">{formData.fabricWidth} cm</span>
+                <span className="text-[#9E97A9]">Fabric Width</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.fabricWidth} cm</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Rotation</span>
-                <span className="font-semibold text-[#4A252B]">{formData.allowRotation ? 'Allowed' : 'Restricted'}</span>
+                <span className="text-[#9E97A9]">Rotation</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.allowRotation ? 'Allowed' : 'Restricted'}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#81777B]">Grain Direction</span>
-                <span className="font-semibold text-[#4A252B]">{formData.grainDirection}</span>
+                <span className="text-[#9E97A9]">Grain Direction</span>
+                <span className="font-semibold text-[#F5F3F8]">{formData.grainDirection}</span>
               </div>
             </div>
 
@@ -660,7 +648,7 @@ export function NewProjectPage() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-[#783751] text-white hover:bg-[#642C43] transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer group relative overflow-hidden"
+                className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-[#8E2B45] text-white hover:bg-[#A33452] transition-colors shadow-lg shadow-[#8E2B45]/20 flex items-center justify-center gap-2 cursor-pointer group relative overflow-hidden"
               >
                 {/* Subtle botanical line art flourish background on right */}
                 <svg className="absolute -right-2 -bottom-2 w-16 h-16 text-white/10 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">

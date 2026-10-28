@@ -17,7 +17,9 @@ export function useCuttingSimulation(options = {}) {
   const onComplete = options.onComplete;
 
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   const isMountedRef = useRef(true);
   useEffect(() => {
@@ -27,16 +29,8 @@ export function useCuttingSimulation(options = {}) {
     };
   }, []);
 
-  const [simState, setSimState] = useState(() => {
-    const sim = new CuttingSimulator({
-      duration,
-      placements: placements || []
-    });
-    return sim.getState();
-  });
-
   const simRef = useRef(null);
-  if (!simRef.current) {
+  if (simRef.current === null) {
     simRef.current = new CuttingSimulator({
       duration,
       placements: placements || [],
@@ -52,6 +46,8 @@ export function useCuttingSimulation(options = {}) {
       }
     });
   }
+
+  const [simState, setSimState] = useState(() => simRef.current.getState());
 
   // Derive stable cache key for placements to prevent re-triggering on identical [] references
   const placementsKey = useMemo(() => {

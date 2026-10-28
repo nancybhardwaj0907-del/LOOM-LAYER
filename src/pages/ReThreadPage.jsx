@@ -27,7 +27,6 @@ import {
   Scale
 } from 'lucide-react';
 import { useUserProfile } from '../context/useUserProfile';
-import { TopNavbar } from '../components/common/TopNavbar';
 import { evaluateScrapRecommendations, RETHREAD_PRODUCTS } from '../utils/rethreadCatalog';
 
 const SAVED_PLANS_KEY = 'rethread_saved_plans_v1';
@@ -199,82 +198,75 @@ export function ReThreadPage() {
 
   return (
     <div className="space-y-6">
-      
-      {/* 1. TOP HEADER BAR */}
-      <TopNavbar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        placeholder="Search products, fabrics, accessories..."
-      />
 
       {/* ========================================================
-          2. RETHREAD COMPACT HEADER
+          1. RETHREAD COMPACT HEADER
           ======================================================== */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#EAE2DE]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#272332]">
         {/* Left Title */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center shadow-2xs shrink-0 border border-[#C08274]/30">
-            <Scissors className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center shrink-0 border border-[#272332]">
+            <Scissors className="w-5 h-5 text-[#E2A97E]" />
           </div>
           <div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A252B] tracking-tight leading-none">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#F5F3F8] tracking-tight leading-none">
               ReThread
             </h1>
-            <p className="text-xs text-[#81777B] font-sans mt-0.5">
+            <p className="text-xs text-[#9E97A9] font-sans mt-0.5">
               Transform cutting-room remnants into high-value circular products.
             </p>
           </div>
         </div>
 
         {/* Right: Motto pill */}
-        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#F3E6E4] to-[#FBF7F5] border border-[#EAE2DE] shadow-2xs">
-          <Leaf className="w-3.5 h-3.5 text-[#783751]" />
-          <span className="font-serif italic text-xs text-[#4A252B]">Zero-waste. Infinite atelier possibilities.</span>
+        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-[#1E1B27] border border-[#272332]">
+          <Leaf className="w-3.5 h-3.5 text-[#E2A97E]" />
+          <span className="font-serif italic text-xs text-[#E2A97E]">Zero-waste. Infinite atelier possibilities.</span>
         </div>
       </div>
 
       {/* ========================================================
-          3. INTERACTIVE SCRAP INPUT STRIP
+          2. INTERACTIVE SCRAP INPUT STRIP
           ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#EAE2DE] p-4 sm:p-5 shadow-2xs space-y-3.5">
+      <div className="bg-[#16141D] rounded-2xl border border-[#272332] p-4 sm:p-5 shadow-2xs space-y-3.5">
         
         {/* Section Header Row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
               1
             </div>
             <div>
-              <h2 className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
+              <h2 className="font-serif text-sm font-bold text-[#F5F3F8] leading-tight">
                 Enter Scrap Measurements
               </h2>
-              <p className="text-[11px] text-[#81777B] font-sans">
+              <p className="text-[11px] text-[#9E97A9] font-sans">
                 Type dimensions and quantity to calculate compatible products.
               </p>
             </div>
           </div>
 
           {/* Quick presets */}
-          <div className="flex items-center gap-1.5 text-[11px] text-[#81777B]">
-            <span className="font-medium">Presets:</span>
+          <div className="flex items-center gap-1.5 text-[11px] text-[#9E97A9]">
+            <span className="font-medium text-[#9E97A9]">Presets:</span>
             <button
               type="button"
               onClick={() => setScrapInput({ width: 24, length: 36, quantity: 35, fabricType: 'Cotton', shapeType: 'rectangular' })}
-              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+              className="px-2 py-0.5 rounded-md bg-[#1E1B27] border border-[#272332] hover:border-[#8E2B45] text-[#F5F3F8] transition-colors cursor-pointer"
             >
               24×36cm Cotton
             </button>
             <button
               type="button"
               onClick={() => setScrapInput({ width: 15, length: 45, quantity: 25, fabricType: 'Denim', shapeType: 'strips' })}
-              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+              className="px-2 py-0.5 rounded-md bg-[#1E1B27] border border-[#272332] hover:border-[#8E2B45] text-[#F5F3F8] transition-colors cursor-pointer"
             >
               15×45cm Denim
             </button>
             <button
               type="button"
               onClick={() => setScrapInput({ width: 12, length: 18, quantity: 50, fabricType: 'Linen', shapeType: 'rectangular' })}
-              className="px-2 py-0.5 rounded-md bg-[#FBF7F5] border border-[#EAE2DE] hover:border-[#783751] text-[#4A252B] transition-colors cursor-pointer"
+              className="px-2 py-0.5 rounded-md bg-[#1E1B27] border border-[#272332] hover:border-[#8E2B45] text-[#F5F3F8] transition-colors cursor-pointer"
             >
               12×18cm Linen
             </button>
@@ -285,64 +277,64 @@ export function ReThreadPage() {
         <div className="flex flex-col lg:flex-row lg:items-end gap-3 pt-1">
           {/* Width */}
           <div className="flex-1 min-w-[90px]">
-            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+            <label className="block text-[10px] font-medium text-[#9E97A9] mb-1 uppercase tracking-wide">
               Width (cm)
             </label>
-            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-              <Maximize2 className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+            <div className="bg-[#1E1B27] border border-[#272332] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#8E2B45] transition-colors">
+              <Maximize2 className="w-3.5 h-3.5 text-[#E2A97E] shrink-0" />
               <input
                 type="number"
                 min="1"
                 step="0.5"
                 value={scrapInput.width || ''}
                 onChange={(e) => setScrapInput({ ...scrapInput, width: Math.max(0, Number(e.target.value) || 0) })}
-                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+                className="w-full text-xs font-mono font-bold text-[#F5F3F8] bg-transparent outline-none"
               />
             </div>
           </div>
 
           {/* Length */}
           <div className="flex-1 min-w-[90px]">
-            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+            <label className="block text-[10px] font-medium text-[#9E97A9] mb-1 uppercase tracking-wide">
               Length (cm)
             </label>
-            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-              <MoveHorizontal className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+            <div className="bg-[#1E1B27] border border-[#272332] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#8E2B45] transition-colors">
+              <MoveHorizontal className="w-3.5 h-3.5 text-[#E2A97E] shrink-0" />
               <input
                 type="number"
                 min="1"
                 step="0.5"
                 value={scrapInput.length || ''}
                 onChange={(e) => setScrapInput({ ...scrapInput, length: Math.max(0, Number(e.target.value) || 0) })}
-                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+                className="w-full text-xs font-mono font-bold text-[#F5F3F8] bg-transparent outline-none"
               />
             </div>
           </div>
 
           {/* Quantity */}
           <div className="flex-1 min-w-[90px]">
-            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+            <label className="block text-[10px] font-medium text-[#9E97A9] mb-1 uppercase tracking-wide">
               Quantity (pcs)
             </label>
-            <div className="bg-[#FBF7F5] border border-[#EAE2DE] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#783751] transition-colors">
-              <Layers className="w-3.5 h-3.5 text-[#C08274] shrink-0" />
+            <div className="bg-[#1E1B27] border border-[#272332] rounded-xl px-3 py-2 flex items-center gap-1.5 focus-within:border-[#8E2B45] transition-colors">
+              <Layers className="w-3.5 h-3.5 text-[#E2A97E] shrink-0" />
               <input
                 type="number"
                 min="1"
                 step="1"
                 value={scrapInput.quantity || ''}
                 onChange={(e) => setScrapInput({ ...scrapInput, quantity: Math.max(0, parseInt(e.target.value, 10) || 0) })}
-                className="w-full text-xs font-mono font-bold text-[#4A252B] bg-transparent outline-none"
+                className="w-full text-xs font-mono font-bold text-[#F5F3F8] bg-transparent outline-none"
               />
             </div>
           </div>
 
           {/* Divider on large screens */}
-          <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
+          <div className="hidden lg:block w-px h-9 bg-[#272332]" />
 
           {/* Fabric Type Pills */}
           <div className="flex-shrink-0">
-            <label className="block text-[10px] font-medium text-[#81777B] mb-1 uppercase tracking-wide">
+            <label className="block text-[10px] font-medium text-[#9E97A9] mb-1 uppercase tracking-wide">
               Fabric Type
             </label>
             <div className="flex flex-wrap gap-1.5">
@@ -355,8 +347,8 @@ export function ReThreadPage() {
                     onClick={() => setScrapInput({ ...scrapInput, fabricType: fabric })}
                     className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
                       isSelected
-                        ? 'bg-[#783751] text-white border-[#783751] shadow-2xs font-semibold'
-                        : 'bg-white hover:bg-[#F3E6E4]/40 border-[#EAE2DE] text-[#39343A]'
+                        ? 'bg-[#8E2B45] text-white border-[#8E2B45] shadow-2xs font-semibold'
+                        : 'bg-[#1E1B27] hover:bg-[#272332] border-[#272332] text-[#9E97A9]'
                     }`}
                   >
                     {isSelected && <Check className="w-3 h-3 text-white inline mr-1" />}
@@ -368,31 +360,31 @@ export function ReThreadPage() {
           </div>
 
           {/* Divider on large screens */}
-          <div className="hidden lg:block w-px h-9 bg-[#EAE2DE]" />
+          <div className="hidden lg:block w-px h-9 bg-[#272332]" />
 
           {/* Action Button: Find Products */}
           <button
             type="button"
             onClick={handleFindProducts}
             disabled={isSearching}
-            className="py-2.5 px-5 rounded-xl bg-[#783751] hover:bg-[#642C43] active:scale-98 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer whitespace-nowrap shrink-0 disabled:opacity-70"
+            className="py-2.5 px-5 rounded-xl bg-[#8E2B45] hover:bg-[#A33452] active:scale-98 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-[#8E2B45]/20 transition-all cursor-pointer whitespace-nowrap shrink-0 disabled:opacity-70"
           >
-            <Sparkles className={`w-3.5 h-3.5 text-[#F3E6E4] ${isSearching ? 'animate-spin' : ''}`} />
+            <Sparkles className={`w-3.5 h-3.5 text-white ${isSearching ? 'animate-spin' : ''}`} />
             <span>{isSearching ? 'Matching...' : 'Find Products'}</span>
           </button>
         </div>
 
         {/* Live Feedback Toast / Notification */}
         {searchFeedback && (
-          <div className="mt-2 py-2 px-3.5 rounded-xl bg-[#F3E6E4]/60 border border-[#C08274]/30 flex items-center justify-between text-xs text-[#4A252B] animate-in fade-in duration-200">
+          <div className="mt-2 py-2 px-3.5 rounded-xl bg-[#8E2B45]/20 border border-[#8E2B45]/40 flex items-center justify-between text-xs text-[#E2A97E] animate-in fade-in duration-200">
             <div className="flex items-center gap-2 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-[#783751] shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>{searchFeedback}</span>
             </div>
             <button
               type="button"
               onClick={() => setSearchFeedback('')}
-              className="text-stone-400 hover:text-stone-700 cursor-pointer"
+              className="text-[#9E97A9] hover:text-[#F5F3F8] cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -401,80 +393,80 @@ export function ReThreadPage() {
       </div>
 
       {/* ========================================================
-          4. METRICS STRIP: RECOVERED MATERIAL & YIELD
+          3. METRICS STRIP: RECOVERED MATERIAL & YIELD
           ======================================================== */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
-          <div className="flex items-center gap-2 text-stone-500 mb-1">
-            <Layers className="w-3.5 h-3.5 text-[#783751]" />
+        <div className="bg-[#16141D] rounded-xl border border-[#272332] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-[#9E97A9] mb-1">
+            <Layers className="w-3.5 h-3.5 text-[#E2A97E]" />
             <span className="text-[10px] font-semibold uppercase tracking-wider">Total Scraps</span>
           </div>
-          <p className="text-base font-serif font-bold text-[#4A252B]">
+          <p className="text-base font-serif font-bold text-[#F5F3F8]">
             {scrapInput.quantity || 0} pieces
           </p>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[#9E97A9]">
             {scrapInput.width} × {scrapInput.length} cm each
           </p>
         </div>
 
-        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
-          <div className="flex items-center gap-2 text-stone-500 mb-1">
-            <Maximize2 className="w-3.5 h-3.5 text-[#783751]" />
+        <div className="bg-[#16141D] rounded-xl border border-[#272332] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-[#9E97A9] mb-1">
+            <Maximize2 className="w-3.5 h-3.5 text-[#E2A97E]" />
             <span className="text-[10px] font-semibold uppercase tracking-wider">Remnant Area</span>
           </div>
-          <p className="text-base font-serif font-bold text-[#4A252B]">
+          <p className="text-base font-serif font-bold text-[#F5F3F8]">
             {evaluationResult.totalScrapAreaM2 || 0} m²
           </p>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[#9E97A9]">
             ~{Math.round(evaluationResult.usableTotalAreaCm2 || 0)} cm² usable
           </p>
         </div>
 
-        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
-          <div className="flex items-center gap-2 text-stone-500 mb-1">
-            <Scale className="w-3.5 h-3.5 text-[#2E6F40]" />
+        <div className="bg-[#16141D] rounded-xl border border-[#272332] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-[#9E97A9] mb-1">
+            <Scale className="w-3.5 h-3.5 text-emerald-400" />
             <span className="text-[10px] font-semibold uppercase tracking-wider">Waste Diverted</span>
           </div>
-          <p className="text-base font-serif font-bold text-[#2E6F40]">
+          <p className="text-base font-serif font-bold text-emerald-400">
             {evaluationResult.textileWasteDivertedKg || 0} kg
           </p>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[#9E97A9]">
             Prevented from landfill
           </p>
         </div>
 
-        <div className="bg-white rounded-xl border border-[#EAE2DE] p-3 shadow-2xs">
-          <div className="flex items-center gap-2 text-stone-500 mb-1">
-            <PackageCheck className="w-3.5 h-3.5 text-[#783751]" />
+        <div className="bg-[#16141D] rounded-xl border border-[#272332] p-3 shadow-2xs">
+          <div className="flex items-center gap-2 text-[#9E97A9] mb-1">
+            <PackageCheck className="w-3.5 h-3.5 text-[#E2A97E]" />
             <span className="text-[10px] font-semibold uppercase tracking-wider">Matching Goods</span>
           </div>
-          <p className="text-base font-serif font-bold text-[#783751]">
+          <p className="text-base font-serif font-bold text-[#E2A97E]">
             {displayProducts.filter(p => p.estimatedUnits > 0).length} products
           </p>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[#9E97A9]">
             {displayProducts.length} total options
           </p>
         </div>
       </div>
 
       {/* ========================================================
-          5. PRODUCT RECOMMENDATIONS & VIEW CONTROLS
+          4. PRODUCT RECOMMENDATIONS & VIEW CONTROLS
           ======================================================== */}
       <div id="recommendations-section" className="space-y-4 pt-1">
         
         {/* Controls Bar: Filters & View Switcher */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-[#EAE2DE] shadow-2xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-[#16141D] p-3.5 rounded-2xl border border-[#272332] shadow-2xs">
           
           {/* Left: Section Title & Count */}
           <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-[#F3E6E4] text-[#783751] flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
               2
             </div>
             <div>
-              <h2 className="font-serif text-sm font-bold text-[#4A252B] leading-tight">
+              <h2 className="font-serif text-sm font-bold text-[#F5F3F8] leading-tight">
                 Recommended Upcycled Products
               </h2>
-              <p className="text-[11px] text-[#81777B]">
+              <p className="text-[11px] text-[#9E97A9]">
                 Showing {displayProducts.length} circular designs for your scraps
               </p>
             </div>
@@ -484,7 +476,7 @@ export function ReThreadPage() {
           <div className="flex flex-wrap items-center gap-2">
             
             {/* Filter Pills */}
-            <div className="flex items-center gap-1 bg-[#FBF7F5] p-1 rounded-xl border border-[#EAE2DE] text-[11px]">
+            <div className="flex items-center gap-1 bg-[#1E1B27] p-1 rounded-xl border border-[#272332] text-[11px]">
               {[
                 { id: 'all', label: 'All Products' },
                 { id: 'direct', label: 'Direct-Cut' },
@@ -499,8 +491,8 @@ export function ReThreadPage() {
                   onClick={() => setActiveFilter(f.id)}
                   className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                     activeFilter === f.id
-                      ? 'bg-[#783751] text-white font-semibold shadow-2xs'
-                      : 'text-stone-600 hover:text-[#4A252B] hover:bg-white/60'
+                      ? 'bg-[#8E2B45] text-white font-semibold shadow-2xs'
+                      : 'text-[#9E97A9] hover:text-[#F5F3F8] hover:bg-[#272332]'
                   }`}
                 >
                   {f.label}
@@ -509,14 +501,14 @@ export function ReThreadPage() {
             </div>
 
             {/* View Mode Toggle: Grid vs Slider */}
-            <div className="flex items-center gap-1 bg-[#FBF7F5] p-1 rounded-xl border border-[#EAE2DE]">
+            <div className="flex items-center gap-1 bg-[#1E1B27] p-1 rounded-xl border border-[#272332]">
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
                   viewMode === 'grid'
-                    ? 'bg-[#783751] text-white'
-                    : 'text-stone-600 hover:text-[#4A252B]'
+                    ? 'bg-[#8E2B45] text-white'
+                    : 'text-[#9E97A9] hover:text-[#F5F3F8]'
                 }`}
                 title="Grid View (All at once)"
               >
@@ -527,8 +519,8 @@ export function ReThreadPage() {
                 onClick={() => setViewMode('slider')}
                 className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
                   viewMode === 'slider'
-                    ? 'bg-[#783751] text-white'
-                    : 'text-stone-600 hover:text-[#4A252B]'
+                    ? 'bg-[#8E2B45] text-white'
+                    : 'text-[#9E97A9] hover:text-[#F5F3F8]'
                 }`}
                 title="Horizontal Slider View"
               >
@@ -542,7 +534,7 @@ export function ReThreadPage() {
                 <button
                   type="button"
                   onClick={() => scrollSlider('left')}
-                  className="w-7 h-7 rounded-lg border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] shadow-2xs transition-all cursor-pointer"
+                  className="w-7 h-7 rounded-lg border border-[#272332] bg-[#1E1B27] flex items-center justify-center text-[#9E97A9] hover:text-[#E2A97E] shadow-2xs transition-all cursor-pointer"
                   aria-label="Scroll left"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -550,7 +542,7 @@ export function ReThreadPage() {
                 <button
                   type="button"
                   onClick={() => scrollSlider('right')}
-                  className="w-7 h-7 rounded-lg border border-[#EAE2DE] bg-white flex items-center justify-center text-[#81777B] hover:text-[#783751] shadow-2xs transition-all cursor-pointer"
+                  className="w-7 h-7 rounded-lg border border-[#272332] bg-[#1E1B27] flex items-center justify-center text-[#9E97A9] hover:text-[#E2A97E] shadow-2xs transition-all cursor-pointer"
                   aria-label="Scroll right"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -563,18 +555,18 @@ export function ReThreadPage() {
 
         {/* Empty State */}
         {displayProducts.length === 0 && (
-          <div className="bg-white rounded-2xl border border-[#EAE2DE] p-12 text-center space-y-3">
-            <Scissors className="w-10 h-10 text-stone-300 mx-auto" />
-            <h3 className="font-serif text-base font-bold text-[#4A252B]">
+          <div className="bg-[#16141D] rounded-2xl border border-[#272332] p-12 text-center space-y-3">
+            <Scissors className="w-10 h-10 text-[#635B70] mx-auto" />
+            <h3 className="font-serif text-base font-bold text-[#F5F3F8]">
               No Products Match Current Filter
             </h3>
-            <p className="text-xs text-stone-500 max-w-sm mx-auto">
+            <p className="text-xs text-[#9E97A9] max-w-sm mx-auto">
               Try adjusting your filter or increasing scrap dimensions to match more circular upcycling patterns.
             </p>
             <button
               type="button"
               onClick={() => { setActiveFilter('all'); setSearchQuery(''); }}
-              className="px-4 py-2 rounded-xl bg-[#783751] text-white text-xs font-semibold cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#8E2B45] text-white text-xs font-semibold cursor-pointer"
             >
               Reset Filters
             </button>
@@ -589,11 +581,11 @@ export function ReThreadPage() {
                 key={prod.id}
                 data-product-card
                 onClick={() => setSelectedProductModal(prod)}
-                className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+                className="bg-[#16141D] rounded-2xl border border-[#272332] overflow-hidden shadow-2xs hover:border-[#8E2B45] hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div>
                   {/* Photo & Badges */}
-                  <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
+                  <div className="w-full aspect-4/3 overflow-hidden bg-[#1E1B27] relative">
                     <img
                       src={prod.image}
                       alt={prod.name}
@@ -604,7 +596,7 @@ export function ReThreadPage() {
                     />
                     
                     {/* Yield badge */}
-                    <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm text-[#783751] px-2.5 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
+                    <div className="absolute top-2.5 right-2.5 bg-[#16141D]/90 backdrop-blur-sm text-[#E2A97E] px-2.5 py-0.5 rounded-lg text-[10px] font-bold border border-[#272332] shadow-xs">
                       ~{prod.estimatedUnits} {prod.unitLabel || 'units'}
                     </div>
 
@@ -619,7 +611,7 @@ export function ReThreadPage() {
                           Patchwork Piecing
                         </span>
                       ) : (
-                        <span className="bg-stone-600/80 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[9px] font-medium shadow-xs">
+                        <span className="bg-[#1E1B27]/90 backdrop-blur-sm text-[#9E97A9] px-2 py-0.5 rounded-md text-[9px] font-medium shadow-xs border border-[#272332]">
                           {prod.category}
                         </span>
                       )}
@@ -629,37 +621,37 @@ export function ReThreadPage() {
                   {/* Body Content */}
                   <div className="p-3.5 space-y-2">
                     <div className="flex items-center justify-between gap-1">
-                      <span className="text-[10px] font-semibold text-[#81777B] uppercase tracking-wide">
+                      <span className="text-[10px] font-semibold text-[#9E97A9] uppercase tracking-wide">
                         {prod.category}
                       </span>
-                      <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
+                      <span className="bg-[#1E1B27] text-[#E2A97E] border border-[#272332] px-2 py-0.5 rounded-md text-[10px] font-semibold">
                         {prod.difficulty}
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight line-clamp-1">
+                    <h3 className="text-sm font-bold text-[#F5F3F8] group-hover:text-[#E2A97E] transition-colors leading-tight line-clamp-1">
                       {prod.name}
                     </h3>
 
-                    <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
+                    <p className="text-[11px] text-[#9E97A9] leading-relaxed line-clamp-2">
                       {prod.description}
                     </p>
 
-                    <div className="pt-1 text-[10px] text-stone-500 space-y-0.5 font-mono">
+                    <div className="pt-1 text-[10px] text-[#9E97A9] space-y-0.5 font-mono">
                       <div className="flex items-center justify-between">
                         <span>Piece requirement:</span>
-                        <span className="font-semibold text-[#4A252B]">{prod.minPieceWidth}×{prod.minPieceLength} cm</span>
+                        <span className="font-semibold text-[#F5F3F8]">{prod.minPieceWidth}×{prod.minPieceLength} cm</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Sewing time:</span>
-                        <span className="font-semibold text-[#4A252B]">~{prod.estimatedSewTimeMin || 8} min</span>
+                        <span className="font-semibold text-[#F5F3F8]">~{prod.estimatedSewTimeMin || 8} min</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Footer Action */}
-                <div className="p-3.5 pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751] bg-[#FBF7F5]/50">
+                <div className="p-3.5 pt-2 border-t border-[#272332] flex items-center justify-between text-[11px] font-semibold text-[#E2A97E] bg-[#1E1B27]/40">
                   <span className="group-hover:underline">View Cutting Ticket</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
@@ -689,11 +681,11 @@ export function ReThreadPage() {
                   if (dragDistanceRef.current > 5) return;
                   setSelectedProductModal(prod);
                 }}
-                className="bg-white rounded-2xl border border-[#EAE2DE] overflow-hidden shadow-2xs hover:border-[#C08274] hover:shadow-md transition-all cursor-pointer group snap-start shrink-0 flex flex-col justify-between"
+                className="bg-[#16141D] rounded-2xl border border-[#272332] overflow-hidden shadow-2xs hover:border-[#8E2B45] hover:shadow-md transition-all cursor-pointer group snap-start shrink-0 flex flex-col justify-between"
                 style={{ width: 'calc(33.333% - 11px)', minWidth: '270px' }}
               >
                 <div>
-                  <div className="w-full aspect-4/3 overflow-hidden bg-[#FBF7F5] relative">
+                  <div className="w-full aspect-4/3 overflow-hidden bg-[#1E1B27] relative">
                     <img
                       src={prod.image}
                       alt={prod.name}
@@ -702,30 +694,30 @@ export function ReThreadPage() {
                         e.currentTarget.src = "/atelier/swatches.jpg";
                       }}
                     />
-                    <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm text-[#783751] px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[#EAE2DE] shadow-xs">
+                    <div className="absolute top-2.5 right-2.5 bg-[#16141D]/90 backdrop-blur-sm text-[#E2A97E] px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[#272332] shadow-xs">
                       ~{prod.estimatedUnits} {prod.unitLabel || 'units'}
                     </div>
                   </div>
 
                   <div className="p-3.5 space-y-2">
-                    <h3 className="text-sm font-bold text-[#4A252B] group-hover:text-[#783751] transition-colors leading-tight line-clamp-1">
+                    <h3 className="text-sm font-bold text-[#F5F3F8] group-hover:text-[#E2A97E] transition-colors leading-tight line-clamp-1">
                       {prod.name}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <span className="bg-[#FBF7F5] text-[#81777B] border border-[#EAE2DE] px-2 py-0.5 rounded-md text-[10px] font-medium">
+                      <span className="bg-[#1E1B27] text-[#9E97A9] border border-[#272332] px-2 py-0.5 rounded-md text-[10px] font-medium">
                         {prod.category}
                       </span>
-                      <span className="bg-[#F3E6E4] text-[#783751] px-2 py-0.5 rounded-md text-[10px] font-semibold">
+                      <span className="bg-[#1E1B27] text-[#E2A97E] border border-[#272332] px-2 py-0.5 rounded-md text-[10px] font-semibold">
                         {prod.difficulty}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#81777B] leading-relaxed line-clamp-2">
+                    <p className="text-[11px] text-[#9E97A9] leading-relaxed line-clamp-2">
                       {prod.description}
                     </p>
                   </div>
                 </div>
 
-                <div className="p-3.5 pt-2 border-t border-[#EAE2DE]/60 flex items-center justify-between text-[11px] font-semibold text-[#783751]">
+                <div className="p-3.5 pt-2 border-t border-[#272332] flex items-center justify-between text-[11px] font-semibold text-[#E2A97E] bg-[#1E1B27]/40">
                   <span className="group-hover:underline">View Cutting Plan</span>
                   <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
@@ -737,23 +729,23 @@ export function ReThreadPage() {
       </div>
 
       {/* ========================================================
-          6. PRODUCT DETAIL & CUTTING TICKET MODAL
+          5. PRODUCT DETAIL & CUTTING TICKET MODAL
           ======================================================== */}
       {selectedProductModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-stone-900/50 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl border border-[#EAE2DE] max-w-xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/70 backdrop-blur-xs">
+          <div className="bg-[#16141D] rounded-3xl border border-[#272332] max-w-xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
             
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#EAE2DE]">
+            <div className="flex items-center justify-between pb-3 border-b border-[#272332]">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#F3E6E4] text-[#783751] border border-[#C08274]">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#1E1B27] text-[#E2A97E] border border-[#272332]">
                   {selectedProductModal.category}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#F0DCD2] text-[#4A252B] border border-[#EAE2DE]">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#1E1B27] text-[#9E97A9] border border-[#272332]">
                   {selectedProductModal.difficulty}
                 </span>
                 {selectedProductModal.isDirectFit && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-800">
                     Direct Cut Compatible
                   </span>
                 )}
@@ -761,7 +753,7 @@ export function ReThreadPage() {
               <button
                 type="button"
                 onClick={() => setSelectedProductModal(null)}
-                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-[#9E97A9] hover:text-[#F5F3F8] hover:bg-[#1E1B27] transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -769,7 +761,7 @@ export function ReThreadPage() {
 
             {/* Modal Body */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-              <div className="aspect-4/3 rounded-2xl overflow-hidden border border-[#EAE2DE] bg-stone-100">
+              <div className="aspect-4/3 rounded-2xl overflow-hidden border border-[#272332] bg-[#1E1B27]">
                 <img
                   src={selectedProductModal.image}
                   alt={selectedProductModal.name}
@@ -777,27 +769,27 @@ export function ReThreadPage() {
                 />
               </div>
               <div className="space-y-2">
-                <h3 className="font-serif text-lg font-bold text-[#4A252B]">
+                <h3 className="font-serif text-lg font-bold text-[#F5F3F8]">
                   {selectedProductModal.name}
                 </h3>
-                <p className="text-xs text-[#81777B] leading-relaxed">
+                <p className="text-xs text-[#9E97A9] leading-relaxed">
                   {selectedProductModal.description}
                 </p>
-                <div className="pt-2 text-xs space-y-1.5 bg-[#FBF7F5] p-3 rounded-xl border border-[#EAE2DE]">
-                  <p className="text-stone-800 flex justify-between">
-                    <span>Estimated Yield:</span>
-                    <strong className="text-[#783751]">~{selectedProductModal.estimatedUnits} {selectedProductModal.unitLabel || 'units'}</strong>
+                <div className="pt-2 text-xs space-y-1.5 bg-[#1E1B27] p-3 rounded-xl border border-[#272332]">
+                  <p className="text-[#F5F3F8] flex justify-between">
+                    <span className="text-[#9E97A9]">Estimated Yield:</span>
+                    <strong className="text-[#E2A97E]">~{selectedProductModal.estimatedUnits} {selectedProductModal.unitLabel || 'units'}</strong>
                   </p>
-                  <p className="text-stone-800 flex justify-between">
-                    <span>Min Pattern Size:</span>
+                  <p className="text-[#F5F3F8] flex justify-between">
+                    <span className="text-[#9E97A9]">Min Pattern Size:</span>
                     <strong>{selectedProductModal.minPieceWidth} × {selectedProductModal.minPieceLength} cm</strong>
                   </p>
-                  <p className="text-stone-800 flex justify-between">
-                    <span>Pieces per Unit:</span>
+                  <p className="text-[#F5F3F8] flex justify-between">
+                    <span className="text-[#9E97A9]">Pieces per Unit:</span>
                     <strong>{selectedProductModal.piecesPerUnit || 1} panel(s)</strong>
                   </p>
-                  <p className="text-stone-600 text-[11px] pt-1 border-t border-[#EAE2DE]">
-                    <strong>Hardware / Notions:</strong> {selectedProductModal.hardwareNeeded || 'None required'}
+                  <p className="text-[#9E97A9] text-[11px] pt-1 border-t border-[#272332]">
+                    <strong className="text-[#F5F3F8]">Hardware / Notions:</strong> {selectedProductModal.hardwareNeeded || 'None required'}
                   </p>
                 </div>
               </div>
@@ -805,26 +797,26 @@ export function ReThreadPage() {
 
             {/* Formula Explanation Callout */}
             {selectedProductModal.formulaExplanation && (
-              <div className="bg-[#F3E6E4]/40 border border-[#C08274]/30 rounded-xl p-3 text-xs text-[#4A252B]">
-                <p className="font-semibold text-[#783751] mb-0.5">Yield Calculation Logic:</p>
-                <p className="text-[11px] text-[#5B5257]">{selectedProductModal.formulaExplanation}</p>
+              <div className="bg-[#8E2B45]/15 border border-[#8E2B45]/30 rounded-xl p-3 text-xs text-[#E2A97E]">
+                <p className="font-semibold text-[#E2A97E] mb-0.5">Yield Calculation Logic:</p>
+                <p className="text-[11px] text-[#D8CFDC]">{selectedProductModal.formulaExplanation}</p>
               </div>
             )}
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#EAE2DE]">
+            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#272332]">
               <button
                 type="button"
                 onClick={() => handlePrintPlan(selectedProductModal)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#FBF7F5] border border-[#EAE2DE] text-stone-800 hover:bg-[#F3E6E4] transition-colors flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#1E1B27] border border-[#272332] text-[#F5F3F8] hover:bg-[#272332] transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <Printer className="w-3.5 h-3.5 text-[#783751]" />
+                <Printer className="w-3.5 h-3.5 text-[#E2A97E]" />
                 <span>Print Ticket</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleToggleSavePlan(selectedProductModal)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#783751] text-white hover:bg-[#642C43] transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#8E2B45] text-white hover:bg-[#A33452] transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <Bookmark className="w-3.5 h-3.5" />
                 <span>{savedPlans.some(p => p.productId === selectedProductModal.id) ? 'Saved in Plans' : 'Save Plan'}</span>
