@@ -729,7 +729,7 @@ export function ReportsPage() {
                   <p className="text-xs text-[#A8A1B4]">Automated remnant geometry matching from cut-order offcuts</p>
                 </div>
                 <span className="text-xs font-mono font-bold text-[#E2A97E] bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
-                  $340.00 Gross Value
+                  ₹340.00 Gross Value
                 </span>
               </div>
 
@@ -737,19 +737,19 @@ export function ReportsPage() {
                 <div className="p-4 rounded-xl bg-[#1E1B27] border border-[#272332] space-y-1.5">
                   <span className="text-xs font-bold text-[#F5F3F8]">Silk & Poplin Scrunchies</span>
                   <p className="text-xl font-bold font-mono text-emerald-400">18 pcs</p>
-                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: $90.00 ($5/pc)</p>
+                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: ₹90.00 (₹5/pc)</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#1E1B27] border border-[#272332] space-y-1.5">
                   <span className="text-xs font-bold text-[#F5F3F8]">Denim Workwear Bandanas</span>
                   <p className="text-xl font-bold font-mono text-sky-400">12 pcs</p>
-                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: $144.00 ($12/pc)</p>
+                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: ₹144.00 (₹12/pc)</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#1E1B27] border border-[#272332] space-y-1.5">
                   <span className="text-xs font-bold text-[#F5F3F8]">Patchwork Tote Liners</span>
                   <p className="text-xl font-bold font-mono text-[#ECA7B8]">18 pcs</p>
-                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: $106.00</p>
+                  <p className="text-[11px] text-[#A8A1B4]">Est. retail: ₹106.00</p>
                 </div>
               </div>
 

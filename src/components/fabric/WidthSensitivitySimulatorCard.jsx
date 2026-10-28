@@ -4,7 +4,6 @@ import {
   CheckCircle2, 
   ArrowRight, 
   TrendingUp, 
-  DollarSign, 
   Scissors, 
   RotateCcw,
   Ruler

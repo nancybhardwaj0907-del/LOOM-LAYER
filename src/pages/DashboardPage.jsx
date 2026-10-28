@@ -301,7 +301,7 @@ export function DashboardPage() {
 
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1E1B27] border border-[#2E293B]">
             <span className="text-[#7D7588]">ReThread:</span>
-            <span className="font-bold text-[#E2A97E]">$340.00</span>
+            <span className="font-bold text-[#E2A97E]">₹340.00</span>
           </div>
 
           <button
@@ -658,7 +658,7 @@ export function DashboardPage() {
                 <span className="text-xs font-bold text-[#F5F3F8]">ReThread Lab</span>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-amber-500/10 text-[#E2A97E] font-bold border border-amber-500/20">
-                $340.00
+                ₹340.00
               </span>
             </div>
 
@@ -669,15 +669,15 @@ export function DashboardPage() {
             <div className="space-y-1.5 text-xs font-mono">
               <div className="flex justify-between p-1.5 rounded-lg bg-[#1E1B27] border border-[#272332] text-[11px]">
                 <span className="text-[#A8A1B4]">Scrunchies:</span>
-                <span className="font-bold text-[#F5F3F8]">18 pcs ($90)</span>
+                <span className="font-bold text-[#F5F3F8]">18 pcs (₹90)</span>
               </div>
               <div className="flex justify-between p-1.5 rounded-lg bg-[#1E1B27] border border-[#272332] text-[11px]">
                 <span className="text-[#A8A1B4]">Bandanas:</span>
-                <span className="font-bold text-[#F5F3F8]">12 pcs ($144)</span>
+                <span className="font-bold text-[#F5F3F8]">12 pcs (₹144)</span>
               </div>
               <div className="flex justify-between p-1.5 rounded-lg bg-[#1E1B27] border border-[#272332] text-[11px]">
                 <span className="text-[#A8A1B4]">Tote Linings:</span>
-                <span className="font-bold text-[#F5F3F8]">18 pcs ($106)</span>
+                <span className="font-bold text-[#F5F3F8]">18 pcs (₹106)</span>
               </div>
             </div>
           </div>

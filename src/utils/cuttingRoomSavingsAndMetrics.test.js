@@ -233,7 +233,7 @@ test('Cutting Room Management: Comprehensive Metrics, Counts & Savings Audit', a
     const plan = generateCuttingPlan(noBaselineProject);
     assert.strictEqual(plan.optimizationSummary.hasValidBaseline, false, 'hasValidBaseline is false');
     assert.strictEqual(plan.optimizationSummary.fabricSavedMeters, 0, 'Fabric saved meters is strictly 0');
-    assert.strictEqual(plan.optimizationSummary.estimatedCostSavings, 0, 'Monetary savings is strictly $0.00');
+    assert.strictEqual(plan.optimizationSummary.estimatedCostSavings, 0, 'Monetary savings is strictly ₹0.00');
 
     // Dynamic Sustainability Wording
     const wording = getSustainabilityWording({
