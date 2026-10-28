@@ -256,7 +256,7 @@ export function ReportsPage() {
       {/* ========================================================
           2. NAVIGATION TABS
           ======================================================== */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-medium scrollbar-none">
+      <div className="flex items-center gap-2 overflow-x-auto max-w-full w-full pb-1 text-xs font-medium scrollbar-none">
         {tabs.map((tab) => {
           const isActive = activeTab === tab;
           return (

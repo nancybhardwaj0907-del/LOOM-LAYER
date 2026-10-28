@@ -209,7 +209,7 @@ export function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Sub-Navigation Menu (4 cols) */}
-        <div className="lg:col-span-4 bg-[#16141D] rounded-2xl border border-[#272332] p-3 shadow-xs space-y-1">
+        <div className="lg:col-span-4 bg-[#16141D] rounded-2xl border border-[#272332] p-2 sm:p-3 shadow-xs flex lg:flex-col overflow-x-auto max-w-full gap-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -218,13 +218,13 @@ export function ProfilePage() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer text-left ${
+                className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer text-left shrink-0 lg:w-full whitespace-nowrap lg:whitespace-normal ${
                   isActive
                     ? 'bg-[#8E2B45] text-white font-bold border border-[#8E2B45]'
                     : 'text-[#9E97A9] hover:bg-[#1E1B27] hover:text-[#F5F3F8] border border-transparent'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#9E97A9]'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-[#9E97A9]'}`} />
                 <span>{item.label}</span>
               </button>
             );
@@ -232,7 +232,7 @@ export function ProfilePage() {
         </div>
 
         {/* Right Settings Content Card (8 cols) */}
-        <div className="lg:col-span-8 bg-[#16141D] rounded-2xl border border-[#272332] p-6 sm:p-7 shadow-xs relative overflow-hidden">
+        <div className="lg:col-span-8 bg-[#16141D] rounded-2xl border border-[#272332] p-4 sm:p-7 shadow-xs relative overflow-hidden">
           
           {/* Subtle Botanical Leaf Accent in background */}
           <div className="absolute top-6 right-6 pointer-events-none opacity-20 text-[#8E2B45]">

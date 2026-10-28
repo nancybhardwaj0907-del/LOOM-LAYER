@@ -112,50 +112,70 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Sticky Bar */}
-      <div className="lg:hidden sticky top-0 z-40 bg-[#FAF8F5]/95 dark:bg-[#1A1410]/95 backdrop-blur-md border-b border-cream-200 dark:border-stone-800 px-4 py-3 flex items-center justify-between shadow-2xs">
+      <div className="lg:hidden sticky top-0 z-40 w-full shrink-0 bg-[#FAF8F5]/95 dark:bg-[#141219]/95 backdrop-blur-md border-b border-cream-200 dark:border-[#24212D] px-4 py-2.5 flex items-center justify-between shadow-2xs">
         <Link to="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-crimson-700 to-crimson-900 text-white flex items-center justify-center shadow-xs">
-            <Leaf className="w-4 h-4 text-crimson-100" />
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8E2B45] to-[#5C1B2C] text-white flex items-center justify-center shadow-xs">
+            <Leaf className="w-4 h-4 text-[#F8D7E0]" />
           </div>
-          <span className="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">
+          <span className="font-serif text-base font-bold text-stone-900 dark:text-[#F5F3F8]">
             Loom & Layer
           </span>
         </Link>
-        <button
-          type="button"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2 rounded-xl border border-cream-200 dark:border-stone-800 text-stone-800 dark:text-stone-200 hover:bg-cream-100 dark:hover:bg-stone-800"
-        >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="flex items-center gap-1.5">
+          <ThemeToggle className="p-1.5 rounded-lg text-stone-600 dark:text-[#A8A1B4] hover:text-stone-900 dark:hover:text-[#F5F3F8]" />
+          <button
+            type="button"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="p-2 rounded-xl border border-cream-200 dark:border-[#24212D] text-stone-800 dark:text-[#F5F3F8] hover:bg-cream-100 dark:hover:bg-[#1C1A24] transition-colors"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer Backdrop */}
       {mobileOpen && (
         <div 
-          className="lg:hidden fixed inset-0 z-40 bg-stone-950/50 backdrop-blur-xs"
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Mobile Drawer */}
-      <div className={`lg:hidden fixed inset-y-0 left-0 z-50 w-72 bg-[#FAF8F5] dark:bg-[#1A1410] border-r border-cream-200 dark:border-stone-800 transform transition-transform duration-200 ease-in-out p-4 flex flex-col justify-between ${
+      <div className={`lg:hidden fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-[#FAF8F5] dark:bg-[#141219] border-r border-cream-200 dark:border-[#24212D] transform transition-transform duration-200 ease-in-out p-4 flex flex-col justify-between shadow-2xl ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="space-y-6">
-          <div className="flex items-center justify-between pb-3 border-b border-cream-200 dark:border-stone-800">
+        <div className="space-y-5">
+          <div className="flex items-center justify-between pb-3 border-b border-cream-200 dark:border-[#24212D]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-crimson-700 text-white flex items-center justify-center">
-                <Leaf className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8E2B45] to-[#5C1B2C] text-white flex items-center justify-center shadow-xs">
+                <Leaf className="w-4 h-4 text-[#F8D7E0]" />
               </div>
-              <span className="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">Loom & Layer</span>
+              <div className="flex flex-col min-w-0">
+                <span className="font-serif text-base font-bold text-stone-900 dark:text-[#F5F3F8]">Loom & Layer</span>
+                <span className="text-[9px] font-mono text-[#8E2B45] dark:text-[#E2A97E] uppercase tracking-wider font-semibold">Maison Studio</span>
+              </div>
             </div>
-            <button onClick={() => setMobileOpen(false)} className="p-1 text-stone-400">
+            <button 
+              onClick={() => setMobileOpen(false)} 
+              className="p-1 text-stone-400 hover:text-stone-700 dark:hover:text-[#F5F3F8]"
+              aria-label="Close menu"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <nav className="space-y-1">
+          <Link
+            to="/project/new"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-gradient-to-r from-[#8E2B45] to-[#732237] text-white font-semibold text-xs shadow-xs"
+          >
+            <FolderPlus className="w-3.5 h-3.5 shrink-0" />
+            <span>New Project</span>
+          </Link>
+
+          <nav className="space-y-1 overflow-y-auto max-h-[calc(100vh-250px)]">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = item.isActive;
@@ -166,16 +186,20 @@ export function Sidebar() {
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                     active
-                      ? 'bg-crimson-50 text-crimson-800 dark:bg-crimson-950/60 dark:text-crimson-200 border border-crimson-200/80'
-                      : 'text-stone-600 dark:text-stone-400 hover:bg-cream-100 dark:hover:bg-stone-800'
+                      ? 'bg-[#8E2B45] text-white shadow-xs'
+                      : 'text-stone-600 dark:text-[#9B93A6] hover:bg-cream-100 dark:hover:bg-[#1C1A24]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className="w-4 h-4" />
+                    <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-stone-400 dark:text-[#7D7588]'}`} />
                     <span>{item.label}</span>
                   </div>
                   {item.badge && (
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cream-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-bold">
+                    <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold ${
+                      active
+                        ? 'bg-white/20 text-white'
+                        : 'bg-cream-200 dark:bg-[#252230] text-stone-700 dark:text-[#D8D2E1] border border-cream-300 dark:border-[#353043]'
+                    }`}>
                       {item.badge}
                     </span>
                   )}
@@ -185,12 +209,39 @@ export function Sidebar() {
           </nav>
         </div>
 
-        <div className="pt-3 border-t border-cream-200 dark:border-stone-800 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src={profile?.avatar || "/atelier/user_avatar.jpg"} alt="" className="w-7 h-7 rounded-full object-cover" />
-            <span className="text-xs font-bold text-stone-900 dark:text-stone-100">{profile?.name || 'Elena'}</span>
-          </div>
-          <ThemeToggle />
+        <div className="pt-3 border-t border-cream-200 dark:border-[#24212D] flex items-center justify-between">
+          <Link 
+            to="/profile" 
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2 min-w-0"
+          >
+            <img 
+              src={profile?.avatar || "/atelier/user_avatar.jpg"} 
+              alt="" 
+              className="w-7 h-7 rounded-lg object-cover border border-cream-200 dark:border-[#353043]" 
+            />
+            <div className="min-w-0">
+              <span className="text-xs font-bold text-stone-900 dark:text-[#F5F3F8] block truncate leading-tight">
+                {profile?.name || 'Nancy'}
+              </span>
+              <span className="text-[10px] text-stone-500 dark:text-[#7D7588] font-mono block truncate">
+                Atelier Director
+              </span>
+            </div>
+          </Link>
+          <button
+            type="button"
+            onClick={async () => {
+              setMobileOpen(false);
+              await signOut();
+              navigate('/');
+            }}
+            className="p-1.5 text-stone-500 dark:text-[#7D7588] hover:text-rose-500 cursor-pointer transition-colors"
+            title="Sign Out"
+            aria-label="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       </div>
 

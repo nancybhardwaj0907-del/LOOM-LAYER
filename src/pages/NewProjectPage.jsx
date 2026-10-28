@@ -193,13 +193,13 @@ export function NewProjectPage() {
       {/* ========================================================
           1. PAGE TITLE & HORIZONTAL STEPPER
           ======================================================== */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-4 border-b border-[#272332]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 pb-4 border-b border-[#272332]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center shrink-0 border border-[#272332]">
             <Leaf className="w-5 h-5 text-[#E2A97E]" />
           </div>
           <div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#F5F3F8] tracking-tight">
+            <h1 className="font-serif text-xl sm:text-3xl font-bold text-[#F5F3F8] tracking-tight">
               Create a New Project
             </h1>
             <p className="text-xs text-[#9E97A9] font-sans mt-0.5">
@@ -209,52 +209,52 @@ export function NewProjectPage() {
         </div>
 
         {/* 4-Step Stepper with circles on top and labels below */}
-        <div className="flex items-center gap-1 sm:gap-2 self-start lg:self-auto overflow-x-auto pb-1 sm:pb-0">
+        <div className="flex items-center gap-1 sm:gap-2 self-start lg:self-auto overflow-x-auto max-w-full pb-1 sm:pb-0 w-full lg:w-auto">
           {/* Step 1: Active */}
-          <div className="flex flex-col items-center min-w-[75px] sm:min-w-[90px]">
+          <div className="flex flex-col items-center min-w-[62px] sm:min-w-[90px] shrink-0">
             <div className="w-7 h-7 rounded-full bg-[#8E2B45] text-white flex items-center justify-center text-xs font-bold shadow-xs">
               1
             </div>
-            <span className="text-[11px] font-bold text-[#F5F3F8] mt-1 text-center whitespace-nowrap">
+            <span className="text-[10px] sm:text-[11px] font-bold text-[#F5F3F8] mt-1 text-center whitespace-nowrap">
               Project Details
             </span>
           </div>
 
           {/* Connector 1-2 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#8E2B45] -mt-4" />
+          <div className="w-5 sm:w-14 h-0.5 bg-[#8E2B45] -mt-4 shrink-0" />
 
           {/* Step 2 */}
-          <div className="flex flex-col items-center min-w-[75px] sm:min-w-[95px] opacity-75">
+          <div className="flex flex-col items-center min-w-[62px] sm:min-w-[95px] shrink-0 opacity-75">
             <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               2
             </div>
-            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
+            <span className="text-[10px] sm:text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Fabric &amp; Patterns
             </span>
           </div>
 
           {/* Connector 2-3 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#272332] -mt-4" />
+          <div className="w-5 sm:w-14 h-0.5 bg-[#272332] -mt-4 shrink-0" />
 
           {/* Step 3 */}
-          <div className="flex flex-col items-center min-w-[65px] sm:min-w-[80px] opacity-60">
+          <div className="flex flex-col items-center min-w-[58px] sm:min-w-[80px] shrink-0 opacity-60">
             <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               3
             </div>
-            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
+            <span className="text-[10px] sm:text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Constraints
             </span>
           </div>
 
           {/* Connector 3-4 */}
-          <div className="w-8 sm:w-14 h-0.5 bg-[#272332] -mt-4" />
+          <div className="w-5 sm:w-14 h-0.5 bg-[#272332] -mt-4 shrink-0" />
 
           {/* Step 4 */}
-          <div className="flex flex-col items-center min-w-[55px] sm:min-w-[70px] opacity-60">
+          <div className="flex flex-col items-center min-w-[50px] sm:min-w-[70px] shrink-0 opacity-60">
             <div className="w-7 h-7 rounded-full border border-[#272332] bg-[#1E1B27] text-[#9E97A9] flex items-center justify-center text-xs font-medium">
               4
             </div>
-            <span className="text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
+            <span className="text-[10px] sm:text-[11px] font-medium text-[#9E97A9] mt-1 text-center whitespace-nowrap">
               Review
             </span>
           </div>
@@ -269,7 +269,7 @@ export function NewProjectPage() {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Form Column (8 cols on lg) - Form sections inside cohesive dark card */}
-        <div className="lg:col-span-8 bg-[#16141D] rounded-3xl border border-[#272332] p-5 sm:p-7 space-y-6 shadow-2xs">
+        <div className="lg:col-span-8 bg-[#16141D] rounded-3xl border border-[#272332] p-4 sm:p-7 space-y-6 shadow-2xs">
           
           {/* Section 1: Basic Information */}
           <div className="space-y-3.5">
@@ -327,7 +327,7 @@ export function NewProjectPage() {
 
           {/* Section 2: Garment Type */}
           <div className="space-y-3.5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2.5">
                 <div className="w-6 h-6 rounded-full bg-[#1E1B27] text-[#E2A97E] flex items-center justify-center text-xs font-bold shrink-0 border border-[#272332]">
                   2
@@ -341,7 +341,7 @@ export function NewProjectPage() {
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-semibold text-[#E2A97E] bg-[#1E1B27] px-2.5 py-0.5 rounded-full border border-[#272332] cursor-pointer hover:border-[#8E2B45]/50">
+              <span className="text-[11px] font-semibold text-[#E2A97E] bg-[#1E1B27] px-2.5 py-0.5 rounded-full border border-[#272332] cursor-pointer hover:border-[#8E2B45]/50 shrink-0">
                 13 silhouettes &gt;
               </span>
             </div>
@@ -356,7 +356,7 @@ export function NewProjectPage() {
                     key={type.id}
                     type="button"
                     onClick={() => setFormData({ ...formData, category: type.id })}
-                    className={`p-3 rounded-2xl text-center flex flex-col items-center justify-between transition-all cursor-pointer border relative min-h-[110px] ${
+                    className={`p-2.5 sm:p-3 rounded-2xl text-center flex flex-col items-center justify-between transition-all cursor-pointer border relative min-h-[105px] sm:min-h-[110px] ${
                       isSelected
                         ? 'border-[#8E2B45] bg-[#8E2B45]/20 text-[#E2A97E] shadow-2xs ring-1 ring-[#8E2B45]'
                         : 'border-[#272332] bg-[#1E1B27] hover:bg-[#272332]/60 text-[#9E97A9]'
@@ -367,14 +367,14 @@ export function NewProjectPage() {
                         <Check className="w-2.5 h-2.5 stroke-[3]" />
                       </span>
                     )}
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-1.5 ${
+                    <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center mb-1 ${
                       isSelected ? 'text-[#E2A97E]' : 'text-[#9E97A9]'
                     }`}>
                       <IconComponent />
                     </div>
-                    <div>
-                      <p className="text-xs font-bold text-[#F5F3F8] leading-tight">{type.label}</p>
-                      <p className="text-[10px] text-[#9E97A9] leading-tight mt-1">
+                    <div className="w-full">
+                      <p className="text-xs font-bold text-[#F5F3F8] leading-tight truncate">{type.label}</p>
+                      <p className="text-[10px] text-[#9E97A9] leading-tight mt-0.5 line-clamp-2">
                         {type.description}
                       </p>
                     </div>

@@ -247,7 +247,7 @@ export function ReThreadPage() {
           </div>
 
           {/* Quick presets */}
-          <div className="flex items-center gap-1.5 text-[11px] text-[#9E97A9]">
+          <div className="flex items-center gap-1.5 text-[11px] text-[#9E97A9] flex-wrap">
             <span className="font-medium text-[#9E97A9]">Presets:</span>
             <button
               type="button"
@@ -476,7 +476,7 @@ export function ReThreadPage() {
           <div className="flex flex-wrap items-center gap-2">
             
             {/* Filter Pills */}
-            <div className="flex items-center gap-1 bg-[#1E1B27] p-1 rounded-xl border border-[#272332] text-[11px]">
+            <div className="flex items-center gap-1 bg-[#1E1B27] p-1 rounded-xl border border-[#272332] text-[11px] overflow-x-auto max-w-full">
               {[
                 { id: 'all', label: 'All Products' },
                 { id: 'direct', label: 'Direct-Cut' },
@@ -489,7 +489,7 @@ export function ReThreadPage() {
                   key={f.id}
                   type="button"
                   onClick={() => setActiveFilter(f.id)}
-                  className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer shrink-0 whitespace-nowrap ${
                     activeFilter === f.id
                       ? 'bg-[#8E2B45] text-white font-semibold shadow-2xs'
                       : 'text-[#9E97A9] hover:text-[#F5F3F8] hover:bg-[#272332]'

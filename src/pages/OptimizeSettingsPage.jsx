@@ -182,7 +182,7 @@ export function OptimizeSettingsPage() {
         </div>
 
         {/* 4-Step Indicator Bar */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto pb-1 text-xs font-medium">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto max-w-full w-full lg:w-auto pb-1 text-xs font-medium">
           <div 
             onClick={() => navigate(`/project/${project.id}/patterns`)}
             className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[#9E97A9] hover:text-[#F5F3F8] hover:bg-[#1E1B27] transition-colors shrink-0 cursor-pointer"

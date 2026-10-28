@@ -58,14 +58,14 @@ export function RootLayout() {
       {/* ========================================================
           BODY LAYOUT: PRO COMPACT DOCK + FULL-SCREEN WORKBENCH
           ======================================================== */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Pro Fixed Tool Rail */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0 min-w-0">
+        {/* Pro Fixed Tool Rail / Mobile Bar */}
         <Sidebar />
 
         {/* Right Content Column: Top Utility Bar + Scrollable Workbench */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          {/* Top Utility Strip */}
-          <header className="h-13 bg-white/90 dark:bg-[#141219]/90 border-b border-cream-200 dark:border-[#24212D] px-4 sm:px-6 flex items-center justify-between shrink-0 select-none backdrop-blur-md transition-colors">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden w-full">
+          {/* Top Utility Strip (Desktop only) */}
+          <header className="hidden lg:flex h-13 bg-white/90 dark:bg-[#141219]/90 border-b border-cream-200 dark:border-[#24212D] px-4 sm:px-6 items-center justify-between shrink-0 select-none backdrop-blur-md transition-colors">
             {/* Left: Context Breadcrumb */}
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#8E2B45]" />
@@ -102,7 +102,7 @@ export function RootLayout() {
           </header>
 
           {/* Main Immersive Studio Workbench Canvas */}
-          <main className="flex-1 p-4 sm:p-5 lg:p-6 overflow-y-auto overflow-x-hidden min-w-0 max-w-[1920px] w-full mx-auto space-y-5">
+          <main className="flex-1 p-3 sm:p-5 lg:p-6 overflow-y-auto overflow-x-hidden min-w-0 max-w-[1920px] w-full mx-auto space-y-5">
             <ErrorBoundary
               key={location.pathname}
               componentName="AtelierRouteView"

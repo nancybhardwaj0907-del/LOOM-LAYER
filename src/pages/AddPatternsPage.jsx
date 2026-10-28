@@ -189,13 +189,13 @@ export function AddPatternsPage() {
         </div>
 
         {/* 4-Step Indicator Bar */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto pb-1 text-xs font-medium">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto max-w-full w-full lg:w-auto pb-1 text-xs font-medium">
           {/* Step 1: Active */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8E2B45] text-white shadow-xs shrink-0">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#8E2B45] text-white shadow-xs shrink-0">
             <span className="w-4 h-4 rounded-full bg-white text-[#8E2B45] flex items-center justify-center font-bold text-[10px]">
               1
             </span>
-            <span className="font-semibold">Upload Patterns</span>
+            <span className="font-semibold text-xs">Upload Patterns</span>
           </div>
 
           {/* Step 2 */}
@@ -206,7 +206,7 @@ export function AddPatternsPage() {
             <span className="w-4 h-4 rounded-full bg-[#1E1B27] text-[#F5F3F8] border border-[#272332] flex items-center justify-center text-[10px]">
               2
             </span>
-            <span>Fabric Settings</span>
+            <span className="text-xs">Fabric Settings</span>
           </div>
 
           {/* Step 3 */}
@@ -214,7 +214,7 @@ export function AddPatternsPage() {
             <span className="w-4 h-4 rounded-full bg-[#1E1B27] text-[#9E97A9] border border-[#272332] flex items-center justify-center text-[10px]">
               3
             </span>
-            <span>Optimize</span>
+            <span className="text-xs">Optimize</span>
           </div>
 
           {/* Step 4 */}
@@ -222,7 +222,7 @@ export function AddPatternsPage() {
             <span className="w-4 h-4 rounded-full bg-[#1E1B27] text-[#9E97A9] border border-[#272332] flex items-center justify-center text-[10px]">
               4
             </span>
-            <span>Results</span>
+            <span className="text-xs">Results</span>
           </div>
         </div>
       </div>
@@ -233,7 +233,7 @@ export function AddPatternsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Column: Upload Pattern Files (6 cols) */}
-        <div className="lg:col-span-6 bg-[#16141D] rounded-2xl border border-[#272332] p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="lg:col-span-6 bg-[#16141D] rounded-2xl border border-[#272332] p-4 sm:p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-[#F5F3F8]">
               Upload Pattern Files
@@ -259,7 +259,7 @@ export function AddPatternsPage() {
           {/* Large Drag & Drop Box */}
           <div 
             onClick={() => patternFileInputRef.current?.click()}
-            className="border-2 border-dashed border-[#272332] hover:border-[#8E2B45] rounded-2xl p-8 text-center bg-[#1E1B27]/50 transition-colors cursor-pointer group space-y-3"
+            className="border-2 border-dashed border-[#272332] hover:border-[#8E2B45] rounded-2xl p-6 sm:p-8 text-center bg-[#1E1B27]/50 transition-colors cursor-pointer group space-y-3"
           >
             <div className="w-12 h-12 rounded-full bg-[#16141D] text-[#E2A97E] border border-[#272332] flex items-center justify-center mx-auto shadow-xs group-hover:scale-105 transition-transform">
               <UploadCloud className="w-6 h-6" />
@@ -289,7 +289,7 @@ export function AddPatternsPage() {
             <p className="text-[11px] font-semibold text-[#9E97A9] uppercase tracking-wider mb-2">
               Detected Silhouettes
             </p>
-            <div className="grid grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {['Front Bodice', 'Back Bodice', 'Sleeve', 'Pocket'].map((piece, i) => (
                 <div key={i} className="h-20 rounded-xl bg-[#1E1B27] border border-[#272332] p-2 flex flex-col items-center justify-center">
                   <div className="w-10 h-10">

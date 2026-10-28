@@ -333,13 +333,13 @@ export function CameraPage() {
             </div>
 
             {/* Viewfinder Controls Bar */}
-            <div className="flex items-center justify-between gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-2">
               {capturedPhoto ? (
                 <>
                   <button
                     type="button"
                     onClick={handleRetake}
-                    className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-[#1E1B27] text-[#D8D2E1] hover:bg-[#272332] border border-[#272332] transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl text-xs font-semibold bg-[#1E1B27] text-[#D8D2E1] hover:bg-[#272332] border border-[#272332] transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <RotateCcw className="w-4 h-4" />
                     <span>Retake Photo</span>
@@ -348,7 +348,7 @@ export function CameraPage() {
                   <button
                     type="button"
                     onClick={handleStartProjectWithFabric}
-                    className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-[#8E2B45] text-white hover:bg-[#A33452] transition-colors flex items-center gap-2 cursor-pointer shadow-md shadow-[#8E2B45]/20"
+                    className="w-full sm:w-auto justify-center px-5 py-2.5 rounded-xl text-xs font-semibold bg-[#8E2B45] text-white hover:bg-[#A33452] transition-colors flex items-center gap-2 cursor-pointer shadow-md shadow-[#8E2B45]/20"
                   >
                     <FolderPlus className="w-4 h-4" />
                     <span>Create Project with this Fabric</span>
