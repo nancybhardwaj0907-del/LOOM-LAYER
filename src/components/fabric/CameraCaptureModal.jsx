@@ -21,6 +21,8 @@ import {
   listCameraDevices,
   checkCameraEnvironment
 } from '../../utils/cameraUtils';
+import { identifyFabricFromImage } from '../../utils/fabricIdentificationEngine';
+import { FabricIdentificationCard } from './FabricIdentificationCard';
 
 export function CameraCaptureModal({
   isOpen,
@@ -29,7 +31,7 @@ export function CameraCaptureModal({
   onFallbackToFileUpload,
   title = 'Capture from Camera',
   subtitle = 'Take a clear photograph using your device camera',
-  targetType = 'pattern', // 'pattern' | 'fabric'
+  targetType = 'fabric', // 'fabric' | 'pattern'
   referenceNote = null
 }) {
   const [stream, setStream] = useState(null);
@@ -40,6 +42,8 @@ export function CameraCaptureModal({
   const [isLoading, setIsLoading] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [fabricIdentification, setFabricIdentification] = useState(null);
+  const [isAnalyzingFabric, setIsAnalyzingFabric] = useState(false);
   const [retryCounter, setRetryCounter] = useState(0);
   const [showDiagDetails, setShowDiagDetails] = useState(false);
   const [diagInfo, setDiagInfo] = useState(null);
@@ -372,6 +376,28 @@ export function CameraCaptureModal({
       const captured = captureVideoFrame(video, { quality: 0.92 });
       setCapturedPhoto(captured);
       console.info('[CameraDiag] Frame captured successfully:', `${captured.width}x${captured.height}`);
+
+      // Automatically run AI fabric identification immediately upon capture
+      if (targetType === 'fabric') {
+        setIsAnalyzingFabric(true);
+        setFabricIdentification(null);
+        identifyFabricFromImage(captured.dataUrl)
+          .then((idResult) => {
+            console.info('[CameraDiag] Automatic AI Fabric Identification completed:', idResult?.fabricName, `${idResult?.confidence}%`);
+            setFabricIdentification(idResult);
+          })
+          .catch((err) => {
+            console.error('[CameraDiag] Fabric AI identification failed:', err);
+            setFabricIdentification({
+              success: false,
+              isClear: false,
+              unclearMessage: 'Could not complete AI analysis on this image. Please retake the photo.'
+            });
+          })
+          .finally(() => {
+            setIsAnalyzingFabric(false);
+          });
+      }
     } catch (err) {
       console.error('[CameraDiag] Snapshot capture failed:', err);
       setCameraError({
@@ -384,6 +410,8 @@ export function CameraCaptureModal({
 
   const handleRetake = () => {
     setCapturedPhoto(null);
+    setFabricIdentification(null);
+    setIsAnalyzingFabric(false);
     setCameraError(null);
     if (videoRef.current && activeStreamRef.current) {
       const video = videoRef.current;
@@ -395,7 +423,10 @@ export function CameraCaptureModal({
   const handleConfirm = () => {
     if (!capturedPhoto) return;
     if (onCaptureConfirm) {
-      onCaptureConfirm(capturedPhoto);
+      onCaptureConfirm({
+        ...capturedPhoto,
+        fabricIdentification
+      });
     }
     handleClose();
   };
@@ -422,6 +453,8 @@ export function CameraCaptureModal({
       videoRef.current.srcObject = null;
     }
     setCapturedPhoto(null);
+    setFabricIdentification(null);
+    setIsAnalyzingFabric(false);
     setCameraError(null);
     setIsLoading(false);
     setIsVideoReady(false);
@@ -555,16 +588,27 @@ export function CameraCaptureModal({
           )}
 
           {capturedPhoto ? (
-            /* Freeze-frame Preview View */
-            <div className="relative w-full h-full flex flex-col items-center justify-center p-2 min-h-[300px] sm:min-h-[380px]">
-              <img
-                src={capturedPhoto.dataUrl}
-                alt="Captured Snapshot"
-                className="max-h-[340px] sm:max-h-[420px] w-auto object-contain rounded-lg"
-              />
-              <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-xs text-white text-[11px] font-mono px-2.5 py-1 rounded-md border border-white/20">
-                {capturedPhoto.width} × {capturedPhoto.height} px • {capturedPhoto.formattedSize}
+            /* Freeze-frame Preview View & Automatic AI Fabric Identification */
+            <div className="w-full space-y-3.5">
+              <div className="relative w-full flex flex-col items-center justify-center p-2 bg-black/90 rounded-2xl border border-stone-800">
+                <img
+                  src={capturedPhoto.dataUrl}
+                  alt="Captured Fabric Snapshot"
+                  className="max-h-[260px] sm:max-h-[300px] w-auto object-contain rounded-lg shadow-md"
+                />
+                <div className="absolute top-4 left-4 bg-black/75 backdrop-blur-xs text-white text-[11px] font-mono px-2.5 py-1 rounded-md border border-white/20">
+                  {capturedPhoto.width} × {capturedPhoto.height} px • {capturedPhoto.formattedSize}
+                </div>
               </div>
+
+              {/* Automatic AI Fabric Identification Card */}
+              {targetType === 'fabric' && (
+                <FabricIdentificationCard
+                  identification={fabricIdentification}
+                  isAnalyzing={isAnalyzingFabric}
+                  onRetakePhoto={handleRetake}
+                />
+              )}
             </div>
           ) : (
             /* Active Live Video Stream View */
@@ -659,7 +703,9 @@ export function CameraCaptureModal({
                   onClick={handleConfirm}
                   className="shadow-sm font-semibold"
                 >
-                  Confirm & Use Image
+                  {fabricIdentification?.isClear && fabricIdentification?.fabricName
+                    ? `Confirm & Use Fabric (${fabricIdentification.fabricName})`
+                    : 'Confirm & Use Image'}
                 </Button>
               </>
             ) : (

@@ -16,6 +16,7 @@ import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPage } from './pages/TermsPage';
 import { ReThreadPage } from './pages/ReThreadPage';
 import { ReportsPage } from './pages/ReportsPage';
+import { CameraPage } from './pages/CameraPage';
 
 import { UserProfileProvider } from './context/UserProfileContext';
 
@@ -38,6 +39,7 @@ export default function App() {
               <Route path="rethread" element={<ReThreadPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="project/new" element={<NewProjectPage />} />
+              <Route path="camera" element={<CameraPage />} />
               <Route path="project/:id/patterns" element={<AddPatternsPage />} />
               <Route path="project/:id/optimize" element={<OptimizeSettingsPage />} />
               <Route path="project/:id/result" element={<OptimizeResultPage />} />

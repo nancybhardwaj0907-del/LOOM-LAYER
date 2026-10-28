@@ -11,6 +11,8 @@ import {
 import { useProjects } from '../context/useProjects';
 import { useUserProfile } from '../context/useUserProfile';
 import { CameraCaptureModal } from '../components/fabric/CameraCaptureModal';
+import { FabricIdentificationCard } from '../components/fabric/FabricIdentificationCard';
+import { identifyFabricFromImage } from '../utils/fabricIdentificationEngine';
 
 export function NewProjectPage() {
   const navigate = useNavigate();
@@ -111,12 +113,21 @@ export function NewProjectPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
+      const dataUrl = event.target?.result;
+      let idResult = null;
+      try {
+        idResult = await identifyFabricFromImage(dataUrl);
+      } catch (err) {
+        console.warn('AI identification on file upload failed:', err);
+      }
       setFormData(prev => ({
         ...prev,
+        fabricType: (idResult?.isClear && idResult?.fabricName) ? idResult.fabricName : prev.fabricType,
         fabricImage: {
-          imageUrl: event.target?.result,
-          fileName: file.name
+          imageUrl: dataUrl,
+          fileName: file.name,
+          fabricIdentification: idResult
         }
       }));
     };
@@ -125,11 +136,14 @@ export function NewProjectPage() {
 
   const handleCameraCapture = (captured) => {
     if (captured?.dataUrl) {
+      const idResult = captured.fabricIdentification;
       setFormData(prev => ({
         ...prev,
+        fabricType: (idResult?.isClear && idResult?.fabricName) ? idResult.fabricName : prev.fabricType,
         fabricImage: {
           imageUrl: captured.dataUrl,
-          fileName: 'camera_capture.jpg'
+          fileName: 'camera_capture.jpg',
+          fabricIdentification: idResult || null
         }
       }));
     }
@@ -543,15 +557,41 @@ export function NewProjectPage() {
             </div>
 
             {formData.fabricImage && (
-              <div className="p-2.5 rounded-xl bg-[#8E2B45]/20 border border-[#8E2B45]/50 text-xs text-[#E2A97E] flex items-center justify-between">
-                <span>Fabric image attached: {formData.fabricImage.fileName}</span>
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, fabricImage: null })}
-                  className="font-bold hover:underline text-rose-400"
-                >
-                  Remove
-                </button>
+              <div className="space-y-3 pt-1">
+                <div className="p-3 rounded-xl bg-[#1E1B27] border border-[#272332] flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2.5">
+                    {formData.fabricImage.imageUrl && (
+                      <img 
+                        src={formData.fabricImage.imageUrl} 
+                        alt="Fabric swatch thumbnail" 
+                        className="w-9 h-9 object-cover rounded-lg border border-[#3B3549]" 
+                      />
+                    )}
+                    <div>
+                      <span className="font-semibold text-[#F5F3F8] block">{formData.fabricImage.fileName}</span>
+                      <span className="text-[10px] text-[#A8A1B4]">
+                        {formData.fabricImage.fabricIdentification?.isClear
+                          ? `Identified as ${formData.fabricImage.fabricIdentification.fabricName} (${formData.fabricImage.fabricIdentification.confidence}% Match)`
+                          : 'Reference swatch attached'}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, fabricImage: null })}
+                    className="font-bold hover:underline text-rose-400 cursor-pointer text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                {/* Display AI Fabric Identification Card */}
+                {formData.fabricImage.fabricIdentification && (
+                  <FabricIdentificationCard
+                    identification={formData.fabricImage.fabricIdentification}
+                    onRetakePhoto={() => setShowCameraModal(true)}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -670,6 +710,9 @@ export function NewProjectPage() {
           isOpen={showCameraModal}
           onClose={() => setShowCameraModal(false)}
           onCaptureConfirm={handleCameraCapture}
+          targetType="fabric"
+          title="Fabric Camera & AI Identification"
+          subtitle="Capture a close-up of your fabric to automatically identify weave, characteristics, and care guidelines"
         />
       )}
 
