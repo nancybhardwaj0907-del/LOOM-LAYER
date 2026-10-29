@@ -211,7 +211,7 @@ export function LandingPage() {
 
               {/* Authoritative atelier headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-stone-900 dark:text-[#F5F3F8] tracking-tight leading-[1.12]">
-                The Intelligent Cutting Room for Modern Apparel.
+                Automated Fabric Nesting & Marker Planning
               </h1>
 
               <p className="text-base sm:text-lg text-stone-600 dark:text-[#A8A1B4] font-normal leading-relaxed max-w-xl">
